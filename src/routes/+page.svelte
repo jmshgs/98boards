@@ -6,7 +6,7 @@
     onMount(
         fetchMessages()
         .then((data) => {
-            messageStore.set(data);
+            messageStore.set(data.reverse());
         })
     )
 
@@ -21,9 +21,9 @@
     setTimeout(() => {
         fetchMessages()
         .then((data) => {
-            messageStore.set(data);
+            messageStore.set(data.reverse());
         })
-    }, 300)
+    }, 500)
 
     messageStore.subscribe((data) => {
         messages = data;
@@ -35,7 +35,7 @@
             board: "general",
         }
         messageStore.update(messages => {
-            return [...messages, newMessage]
+            return [newMessage, ...messages]
         })
         await insertMessage(newMessage);
     }
@@ -48,23 +48,23 @@
     }
 }}>
     <link rel="stylesheet" href="https://unpkg.com/98.css" />
-    <div class="flex h-screen flex-row">
+    <div class="flex h-[95vh] w-[90vw] flex-row">
         <div class="p-2">
-            <ul class="tree-view w-44 h-[98vh]">
+            <ul class="tree-view w-44 h-[95vh]">
                 <ol class="pl-1">
                     <strong>
                         boards:
                     </strong>
                 </ol>
                 <button class="w-40 translate-x-[2px]" on:click={() => {
-                    print();
+                    console.log("geneal");
                 }}>
                     <strong>/general</strong>
                 </button>
             </ul>
         </div>
         <div class="flex flex-col p-5 space-y-32">
-            <div class="window w-[50vw] h-[88vh]">
+            <div class="window w-[84vw] h-[70vh] overflow-hidden">
                 <ul class="message-view ">
                     <ol class="pl-1">
                         <strong>
@@ -72,11 +72,10 @@
                         </strong>
                         {#each messages as sentMessage}
                         <li class="w-40 translate-x-[2px]">
-                            <p class="font-medium">{sentMessage.content}</p>
+                            <p class="font-medium">({sentMessage.sent_at}) {sentMessage.content}</p>
                         </li>
                         {/each}
                     </ol>
-                    
                 </ul>
             </div>
             <div class="flex flex-col-reverse">
