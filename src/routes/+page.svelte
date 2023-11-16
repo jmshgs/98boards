@@ -1,99 +1,73 @@
 <script>
-    import { supabase, fetchMessages, insertMessage } from '$lib/supabaseClient.js'
-    import { onMount } from 'svelte';
+	import { supabase, fetchMessages, insertMessage } from '$lib/supabaseClient.js'
+	import { onMount } from 'svelte';
 	import messageStore from '$lib/stores/messageStore';
 
-    onMount(
-        fetchMessages()
-        .then((data) => {
-            messageStore.set(data.reverse());
-        })
-    )
+	onMount(
+		fetchMessages()
+		.then((data) => {
+			messageStore.set(data.reverse());
+		})
+	)
 
-    let message = "";
-    let messages = [
-        {
-            content: "hello world",
-            board: "general"
-        },
-    ];
+	let message = "";
+	let messages = [
+		{
+			content: "hello world",
+			board: "general"
+		},
+	];
 
-    setTimeout(() => {
-        fetchMessages()
-        .then((data) => {
-            messageStore.set(data.reverse());
-        })
-    }, 500)
+	setTimeout(() => {
+		fetchMessages()
+		.then((data) => {
+			messageStore.set(data.reverse());
+		})
+	}, 500)
 
-    messageStore.subscribe((data) => {
-        messages = data;
-    })
+	messageStore.subscribe((data) => {
+		messages = data;
+	})
 
-    const sendMessage = async(message) => {
-        let newMessage = {
-            content: message,
-            board: "general",
-        }
-        messageStore.update(messages => {
-            return [newMessage, ...messages]
-        })
-        await insertMessage(newMessage);
-    }
+	const sendMessage = async(message) => {
+		if (message === "") {
+			return;
+		}
+		let newMessage = {
+			content: message,
+			board: "general",
+		}
+		messageStore.update(messages => {
+			return [newMessage, ...messages]
+		})
+		await insertMessage(newMessage);
+	}
 </script>
-
-<main on:keypress={(e) => {
-    if (e.key === "Enter") {
-        sendMessage(message);
-        message = ""
-    }
-}}>
-    <link rel="stylesheet" href="https://unpkg.com/98.css" />
-    <div class="flex h-[95vh] w-[90vw] flex-row">
-        <div class="p-2">
-            <ul class="tree-view w-44 h-[95vh]">
-                <ol class="pl-1">
-                    <strong>
-                        boards:
-                    </strong>
-                </ol>
-                <button class="w-40 translate-x-[2px]" on:click={() => {
-                    console.log("geneal");
-                }}>
-                    <strong>/general</strong>
-                </button>
-            </ul>
-        </div>
-        <div class="flex flex-col p-5 space-y-32">
-            <div class="window w-[84vw] h-[70vh] overflow-hidden">
-                <ul class="message-view ">
-                    <ol class="pl-1">
-                        <strong>
-                            messages:
-                        </strong>
-                        {#each messages as sentMessage}
-                        <li class="w-40 translate-x-[2px]">
-                            <p class="font-medium">({sentMessage.sent_at}) {sentMessage.content}</p>
-                        </li>
-                        {/each}
-                    </ol>
-                </ul>
-            </div>
-            <div class="flex flex-col-reverse">
-                <div class="flex flex-row">
-                    <div class="field-row">
-                        <label for="message"><strong>message:</strong></label>
-                        <input name="message" id="message" class="w-[75vh]" bind:value={message} type="text" placeholder="type something here."/>
-                    </div>
-                    <button class="w-20 h-14 translate-x-5 bg-gray-300" on:click={() => {
-                        sendMessage(message);
-                        message = ""
-                    }}
-                    >
-                        <strong>post</strong>
-                    </button>
-                </div>
-            </div>
-        </div>
-       
-    </div>
+<main class="font-apple">
+	<aside class="font-sans fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+		<div class="h-full px-3 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+			<h1 class="w-full px-4 pt-4 text-xl font-semibold">
+				boards:
+			</h1>
+			<div class="list-none px-4 py-2 space-y-1">
+				<li>
+					<button class="decoration-none text-slate-800 transition-all hover:scale-[105%]" href="/boards/general">🌐 general</button>
+				</li>
+				<li>
+					<button class="decoration-none text-slate-800 transition-all hover:scale-[105%]" href="/boards/programming">💻 programming</button>
+				</li>
+				<li>
+					<button class="decoration-none text-slate-800 transition-all hover:scale-[105%]" href="/boards/technology">📱 technology</button>
+				</li>
+				<li>
+					<button class="decoration-none text-slate-800 transition-all hover:scale-[105%]" href="/boards/philosophy">🧐 philosophy</button>
+				</li>
+				<li>
+					<button class="decoration-none text-slate-800 transition-all hover:scale-[105%]" href="/boards/other">🔭 other</button>
+				</li>
+			</div>
+		</div>
+	</aside>
 </main>
+<style> 
+</style>
