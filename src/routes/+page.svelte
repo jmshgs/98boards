@@ -69,7 +69,6 @@
 			sent_at: timestamp.now(),
 			board: currentBoard,
 		}
-		console.log(newMessage.sent_at);
 		messageStore.update(messages => {
 			return [newMessage, ...messages]
 		})
