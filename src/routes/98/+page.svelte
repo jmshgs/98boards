@@ -54,12 +54,19 @@
 		if (message === "") {
 			return;
 		}
+		if (message == messages[0].content) {
+			alert("you can't send the same message twice :)")
+			return;
+		}
+		if (timestamp.now() - messages[0].sent_at < 5) {
+			alert("you can't send messages that fast :)")
+			return;
+		}
 		let newMessage = {
 			content: message,
 			sent_at: timestamp.now(),
 			board: "general",
 		}
-		console.log(newMessage.sent_at);
 		messageStore.update(messages => {
 			return [newMessage, ...messages]
 		})
