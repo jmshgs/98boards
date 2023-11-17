@@ -67,7 +67,7 @@
 		let newMessage = {
 			content: message,
 			sent_at: timestamp.now(),
-			board: "general",
+			board: currentBoard,
 		}
 		messageStore.update(messages => {
 			return [newMessage, ...messages]
