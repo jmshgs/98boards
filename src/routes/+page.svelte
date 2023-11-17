@@ -11,6 +11,16 @@
 	let currentBoard = "general";
 
 	let messages = [{}];
+	let boards = [
+		"general",
+		"programming",
+		"technology",
+		"philosophy",
+		"photography",
+		"art",
+		"music",
+		"gaming",
+	];
 
 	let promise = new Promise(() => {});
 	onMount(() => {
@@ -47,7 +57,7 @@
 		let newMessage = {
 			content: message,
 			sent_at: timestamp.now(),
-			board: "general",
+			board: currentBoard,
 		}
 		console.log(newMessage.sent_at);
 		messageStore.update(messages => {
@@ -64,24 +74,16 @@
 					boards:
 				</h1>
 				<div class="list-none px-4 py-2 space-y-1.5">
+					{#each boards as board}
 					<li>
-						<button class="decoration-none transition-all hover:scale-[105%]" href="/boards/general">🌐 general</button>
+						<button class="decoration-none transition-all hover:scale-[105%]" on:click={() => {
+							currentBoard = board;
+						}}>{board}</button>
 					</li>
-					<li>
-						<button class="decoration-none transition-all hover:scale-[105%]" href="/boards/programming">💻 programming</button>
-					</li>
-					<li>
-						<button class="decoration-none transition-all hover:scale-[105%]" href="/boards/technology">📱 technology</button>
-					</li>
-					<li>
-						<button class="decoration-none transition-all hover:scale-[105%]" href="/boards/philosophy">🧐 philosophy</button>
-					</li>
-					<li>
-						<button class="decoration-none transition-all hover:scale-[105%]" href="/boards/other">🔭 other</button>
-					</li>
+					{/each}
 				</div>
 			</div>
-			<div class="h-[75vh] flex items-end">
+			<div class="flex items-end">
 				<button class="justify-center flex w-full bg-slate-200 p-2 rounded-full m-2 border-2 border-gray-800" on:click={() => {
 					goto("/98")
 				}}>
@@ -102,10 +104,12 @@
 			</h1>
 			<div class="h-[75vh] overflow-y-auto overflow-x-scroll">
 				{#each messages as message}
-						<div class="w-[70vw]">
-							{timeConverter(message.sent_at)} - {message.content}
-						</div>
-					{/each}
+				{#if message.board == currentBoard}
+					<div class="w-[70vw]">
+						{timeConverter(message.sent_at)} - {message.content}
+					</div>
+				{/if}
+				{/each}
 			</div>
 			<div class="overflow-y-auto overflow-x-scroll py-4 space-x-4 flex items-center justify-center">
 				<input on:keypress={

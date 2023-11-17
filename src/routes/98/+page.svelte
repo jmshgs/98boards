@@ -8,11 +8,18 @@
 	import { goto } from '$app/navigation';
 
 	let message = "";
-	let messages = [
-		{
-			content: "hello world",
-			board: "general"
-		},
+	let currentBoard = "general";
+
+	let messages = [{}];
+	let boards = [
+		"general",
+		"programming",
+		"technology",
+		"philosophy",
+		"photography",
+		"art",
+		"music",
+		"gaming",
 	];
 
 	let promise = new Promise(() => {});
@@ -62,32 +69,28 @@
 <link rel="stylesheet" href="https://unpkg.com/98.css" />
 <main class="font-apple h-screen w-screen space-x-10 flex flex-row bg-gray-300">
 	<aside class="font-sans lg:w-64 w-96 h-screen transition-transform bg-gray-100" aria-label="Sidebar">
-		<div class="px-3 overflow-y-auto window">
-			<h1 class="w-full px-4 pt-4 text-xl font-semibold dark:text-white">
-				boards:
-			</h1>
-			<ul class="list-none w-fi px-4 py-2 space-y-1.5 tree-view">
-				<li>
-					<button class="decoration-none transition-all hover:scale-[105%]" href="/boards/general">general</button>
-				</li>
-				<li>
-					<button class="decoration-none transition-all hover:scale-[105%]" href="/boards/programming">programming</button>
-				</li>
-				<li>
-					<button class="decoration-none transition-all hover:scale-[105%]" href="/boards/technology">technology</button>
-				</li>
-				<li>
-					<button class="decoration-none transition-all hover:scale-[105%]" href="/boards/philosophy">philosophy</button>
-				</li>
-				<li>
-					<button class="decoration-none transition-all hover:scale-[105%]" href="/boards/other">other</button>
-				</li>
-			</ul>
-			<button class="justify-center items-center w-full" on:click={() => {
-				goto("/")
-			}}>
-				new ui
-			</button>
+		<div class="h-full px-3 overflow-y-auto window flex-col">
+			<div class="justify-start items-start">
+				<h1 class="w-full px-4 pt-4 text-xl font-semibold dark:text-white">
+					boards:
+				</h1>
+				<ul class="list-none w-fi px-4 py-2 space-y-1.5 tree-view">
+					{#each boards as board}
+					<li>
+						<button class="decoration-none transition-all hover:scale-[105%]" on:click={() => {
+							currentBoard = board;
+						}}>{board}</button>
+					</li>
+					{/each}
+				</ul>
+			</div>
+			<div class="flex items-end">
+				<button class="justify-center flex w-full p-2 m-2" on:click={() => {
+					goto("/")
+				}}>
+					new ui
+				</button>
+			</div>
 		</div>
 	</aside>
 	{#await promise}
@@ -104,10 +107,12 @@
 					</h1>
 					<div class="h-[75vh] overflow-y-auto overflow-x-auto">
 						{#each messages as message}
-								<div class="w-[70vw]">
-									{timeConverter(message.sent_at)} - <strong>{message.content}</strong>
-								</div>
-							{/each}
+						{#if message.board == currentBoard}
+							<div class="w-[70vw]">
+								{timeConverter(message.sent_at)} - <strong>{message.content}</strong>
+							</div>
+						{/if}
+						{/each}
 					</div>
 				</div>
 			</div>
