@@ -3,8 +3,8 @@ import { writable } from "svelte/store";
 const messageStore = writable([
     {
         content: '',
-        board: 'general',
-        sent_at: new Date(),
+        board: '',
+        sent_at: 0
     }
 ]);
 

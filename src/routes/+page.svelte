@@ -1,15 +1,10 @@
 <script>
-	import { supabase, fetchMessages, insertMessage } from '$lib/supabaseClient.js'
-	import { onMount } from 'svelte';
+	import { fetchMessages, insertMessage } from '$lib/supabaseClient.js'
+	import { timeConverter } from '$lib/main.js'
 	import messageStore from '$lib/stores/messageStore';
-
-	onMount(
-		fetchMessages()
-		.then((data) => {
-			messageStore.set(data.reverse());
-		})
-	)
-
+	import timestamp from 'unix-timestamp';
+	import { Spinner } from 'flowbite-svelte'
+	
 	let message = "";
 	let messages = [
 		{
@@ -23,7 +18,7 @@
 		.then((data) => {
 			messageStore.set(data.reverse());
 		})
-	}, 500)
+	}, 1000)
 
 	messageStore.subscribe((data) => {
 		messages = data;
@@ -35,39 +30,70 @@
 		}
 		let newMessage = {
 			content: message,
+			sent_at: timestamp.now(),
 			board: "general",
 		}
+		console.log(newMessage.sent_at);
 		messageStore.update(messages => {
 			return [newMessage, ...messages]
 		})
 		await insertMessage(newMessage);
 	}
 </script>
-<main class="font-apple">
-	<aside class="font-sans fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
-		<div class="h-full px-3 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-			<h1 class="w-full px-4 pt-4 text-xl font-semibold">
+<main class="font-apple h-screen w-screen space-x-10 flex flex-row bg-gray-50 dark:bg-gray-800 text-slate-800 dark:text-white">
+	<div class="font-sans w-64 h-screen transition-transform bg-gray-100 dark:bg-gray-900" aria-label="Sidebar">
+		<div class="h-full px-3 overflow-y-auto">
+			<h1 class="w-full px-4 pt-4 text-xl font-semibold dark:text-white">
 				boards:
 			</h1>
-			<div class="list-none px-4 py-2 space-y-1">
+			<div class="list-none px-4 py-2 space-y-1.5">
 				<li>
-					<button class="decoration-none text-slate-800 transition-all hover:scale-[105%]" href="/boards/general">🌐 general</button>
+					<button class="decoration-none transition-all hover:scale-[105%]" href="/boards/general">🌐 general</button>
 				</li>
 				<li>
-					<button class="decoration-none text-slate-800 transition-all hover:scale-[105%]" href="/boards/programming">💻 programming</button>
+					<button class="decoration-none transition-all hover:scale-[105%]" href="/boards/programming">💻 programming</button>
 				</li>
 				<li>
-					<button class="decoration-none text-slate-800 transition-all hover:scale-[105%]" href="/boards/technology">📱 technology</button>
+					<button class="decoration-none transition-all hover:scale-[105%]" href="/boards/technology">📱 technology</button>
 				</li>
 				<li>
-					<button class="decoration-none text-slate-800 transition-all hover:scale-[105%]" href="/boards/philosophy">🧐 philosophy</button>
+					<button class="decoration-none transition-all hover:scale-[105%]" href="/boards/philosophy">🧐 philosophy</button>
 				</li>
 				<li>
-					<button class="decoration-none text-slate-800 transition-all hover:scale-[105%]" href="/boards/other">🔭 other</button>
+					<button class="decoration-none transition-all hover:scale-[105%]" href="/boards/other">🔭 other</button>
 				</li>
 			</div>
 		</div>
-	</aside>
+	</div>
+	{#await fetchMessages()}
+	<div class="flex w-full h-full justify-center items-center">
+		<Spinner color="blue" />
+	</div>
+	{:then data}
+	<div class="px-4 justify-start flex">
+		<div class="w-[75vw] h-[80vh] justify-center p-4">
+			<h1 class="text-xl font-semibold">
+				messages:
+			</h1>
+			<div class="h-[75vh] overflow-y-auto overflow-x-scroll">
+				{#each data as message}
+					
+						<div class="w-[70vw]">
+							{timeConverter(message.sent_at)} - {message.content}
+						</div>
+					{/each}
+			</div>
+			<div class="overflow-y-auto overflow-x-scroll py-4 space-x-4 flex flex-row">
+				<input on:keypress={
+					(e) => {
+						if (e.key === "Enter") {
+							sendMessage(message);
+							message = "";
+						}
+					} 
+					} type="text" name="message" id="message" class="bg-gray-50 border-gray-300 text-black rounded-xl block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 border-2 dark:text-white focus:border-blue-600 focus:dark:border-blue-400 focus:outline-none" placeholder="type something here :)" bind:value={message}>
+			</div>
+		</div>
+	</div>
+	{/await}
 </main>
-<style> 
-</style>
