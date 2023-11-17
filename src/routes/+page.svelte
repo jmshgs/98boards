@@ -84,7 +84,7 @@
 				<div class="list-none px-4 py-2 space-y-1.5">
 					{#each boards as board}
 					<li>
-						<button class="decoration-none transition-all hover:scale-[105%]" on:click={() => {
+						<button class="decoration-none transition-all hover:scale-[105%]" class:scale-[105%]={currentBoard == board} class:text-blue-800={currentBoard == board} on:click={() => {
 							currentBoard = board;
 						}}>{board}</button>
 					</li>

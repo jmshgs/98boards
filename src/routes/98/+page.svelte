@@ -54,14 +54,17 @@
 		if (message === "") {
 			return;
 		}
-		if (message == messages[0].content) {
-			alert("you can't send the same message twice :)")
-			return;
+		if (messages[0]) {
+			if (message == messages[0].content) {
+				alert("you can't send the same message twice :)")
+				return;
+			}
+			if (timestamp.now() - messages[0].sent_at < 1) {
+				alert("you can't send messages that fast :)")
+				return;
+			}
 		}
-		if (timestamp.now() - messages[0].sent_at < 1) {
-			alert("you can't send messages that fast :)")
-			return;
-		}
+		
 		let newMessage = {
 			content: message,
 			sent_at: timestamp.now(),
@@ -84,7 +87,7 @@
 				<ul class="list-none w-fi px-4 py-2 space-y-1.5 tree-view">
 					{#each boards as board}
 					<li>
-						<button class="decoration-none transition-all hover:scale-[105%]" on:click={() => {
+						<button class="decoration-none transition-all hover:scale-[105%] class:scale-[105%]={currentBoard == board} class:text-blue-800={currentBoard == board}" on:click={() => {
 							currentBoard = board;
 						}}>{board}</button>
 					</li>
