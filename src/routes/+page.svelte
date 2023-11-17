@@ -54,13 +54,15 @@
 		if (message === "") {
 			return;
 		}
-		if (message == messages[0].content) {
-			alert("you can't send the same message twice :)")
-			return;
-		}
-		if (timestamp.now() - messages[0].sent_at < 1) {
-			alert("you can't send messages that fast :)")
-			return;
+		if (messages[0]) {
+			if (message == messages[0].content) {
+				alert("you can't send the same message twice :)")
+				return;
+			}
+			if (timestamp.now() - messages[0].sent_at < 1) {
+				alert("you can't send messages that fast :)")
+				return;
+			}
 		}
 		let newMessage = {
 			content: message,

@@ -64,7 +64,6 @@
 				return;
 			}
 		}
-		
 		let newMessage = {
 			content: message,
 			sent_at: timestamp.now(),
