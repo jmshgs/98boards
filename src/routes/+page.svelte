@@ -25,7 +25,7 @@
 	})
 
 	
-	const channels = supabase.channel('custom-all-channel')
+	supabase.channel('custom-all-channel')
 	.on(
 		'postgres_changes',
 		{ event: '*', schema: 'public', table: 'messages' },
@@ -59,7 +59,7 @@
 	}
 </script>
 <main class="font-apple h-screen w-screen space-x-10 flex flex-row bg-gray-50 dark:bg-gray-800 text-slate-800 dark:text-white">
-	<div class="font-sans w-64 h-screen transition-transform bg-gray-100 dark:bg-gray-900" aria-label="Sidebar">
+	<aside class="font-sans w-64 h-screen transition-transform bg-gray-100 dark:bg-gray-900" aria-label="Sidebar">
 		<div class="h-full px-3 overflow-y-auto">
 			<h1 class="w-full px-4 pt-4 text-xl font-semibold dark:text-white">
 				boards:
@@ -82,7 +82,7 @@
 				</li>
 			</div>
 		</div>
-	</div>
+	</aside>
 	{#await promise}
 	<div class="flex w-full h-full justify-center items-center">
 		<Spinner color="blue" />
@@ -90,7 +90,7 @@
 	{:then}
 	<div class="px-4 justify-start flex">
 		<div class="w-[75vw] h-[80vh] justify-center p-4">
-			<h1 class="text-xl font-semibold">
+			<h1 class="text-xl font-semibold py-2">
 				messages:
 			</h1>
 			<div class="h-[75vh] overflow-y-auto overflow-x-scroll">
