@@ -1,9 +1,10 @@
 <script>
-	import { fetchMessages, insertMessage } from '$lib/supabaseClient.js'
+	import { supabase, fetchMessages, insertMessage } from '$lib/supabaseClient.js'
 	import { timeConverter } from '$lib/main.js'
 	import messageStore from '$lib/stores/messageStore';
 	import timestamp from 'unix-timestamp';
 	import { Spinner } from 'flowbite-svelte'
+	import { onMount } from 'svelte';
 	
 	let message = "";
 	let messages = [
@@ -13,12 +14,29 @@
 		},
 	];
 
-	setTimeout(() => {
-		fetchMessages()
-		.then((data) => {
+	let promise = new Promise(() => {});
+	onMount(() => {
+		promise = (async () => {
+			const { data, error } = await supabase
+				.from("messages")
+				.select()
 			messageStore.set(data.reverse());
-		})
-	}, 1000)
+		})()
+	})
+
+	
+	const channels = supabase.channel('custom-all-channel')
+	.on(
+		'postgres_changes',
+		{ event: '*', schema: 'public', table: 'messages' },
+		() => {
+			fetchMessages()
+			.then((data) => {
+				messageStore.set(data.reverse());
+			})
+		}
+	)
+	.subscribe()
 
 	messageStore.subscribe((data) => {
 		messages = data;
@@ -65,19 +83,18 @@
 			</div>
 		</div>
 	</div>
-	{#await fetchMessages()}
+	{#await promise}
 	<div class="flex w-full h-full justify-center items-center">
 		<Spinner color="blue" />
 	</div>
-	{:then data}
+	{:then}
 	<div class="px-4 justify-start flex">
 		<div class="w-[75vw] h-[80vh] justify-center p-4">
 			<h1 class="text-xl font-semibold">
 				messages:
 			</h1>
 			<div class="h-[75vh] overflow-y-auto overflow-x-scroll">
-				{#each data as message}
-					
+				{#each messages as message}
 						<div class="w-[70vw]">
 							{timeConverter(message.sent_at)} - {message.content}
 						</div>
@@ -91,7 +108,7 @@
 							message = "";
 						}
 					} 
-					} type="text" name="message" id="message" class="bg-gray-50 border-gray-300 text-black rounded-xl block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 border-2 dark:text-white focus:border-blue-600 focus:dark:border-blue-400 focus:outline-none" placeholder="type something here :)" bind:value={message}>
+					} type="text" name="message" id="message" class="bg-gray-50 border-gray-300 text-black rounded-xl w-[71.5vw] p-2.5 m-1 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 border-2 dark:text-white focus:outline-none" placeholder="type something here :)" bind:value={message}>
 			</div>
 		</div>
 	</div>
