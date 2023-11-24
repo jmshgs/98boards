@@ -136,10 +136,10 @@
 						{#if message.board == currentBoard}
 							<div class="w-[70vw]">
 								{#if displayOption == "time-message"}
-								{timeConverter(message.sent_at)} - {message.content}
+								{timeConverter(message.sent_at)} - {message.sender}: {message.content}
 								{/if}
 								{#if displayOption == "message-time"}
-								{message.content} @ {timeConverter(message.sent_at)}
+								{message.sender}: {message.content} @ {timeConverter(message.sent_at)}
 								{/if}
 							</div>
 						{/if}
