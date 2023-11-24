@@ -9,6 +9,7 @@
 	
 	let message = "";
 	let currentBoard = "general";
+	let displayOption = "time-message";
 
 	let messages = [{}];
 	let boards = [
@@ -20,6 +21,8 @@
 		"art",
 		"music",
 		"gaming",
+		'random',
+		'school'
 	];
 
 	let promise = new Promise(() => {});
@@ -74,6 +77,14 @@
 		})
 		await insertMessage(newMessage);
 	}
+function changeDisplay() {
+	if (displayOption == "time-message") {
+		displayOption = "message-time";
+	} else {
+		displayOption = "time-message";
+	}
+}
+
 </script>
 <main class="font-apple h-screen w-screen space-x-10 flex flex-row bg-gray-50 dark:bg-gray-800 text-slate-800 dark:text-white">
 	<aside class="font-sans lg:w-64 w-96 h-screen transition-transform bg-gray-100 dark:bg-gray-900" aria-label="Sidebar">
@@ -99,6 +110,11 @@
 					old ui
 				</button>
 			</div>
+			<div class="flex items-end">
+				<button class="justify-center flex w-full bg-slate-200 p-2 rounded-full m-2 border-2 border-gray-800" on:click={() => {changeDisplay()}}>
+					display mode
+				</button>
+			</div>
 		</div>
 	</aside>
 	{#await promise}
@@ -115,7 +131,12 @@
 				{#each messages as message}
 				{#if message.board == currentBoard}
 					<div class="w-[70vw]">
+						{#if displayOption == "time-message"}
 						{timeConverter(message.sent_at)} - {message.content}
+						{/if}
+						{#if displayOption == "message-time"}
+						{message.content} @ {timeConverter(message.sent_at)}
+						{/if}
 					</div>
 				{/if}
 				{/each}

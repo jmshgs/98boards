@@ -9,6 +9,7 @@
 
 	let message = "";
 	let currentBoard = "general";
+	let displayOption = "time-message";
 
 	let messages = [{}];
 	let boards = [
@@ -20,6 +21,8 @@
 		"art",
 		"music",
 		"gaming",
+		"random",
+		"school"
 	];
 
 	let promise = new Promise(() => {});
@@ -73,6 +76,14 @@
 			return [newMessage, ...messages]
 		})
 		await insertMessage(newMessage);
+
+	}
+	function changeDisplay() {
+	if (displayOption == "time-message") {
+		displayOption = "message-time";
+	} else {
+		displayOption = "time-message";
+	}
 	}
 </script>
 <link rel="stylesheet" href="https://unpkg.com/98.css" />
@@ -100,6 +111,11 @@
 					new ui
 				</button>
 			</div>
+			<div class="flex items-end">
+				<button class="justify-center flex w-full p-2 m-2 border-2" on:click={() => {changeDisplay()}}>
+					display mode
+				</button>
+			</div>
 		</div>
 	</aside>
 	{#await promise}
@@ -118,7 +134,12 @@
 						{#each messages as message}
 						{#if message.board == currentBoard}
 							<div class="w-[70vw]">
-								{timeConverter(message.sent_at)} - <strong>{message.content}</strong>
+								{#if displayOption == "time-message"}
+								{timeConverter(message.sent_at)} - {message.content}
+								{/if}
+								{#if displayOption == "message-time"}
+								{message.content} @ {timeConverter(message.sent_at)}
+								{/if}
 							</div>
 						{/if}
 						{/each}

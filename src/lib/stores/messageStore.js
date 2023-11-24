@@ -4,6 +4,7 @@ const messageStore = writable([
     {
         content: '',
         board: '',
+        sender: '',
         sent_at: 0
     }
 ]);
