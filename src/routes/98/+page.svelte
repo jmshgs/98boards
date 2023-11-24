@@ -117,6 +117,13 @@
 					display mode
 				</button>
 			</div>
+			<div class="flex items-end">
+				<button class="justify-center flex w-full p-2 m-2 border-2 " on:click={() => {
+					goto("/login")
+				}}>
+					login
+				</button>
+			</div>
 		</div>
 	</aside>
 	{#await promise}

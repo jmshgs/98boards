@@ -116,6 +116,13 @@ function changeDisplay() {
 					display mode
 				</button>
 			</div>
+			<div class="flex items-end">
+				<button class="justify-center flex w-full bg-slate-200 p-2 rounded-full m-2 border-2 border-gray-800" on:click={() => {
+					goto("/login")
+				}}>
+					login
+				</button>
+			</div>
 		</div>
 	</aside>
 	{#await promise}
