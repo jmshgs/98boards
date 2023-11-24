@@ -70,6 +70,7 @@
 		let newMessage = {
 			content: message,
 			sent_at: timestamp.now(),
+			sender: "anon", // TODO: add user system
 			board: currentBoard,
 		}
 		messageStore.update(messages => {
