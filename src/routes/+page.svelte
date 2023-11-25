@@ -8,8 +8,10 @@
 	import { goto } from '$app/navigation';
 	
 	let message = "";
+
 	let currentBoard = "general";
 	let displayOption = "time-message";
+	let username = "anon"
 
 	let messages = [{}];
 	let boards = [
@@ -114,13 +116,6 @@ function changeDisplay() {
 			<div class="flex items-end">
 				<button class="justify-center flex w-full bg-slate-200 p-2 rounded-full m-2 border-2 border-gray-800" on:click={() => {changeDisplay()}}>
 					display mode
-				</button>
-			</div>
-			<div class="flex items-end">
-				<button class="justify-center flex w-full bg-slate-200 p-2 rounded-full m-2 border-2 border-gray-800" on:click={() => {
-					goto("/login")
-				}}>
-					login
 				</button>
 			</div>
 		</div>
