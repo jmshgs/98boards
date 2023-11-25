@@ -91,16 +91,23 @@ function changeDisplay() {
 		displayOption = "message-time";
 	} else {
 		displayOption = "time-message";
-	}
+	};
 }
-
+function closeSignup() 
+{
+	showSignup = false;
+}
+function closeLogin() 
+{
+	showLogin = false;
+}
 
 </script>
 {#if showLogin}
-	<Login />
+	<Login on:close={closeLogin} />
 {/if}
 {#if showSignup}
-	<Signup />
+	<Signup on:close={closeSignup}/>
 {/if}
 <main class="font-apple h-screen w-screen space-x-10 flex flex-row bg-gray-50 dark:bg-gray-800 text-slate-800 dark:text-white">
 	<aside class="font-sans lg:w-64 w-96 h-screen transition-transform bg-gray-100 dark:bg-gray-900" aria-label="Sidebar">

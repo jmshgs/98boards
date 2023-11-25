@@ -1,8 +1,12 @@
 <script>
     import { fetchUsers } from '$lib/supabaseClient.js';  
+    import { createEventDispatcher } from 'svelte';
+
     let email = '';
     let password = '';
   
+    const dispatch = createEventDispatcher();
+
     async function signup() {
       const user = { email, password };
       const response = await fetchUsers(user);
@@ -12,16 +16,23 @@
         // handle failed login
       }
     }
+
+    function close(){
+        dispatch('close');
+    }
   </script>
   
-  <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="relative min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <button class="absolute top-2 right-2 bg-red-500 text-white rounded-full p-2 hover:bg-red-700 focus:outline-none" on:click={close}>
+        X
+      </button>    
     <div class="max-w-md w-full space-y-8">
       <div>
         <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
           Sign up for your account
         </h2>
       </div>
-      <form class="mt-8 space-y-6" on:submit|preventDefault={login}>
+      <form class="mt-8 space-y-6" on:submit|preventDefault={signup}>   
         <input type="hidden" name="remember" value="true">
         <div class="rounded-md shadow-sm -space-y-px">
           <div>
