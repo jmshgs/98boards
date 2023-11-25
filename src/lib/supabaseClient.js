@@ -13,4 +13,17 @@ export const fetchMessages = async () => {
         .from("messages")
         .select()
     return data;
+};
+
+export const createUser = async (user) => {
+    const { data, error } = await supabase
+        .from('users')
+        .insert([{email: user.email, password: user.password }]);
+};
+
+export const fetchUsers = async () => {
+    const { data, error } = await supabase
+        .from("users")
+        .select()
+    return data;
 }

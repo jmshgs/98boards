@@ -6,12 +6,16 @@
 	import { Spinner } from 'flowbite-svelte'
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	
+	import Login from '$lib/components/login.svelte'
+	import Signup from '$lib/components/signup.svelte'
 	let message = "";
 
 	let currentBoard = "general";
 	let displayOption = "time-message";
 	let username = "anon"
+
+	let showLogin = false;
+	let showSignup = false;
 
 	let messages = [{}];
 	let boards = [
@@ -26,6 +30,7 @@
 		'random',
 		'school'
 	];
+
 
 	let promise = new Promise(() => {});
 	onMount(() => {
@@ -60,6 +65,7 @@
 			return;
 		}
 		if (messages[0]) {
+
 			if (message == messages[0].content) {
 				alert("you can't send the same message twice :)")
 				return;
@@ -72,7 +78,7 @@
 		let newMessage = {
 			content: message,
 			sent_at: timestamp.now(),
-			sender: 'anon', //TODO add user auth
+			sender: username, //TODO add user auth
 			board: currentBoard,
 		}
 		messageStore.update(messages => {
@@ -88,7 +94,14 @@ function changeDisplay() {
 	}
 }
 
+
 </script>
+{#if showLogin}
+	<Login />
+{/if}
+{#if showSignup}
+	<Signup />
+{/if}
 <main class="font-apple h-screen w-screen space-x-10 flex flex-row bg-gray-50 dark:bg-gray-800 text-slate-800 dark:text-white">
 	<aside class="font-sans lg:w-64 w-96 h-screen transition-transform bg-gray-100 dark:bg-gray-900" aria-label="Sidebar">
 		<div class="h-full px-3 overflow-y-auto flex-col">
@@ -116,6 +129,20 @@ function changeDisplay() {
 			<div class="flex items-end">
 				<button class="justify-center flex w-full bg-slate-200 p-2 rounded-full m-2 border-2 border-gray-800" on:click={() => {changeDisplay()}}>
 					display mode
+				</button>
+			</div>
+			<div class="flex items-end">
+				<button class="justify-center flex w-full bg-slate-200 p-2 rounded-full m-2 border-2 border-gray-800" on:click={() => {
+					showLogin = true;
+				}}>
+					login
+				</button>
+			</div>
+			<div class="flex items-end">
+				<button class="justify-center flex w-full bg-slate-200 p-2 rounded-full m-2 border-2 border-gray-800" on:click={() => {
+					showSignup = true;
+				}}>
+					signup
 				</button>
 			</div>
 		</div>

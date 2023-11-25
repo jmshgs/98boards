@@ -26,6 +26,10 @@
 		"random",
 		"school"
 	];
+	let commands = [
+		"login",
+		"signup"
+	]
 
 	let promise = new Promise(() => {});
 	onMount(() => {
@@ -60,6 +64,7 @@
 			return;
 		}
 		if (messages[0]) {
+
 			if (message == messages[0].content) {
 				alert("you can't send the same message twice :)")
 				return;
@@ -72,7 +77,7 @@
 		let newMessage = {
 			content: message,
 			sent_at: timestamp.now(),
-			sender: "anon", // TODO: add user system
+			sender: username, // TODO: add user system
 			board: currentBoard,
 		}
 		messageStore.update(messages => {
@@ -88,6 +93,7 @@
 		displayOption = "time-message";
 	}
 	}
+
 </script>
 <link rel="stylesheet" href="https://unpkg.com/98.css" />
 <main class="font-apple h-screen w-screen space-x-10 flex flex-row bg-gray-300">
