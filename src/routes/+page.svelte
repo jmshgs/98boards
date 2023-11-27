@@ -12,7 +12,7 @@
 
 	let currentBoard = "general";
 	let displayOption = "time-message";
-	let username = "anon"
+	let username = "anon";
 
 	let showLogin = false;
 	let showSignup = false;
@@ -59,7 +59,6 @@
 	messageStore.subscribe((data) => {
 		messages = data;
 	})
-
 	const sendMessage = async(message) => {
 		if (message === "") {
 			return;
@@ -186,7 +185,7 @@ function closeLogin()
 							message = "";
 						}
 					} 
-					} type="text" name="message" id="message" class="bg-gray-50 border-gray-300 text-black rounded-xl w-[71.5vw] p-2.5 m-1 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 border-2 dark:text-white focus:outline-none" placeholder="type something here :)" bind:value={message}>
+					} type="text" name="message" id="message" class="bg-gray-50 border-gray-300 text-black rounded-xl w-[71.5vw] p-2.5 m-1 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 border-2 dark:text-white focus:outline-none" placeholder="say hello, {username}" bind:value={message}>
 			</div>
 		</div>
 	</div>

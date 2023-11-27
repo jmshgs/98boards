@@ -1,7 +1,6 @@
 <script>
     import { createEventDispatcher } from 'svelte';
     import { validateUser } from '$lib/supabaseClient.js';
-
     let email = '';
     let password = '';
   
@@ -20,6 +19,7 @@
 
     if (response && response.user) {
       showAlertModal('Logged in successfully!');
+      userStore.set(email)
     } else {
       showAlertModal('Invalid credentials. Please try again.');
     }
