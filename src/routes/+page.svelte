@@ -57,7 +57,8 @@
 	.subscribe()
 
 	messageStore.subscribe((data) => {
-		messages = data;
+		//messages = data
+		messages = data.sort((a,b) => a.sent_at - b.sent_at).reverse();
 	})
 	const sendMessage = async(message) => {
 		if (message === "") {
