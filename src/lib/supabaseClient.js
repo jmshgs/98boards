@@ -16,14 +16,36 @@ export const fetchMessages = async () => {
 };
 
 export const createUser = async (user) => {
-    const { data, error } = await supabase
-        .from('users')
-        .insert([{email: user.email, password: user.password }]);
+    try {
+        const { data, error } = await supabase.auth.signUp({
+            email: user.email,
+            password: user.password,
+        });
+
+        if (error) {
+            throw new Error(error.message);
+        }
+
+        return data;
+    } catch (error) {
+        console.error("Error creating user:", error.message);
+        throw error;
+    }
 };
 
-export const fetchUsers = async () => {
-    const { data, error } = await supabase
-        .from("users")
-        .select()
-    return data;
+export const validateUser = async (user) => {
+    try{
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email: user.email,
+            password: user.password
+        })
+        if (error) {
+            throw new Error(error.message);
+        }
+        
+    }
+    catch (error) {
+        console.error("Error signing in:", error.message);
+        throw error
+    }
 }
