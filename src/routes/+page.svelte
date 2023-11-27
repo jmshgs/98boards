@@ -2,6 +2,7 @@
 	import { supabase, fetchMessages, insertMessage } from '$lib/supabaseClient.js'
 	import { timeConverter } from '$lib/main.js'
 	import messageStore from '$lib/stores/messageStore';
+	import userStore from '$lib/stores/userStore';
 	import timestamp from 'unix-timestamp';
 	import { Spinner } from 'flowbite-svelte'
 	import { onMount } from 'svelte';
@@ -12,7 +13,7 @@
 
 	let currentBoard = "general";
 	let displayOption = "time-message";
-	let username = "anon";
+	let username;
 
 	let showLogin = false;
 	let showSignup = false;
@@ -60,6 +61,11 @@
 		//messages = data
 		messages = data.sort((a,b) => a.sent_at - b.sent_at).reverse();
 	})
+
+	userStore.subscribe((value) => {
+		username = value;
+	})
+	
 	const sendMessage = async(message) => {
 		if (message === "") {
 			return;

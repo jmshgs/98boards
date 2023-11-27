@@ -1,6 +1,8 @@
 <script>
     import { createEventDispatcher } from 'svelte';
     import { validateUser } from '$lib/supabaseClient.js';
+    import userStore from "$lib/stores/userStore.js";
+
     let email = '';
     let password = '';
   

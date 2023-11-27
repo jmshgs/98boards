@@ -1,6 +1,7 @@
 <script>
     import { createUser } from '$lib/supabaseClient.js';  
     import { createEventDispatcher } from 'svelte';
+    import userStore from "$lib/stores/userStore.js";
 
     let email = '';
     let passwords = '';
@@ -18,6 +19,7 @@
 
             if (response && response.user) {
                 showAlertModal('Account created successfully!');
+                userStore.set(email)
             } else {
                 showAlertModal('Error creating account!');
             }
