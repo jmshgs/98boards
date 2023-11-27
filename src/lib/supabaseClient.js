@@ -42,7 +42,7 @@ export const validateUser = async (user) => {
         if (error) {
             throw new Error(error.message);
         }
-        
+        return data
     }
     catch (error) {
         console.error("Error signing in:", error.message);

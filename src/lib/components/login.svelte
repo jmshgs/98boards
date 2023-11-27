@@ -16,6 +16,7 @@
 
   try {
     const response = await validateUser(user);
+    console.log('Supabase Response:', response);
 
     if (response && response.user) {
       showAlertModal('Logged in successfully!');
@@ -76,7 +77,7 @@
     <div class="max-w-md w-full space-y-8">
       <div>
         <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Sign in to your account
+          Log in to your account
         </h2>
       </div>
       <form class="mt-8 space-y-6" on:submit|preventDefault={login}>
