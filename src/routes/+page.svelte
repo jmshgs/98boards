@@ -6,8 +6,7 @@
 	import { Spinner } from 'flowbite-svelte'
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import Login from '$lib/components/login.svelte'
-	import Signup from '$lib/components/signup.svelte'
+	import Account from '$lib/components/account.svelte'
 
 	let message = "";
 
@@ -102,28 +101,29 @@
 		})
 		await insertMessage(newMessage);
 	}
-function changeDisplay() {
-	if (displayOption == "time-message") {
-		displayOption = "message-time";
-	} else {
-		displayOption = "time-message";
-	};
-}
-function closeSignup() 
-{
-	showSignup = false;
-}
-function closeLogin() 
-{
-	showLogin = false;
-}
 
+	function changeDisplay() {
+		if (displayOption == "time-message") {
+			displayOption = "message-time";
+		} else {
+			displayOption = "time-message";
+		};
+	}
+
+	function closeSignup() 
+	{
+		showSignup = false;
+	}
+	function closeLogin() 
+	{
+		showLogin = false;
+	}
 </script>
 {#if showLogin}
-	<Login {username} on:close={closeLogin} />
+	<Account {username} titleText="Sign in to your account" on:close={closeLogin} />
 {/if}
 {#if showSignup}
-	<Signup {username} on:close={closeSignup}/>
+	<Account {username} titleText="Create your account" on:close={closeSignup}/>
 {/if}
 <main class="font-apple h-screen w-screen space-x-10 flex flex-row bg-gray-50 dark:bg-gray-800 text-slate-800 dark:text-white">
 	<aside class="font-sans lg:w-64 w-96 h-screen transition-transform bg-gray-100 dark:bg-gray-900" aria-label="Sidebar">
