@@ -1,8 +1,8 @@
 <script>
-    import { createUser } from '$lib/supabaseClient.js';  
+    import { createUser, insertUsername, fetchUser } from '$lib/supabaseClient.js';  
     import { createEventDispatcher } from 'svelte';
-    import userStore from "$lib/stores/userStore.js";
 
+    let typedUsername = '';
     let email = '';
     let passwords = '';
   
@@ -19,7 +19,8 @@
 
             if (response && response.user) {
                 showAlertModal('Account created successfully!');
-                userStore.set(email)
+                console.log(response.user.id, typedUsername)
+                insertUsername(typedUsername, response.user.id)
             } else {
                 showAlertModal('Error creating account!');
             }
@@ -82,8 +83,13 @@
         <input type="hidden" name="remember" value="true">
         <div class="rounded-md shadow-sm -space-y-px">
           <div>
+            <label for="username" class="sr-only">Username</label>
+            <input id="username" name="username" type="username" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Username" bind:value={typedUsername}>
+          </div>
+          <div>
             <label for="email" class="sr-only">Email</label>
             <input id="email" name="email" type="email" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Email Address" bind:value={email}>
+          </div>
           <div>
             <label for="password" class="sr-only">Password</label>
             <input id="password" name="password" type="password" autocomplete="current-password" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Password" bind:value={passwords}>

@@ -1,19 +1,19 @@
 <script>
-	import { supabase, fetchMessages, insertMessage } from '$lib/supabaseClient.js'
+	import { supabase, fetchMessages, insertMessage, fetchUsername, fetchUser } from '$lib/supabaseClient.js'
 	import { timeConverter } from '$lib/main.js'
 	import messageStore from '$lib/stores/messageStore';
-	import userStore from '$lib/stores/userStore';
 	import timestamp from 'unix-timestamp';
 	import { Spinner } from 'flowbite-svelte'
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import Login from '$lib/components/login.svelte'
 	import Signup from '$lib/components/signup.svelte'
+
 	let message = "";
 
 	let currentBoard = "general";
 	let displayOption = "time-message";
-	let username;
+	let username = 'anon';
 
 	let showLogin = false;
 	let showSignup = false;
@@ -32,6 +32,7 @@
 		'school'
 	];
 
+	
 
 	let promise = new Promise(() => {});
 	onMount(() => {
@@ -41,6 +42,19 @@
 				.select()
 			messageStore.set(data.reverse());
 		})()
+		let id;
+		fetchUser()
+		.then(data => {
+			id = data.id
+			console.log("got the data")
+			console.log(id)
+			fetchUsername(id)
+			.then(data => {
+				console.log(data)
+				username = data[0].username;
+			})
+		})
+
 	})
 
 	
@@ -60,10 +74,6 @@
 	messageStore.subscribe((data) => {
 		//messages = data
 		messages = data.sort((a,b) => a.sent_at - b.sent_at).reverse();
-	})
-
-	userStore.subscribe((value) => {
-		username = value;
 	})
 	
 	const sendMessage = async(message) => {
@@ -110,10 +120,10 @@ function closeLogin()
 
 </script>
 {#if showLogin}
-	<Login on:close={closeLogin} />
+	<Login {username} on:close={closeLogin} />
 {/if}
 {#if showSignup}
-	<Signup on:close={closeSignup}/>
+	<Signup {username} on:close={closeSignup}/>
 {/if}
 <main class="font-apple h-screen w-screen space-x-10 flex flex-row bg-gray-50 dark:bg-gray-800 text-slate-800 dark:text-white">
 	<aside class="font-sans lg:w-64 w-96 h-screen transition-transform bg-gray-100 dark:bg-gray-900" aria-label="Sidebar">

@@ -1,36 +1,34 @@
 <script>
     import { createEventDispatcher } from 'svelte';
-    import { validateUser } from '$lib/supabaseClient.js';
-    import userStore from "$lib/stores/userStore.js";
+    import { validateUser, fetchUsername, fetchUser } from '$lib/supabaseClient.js';
 
     let email = '';
     let password = '';
   
     const dispatch = createEventDispatcher();
 
-
     async function login() {
-  let user = {
-    email: email,
-    password: password
-  };
+      let user = {
+        email: email,
+        password: password
+      };
 
-  try {
-    const response = await validateUser(user);
-    console.log('Supabase Response:', response);
+      try {
+        const response = await validateUser(user);
+        fetchUser()
+        console.log('Supabase Response:', response);
 
-    if (response && response.user) {
-      showAlertModal('Logged in successfully!');
-      userStore.set(email)
-    } else {
-      showAlertModal('Invalid credentials. Please try again.');
-    }
+        if (response.user) {
+          showAlertModal('Logged in successfully!');
+        } else {
+          showAlertModal('Invalid credentials. Please try again.');
+        }
 
-  } catch (error) {
-    console.error('Error during login:', error);
-    showAlertModal('An error occurred during login. Please try again later.');
-  }
-}
+      } catch (error) {
+        console.error('Error during login:', error);
+        showAlertModal('An error occurred during login. Please try again later.');
+      }
+    }   
 
     function close(){
         dispatch('close');

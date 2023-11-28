@@ -49,3 +49,24 @@ export const validateUser = async (user) => {
         throw error
     }
 }
+
+export const fetchUser = async () => {
+    const { data: { user } } = await supabase.auth.getUser()
+    console.log(user)
+    return user
+}
+
+export const insertUsername = async (username, userID) => {
+    const { data, error } = await supabase
+        .from("usernames")
+        .insert([{username: username, user_id: userID}]);
+}
+
+export const fetchUsername = async (userID) => {
+    const { data, error } = await supabase
+        .from("usernames")
+        .select("username")
+        .eq("user_id", userID)
+    return data;
+}
+
