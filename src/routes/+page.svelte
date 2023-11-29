@@ -138,7 +138,7 @@
 		<aside class="font-sans lg:w-64 w-96 h-screen transition-transform bg-gray-100 dark:bg-gray-900" class:window={oldUI} aria-label="Sidebar">
 			<div class="h-full px-3 overflow-y-auto flex-col">
 				<div class="justify-start items-start">
-					<h1 class="w-full px-4 pt-4 text-xl font-semibold dark:text-white">
+					<h1 class="w-full pt-4 text-xl font-semibold dark:text-white" class:px-4={!oldUI}>
 						boards:
 					</h1>
 					<ul class="list-none px-4 py-2 space-y-1.5" class:tree-view={oldUI}>
@@ -149,7 +149,9 @@
 								currentBoard = board;
 							}}>{board}</button>
 							{:else}
-							<p class="decoration-none transition-all hover:scale-[105%] hover:pl-2" class:scale-[102%]={currentBoard == board} class:pl-1.5={currentBoard == board} on:click={() => {
+							<!-- svelte-ignore a11y-click-events-have-key-events -->
+							<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+							<p class="decoration-none transition-all hover:scale-[105%] hover:pl-2" class:scale-[102%]={currentBoard == board} class:font-bold={currentBoard == board} class:pl-0.5={currentBoard == board} on:click={() => {
 								currentBoard = board;
 							}}>{board}</p>
 							{/if}
