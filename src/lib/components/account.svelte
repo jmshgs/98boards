@@ -123,8 +123,12 @@
 			<button type="button" class="w-full transition-all hover:scale-102 font-medium bg-slate-100 hover:bg-slate-200 hover:dark:bg-slate-300 text-sm px-5 py-2.5 text-center {newGoogleButtonClass}" on:click={() => {
 				//signInWithGoogle()
 			}}>
+                {#if !oldUI}
 				<img src="/images/google.png" class="inline-block w-5 h-5 mr-2" alt="Google logo">
 				Continue with Google
+                {:else}
+				Continue with <img src="/images/old-google.webp" class="inline-block h-5 mr-2" alt="Google logo">
+                {/if}
 			</button>
 		</div>
 		<p class="dark:text-white text-sm text-left font-medium">
