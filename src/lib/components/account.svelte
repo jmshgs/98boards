@@ -1,28 +1,47 @@
 <script>
-    import { createUser, insertUsername, fetchUser } from '$lib/supabaseClient.js';  
+    import { createUser, insertUsername, fetchUser, validateUser } from '$lib/supabaseClient.js';  
     import { createEventDispatcher } from 'svelte';
   
     const dispatch = createEventDispatcher();
 
+	async function login() {
+      let user = {
+        email: email,
+        password: password
+      };
+
+      try {
+        const response = await validateUser(user);
+        fetchUser()
+        console.log('Supabase Response:', response);
+
+        if (response.user) {
+          console.log('Logged in successfully!');
+        } else {
+          console.log('Invalid credentials. Please try again.');
+        }
+
+      } catch (error) {
+        console.error('Error during login:', error);
+        console.log('An error occurred during login. Please try again later.');
+      }
+    }   
+
+
     async function signup() {
         try {
-            let user = {
-                email: email,
-                password: passwords
-            };
 
-            const response = await createUser(user);
+            const response = await createUser(email,username,password);
 
             if (response && response.user) {
-                showAlertModal('Account created successfully!');
-                console.log(response.user.id, typedUsername)
-                insertUsername(typedUsername, response.user.id)
+                console.log('Account created successfully!');
+                console.log(response.user.id, username)
+                insertUsername(username, response.user.id)
             } else {
-                showAlertModal('Error creating account!');
+                console.log('signup error!');
             }
         } catch (error) {
             console.error("Signup error:", error.message);
-            showAlertModal('Error creating account!');
         }
     }
 
@@ -58,6 +77,14 @@
             shortText = 'Sign in';
         }
     }
+
+	const accountType = () => {
+		if (titleText == 'Create your account') {
+            signup();
+        } else {
+            login();
+        }
+	}
 </script>
 
 <div class="flex flex-col items-center justify-center w-screen h-screen">
@@ -84,13 +111,13 @@
 			</div>
 			<div>
 				<button type="button" class="w-full text-white bg-blue-600 transition-all hover:bg-blue-800 hover:scale-102 font-medium rounded-xl text-sm px-5 py-2.5 text-center" on:click={() => {
-					createUser(email, username, password);
+					accountType()
 				}}>{titleText}</button>
 				<p class="dark:text-white text-sm text-center p-3 font-medium">
 					or
 				</p>
 				<button type="button" class="w-full text-black bg-slate-100 hover:bg-slate-200 hover:dark:bg-slate-300 transition-all hover:scale-102 font-medium rounded-xl text-sm px-5 py-2.5 text-center" on:click={() => {
-					signInWithGoogle()
+					//signInWithGoogle()
 				}}>
 					<img src="/images/google.png" class="inline-block w-5 h-5 mr-2" alt="Google logo">
 					Continue with Google

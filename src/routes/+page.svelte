@@ -110,20 +110,12 @@
 		};
 	}
 
-	function closeSignup() 
-	{
-		showSignup = false;
-	}
-	function closeLogin() 
-	{
+	function closeAccount() {
 		showLogin = false;
 	}
 </script>
 {#if showLogin}
-	<Account {username} titleText="Sign in to your account" on:close={closeLogin} />
-{/if}
-{#if showSignup}
-	<Account {username} titleText="Create your account" on:close={closeSignup}/>
+	<Account {username} titleText="Sign in to your account" on:close={closeAccount} />
 {/if}
 <main class="font-apple h-screen w-screen space-x-10 flex flex-row bg-gray-50 dark:bg-gray-800 text-slate-800 dark:text-white">
 	<aside class="font-sans lg:w-64 w-96 h-screen transition-transform bg-gray-100 dark:bg-gray-900" aria-label="Sidebar">
@@ -158,14 +150,7 @@
 				<button class="justify-center flex w-full bg-slate-200 p-2 rounded-full m-2 border-2 border-gray-800" on:click={() => {
 					showLogin = true;
 				}}>
-					login
-				</button>
-			</div>
-			<div class="flex items-end">
-				<button class="justify-center flex w-full bg-slate-200 p-2 rounded-full m-2 border-2 border-gray-800" on:click={() => {
-					showSignup = true;
-				}}>
-					signup
+					accounts
 				</button>
 			</div>
 		</div>
