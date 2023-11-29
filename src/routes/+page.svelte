@@ -130,7 +130,7 @@
 		showLogin = false
 	}}>
 		<button on:click|stopPropagation>
-			<Account {username} titleText="Sign in to your account" />
+			<Account {oldUI} {username} titleText="Sign in to your account" />
 		</button>
 	</button>	
 	{/if}
