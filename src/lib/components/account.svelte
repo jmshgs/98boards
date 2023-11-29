@@ -90,8 +90,8 @@
     $: newModalClass = oldUI ? "" : "rounded-3xl bg-white border-gray-400 border-2 shadow-md";
 </script>
 
-<div class="w-[28rem] p-4 sm:p-6 md:p-8 text-left">
-	<form class="space-y-6">
+<div class="w-[28rem] p-4 sm:p-6 md:p-8 text-left {newModalClass}">
+	<form class="space-y-6 ">
 		<h5 class="text-3xl font-bold text-black dark:text-white">{titleText}</h5>
 		<div>
 			<label for="email" class="block mb-2 text-sm font-medium text-black dark:text-white">Email</label>

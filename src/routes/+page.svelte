@@ -7,6 +7,8 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import Account from '$lib/components/account.svelte'
+	import Settings from '$lib/components/settings.svelte'
+
 
 	let oldUI = false;
 
@@ -19,7 +21,7 @@
 	let username = 'anon';
 
 	let showLogin = false;
-	let showSignup = false;
+	let showSettings = false;
 
 	let messages = [{}];
 	let boards = [
@@ -106,13 +108,6 @@
 		await insertMessage(newMessage);
 	}
 
-	function changeDisplay() {
-		if (displayOption == "time-message") {
-			displayOption = "message-time";
-		} else {
-			displayOption = "time-message";
-		};
-	}
 </script>
 
 <svelte:window on:keypress={(e) => {
@@ -134,7 +129,18 @@
 		</button>
 	</button>	
 	{/if}
-	<div class="space-x-10 flex flex-row" class:blur-md={showLogin}>
+	{#if showSettings}
+	<button class="z-10 fixed flex h-screen w-screen items-center justify-center bg-gray-700/25"
+	on:click={() => {
+		showSettings = false
+	}}>
+		<button on:click|stopPropagation>
+			<Settings {displayOption} {oldUI}/>
+		</button>
+	</button>	
+	{/if}
+
+	<div class="space-x-10 flex flex-row" class:blur-md={showLogin || showSettings}>
 		<aside class="font-sans lg:w-64 w-96 h-screen transition-transform bg-gray-100 dark:bg-gray-900" class:window={oldUI} aria-label="Sidebar">
 			<div class="h-full px-3 overflow-y-auto flex-col">
 				<div class="justify-start items-start">
@@ -163,12 +169,16 @@
 					<button class="justify-center flex w-full p-2 m-2 {newButtonClass}" on:click={() => {
 						oldUI = !oldUI;
 					}}>
-						old ui
+						{#if oldUI}
+							new ui
+						{:else}
+							old ui
+						{/if}
 					</button>
 				</div>
 				<div class="flex items-end">
-					<button class="justify-center flex w-full p-2 m-2 {newButtonClass}" on:click={() => {changeDisplay()}}>
-						display mode
+					<button class="justify-center flex w-full p-2 m-2 {newButtonClass}" on:click={() => {showSettings=true;}}>
+						settings
 					</button>
 				</div>
 				<div class="flex items-end">
