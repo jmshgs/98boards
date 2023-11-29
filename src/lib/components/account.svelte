@@ -127,7 +127,7 @@
 				<img src="/images/google.png" class="inline-block w-5 h-5 mr-2" alt="Google logo">
 				Continue with Google
                 {:else}
-				Continue with <img src="/images/old-google.webp" class="inline-block h-5 mr-2" alt="Google logo">
+				Continue with <img src="/images/old-google.webp" class="inline-block h-6 mr-2" alt="Google logo">
                 {/if}
 			</button>
 		</div>
