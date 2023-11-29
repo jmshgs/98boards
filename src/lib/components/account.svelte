@@ -88,6 +88,8 @@
 	}
 
     $: newModalClass = oldUI ? "" : "rounded-3xl bg-white border-gray-400 border-2 shadow-md";
+    $: newButtonClass = oldUI ? "" : "text-white bg-blue-600 transition-all hover:bg-blue-800 hover:scale-102 rounded-xl";
+    $: newGoogleButtonClass = oldUI ? "" : "bg-blue-600 rounded-xl";
 </script>
 
 <div class="w-[28rem] p-4 sm:p-6 md:p-8 text-left {newModalClass}">
@@ -112,13 +114,13 @@
 			{/if}
 		</div>
 		<div>
-			<button type="button" class="w-full text-white bg-blue-600 transition-all hover:bg-blue-800 hover:scale-102 font-medium rounded-xl text-sm px-5 py-2.5 text-center" on:click={() => {
+			<button type="button" class="w-full font-medium text-sm px-5 py-2.5 text-center {newButtonClass}" on:click={() => {
 				accountType()
 			}}>{titleText}</button>
 			<p class="dark:text-white text-sm text-center p-3 font-medium">
 				or
 			</p>
-			<button type="button" class="w-full text-black bg-slate-100 hover:bg-slate-200 hover:dark:bg-slate-300 transition-all hover:scale-102 font-medium rounded-xl text-sm px-5 py-2.5 text-center" on:click={() => {
+			<button type="button" class="w-full transition-all hover:scale-102 font-medium bg-slate-100 hover:bg-slate-200 hover:dark:bg-slate-300 text-sm px-5 py-2.5 text-center {newGoogleButtonClass}" on:click={() => {
 				//signInWithGoogle()
 			}}>
 				<img src="/images/google.png" class="inline-block w-5 h-5 mr-2" alt="Google logo">

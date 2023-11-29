@@ -9,15 +9,14 @@
 	import Account from '$lib/components/account.svelte'
 	import Settings from '$lib/components/settings.svelte'
 
-
 	let oldUI = false;
+	let displayOption = "time-message";
 
 	$: newButtonClass = oldUI ? "" : "rounded-full bg-slate-200 border-gray-800 border-2";
 
 	let message = "";
 
 	let currentBoard = "general";
-	let displayOption = "time-message";
 	let username = 'anon';
 
 	let showLogin = false;
@@ -135,7 +134,9 @@
 		showSettings = false
 	}}>
 		<button on:click|stopPropagation>
-			<Settings {displayOption} {oldUI}/>
+			<Settings {displayOption} {oldUI} on:displayOption={(e) => {
+				displayOption = e.detail;
+			}}/>
 		</button>
 	</button>	
 	{/if}
@@ -169,11 +170,7 @@
 					<button class="justify-center flex w-full p-2 m-2 {newButtonClass}" on:click={() => {
 						oldUI = !oldUI;
 					}}>
-						{#if oldUI}
-							new ui
-						{:else}
-							old ui
-						{/if}
+						{oldUI ? "new ui" : "old ui"}
 					</button>
 				</div>
 				<div class="flex items-end">
