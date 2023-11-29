@@ -3,9 +3,8 @@
 	import { timeConverter } from '$lib/main.js'
 	import messageStore from '$lib/stores/messageStore';
 	import timestamp from 'unix-timestamp';
-	import { P, Spinner } from 'flowbite-svelte'
+	import { Spinner } from 'flowbite-svelte'
 	import { onMount } from 'svelte';
-	import { goto } from '$app/navigation';
 	import Account from '$lib/components/account.svelte'
 	import Settings from '$lib/components/settings.svelte'
 
@@ -188,7 +187,7 @@
 			</div>
 		</aside>
 		{#await promise}
-		<div class="flex w-full h-full justify-center items-center">
+		<div class="flex w-screen h-screen justify-center items-center">
 			<Spinner color="blue" />
 		</div>
 		{:then}
