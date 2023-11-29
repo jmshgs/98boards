@@ -110,13 +110,23 @@
 		};
 	}
 </script>
+
+<svelte:window on:keypress={(e) => {
+	if (e.key == "Escape") {
+		showLogin = false;
+	}
+}} />
+
 <main class="font-apple h-screen w-screen dark:bg-gray-800 text-slate-800 dark:text-white">
 	{#if showLogin}
-	<div class="z-10 fixed flex h-screen w-screen items-center justify-center bg-gray-700/25" on:click={() => { showLogin = false }}>
-		<div on:click|stopPropagation>
+	<button class="z-10 fixed flex h-screen w-screen items-center justify-center bg-gray-700/25"
+	on:click={() => {
+		showLogin = false
+	}}>
+		<button on:click|stopPropagation>
 			<Account {username} titleText="Sign in to your account" />
-		</div>
-	</div>	
+		</button>
+	</button>	
 	{/if}
 	<div class="space-x-10 flex flex-row" class:blur-md={showLogin}>
 		<aside class="font-sans lg:w-64 w-96 h-screen transition-transform bg-gray-100 dark:bg-gray-900" aria-label="Sidebar">

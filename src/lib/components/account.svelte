@@ -87,7 +87,7 @@
 	}
 </script>
 
-<div class="w-[28rem] bg-white border-gray-400 border-2 rounded-3xl shadow-md p-4 sm:p-6 md:p-8">
+<div class="w-[28rem] bg-white border-gray-400 border-2 rounded-3xl shadow-md p-4 sm:p-6 md:p-8 text-left">
 	<form class="space-y-6">
 		<h5 class="text-3xl font-bold text-black dark:text-white">{titleText}</h5>
 		<div>
