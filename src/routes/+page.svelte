@@ -112,11 +112,11 @@
 </script>
 <main class="font-apple h-screen w-screen dark:bg-gray-800 text-slate-800 dark:text-white">
 	{#if showLogin}
-	<div class="z-10 fixed flex h-screen w-screen items-center justify-center bg-gray-700/50" on:click|self on:click={() => {
-		showLogin = false
-	}}>
-		<Account {username} titleText="Sign in to your account" />
-	</div>
+	<div class="z-10 fixed flex h-screen w-screen items-center justify-center bg-gray-700/50" on:click={() => { showLogin = false }}>
+		<div on:click|stopPropagation>
+			<Account {username} titleText="Sign in to your account" />
+		</div>
+	</div>	
 	{/if}
 	<div class="space-x-10 flex flex-row" class:blur-md={showLogin}>
 		<aside class="font-sans lg:w-64 w-96 h-screen transition-transform bg-gray-100 dark:bg-gray-900" aria-label="Sidebar">
