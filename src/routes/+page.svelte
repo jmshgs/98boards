@@ -3,10 +3,14 @@
 	import { timeConverter } from '$lib/main.js'
 	import messageStore from '$lib/stores/messageStore';
 	import timestamp from 'unix-timestamp';
-	import { Spinner } from 'flowbite-svelte'
+	import { P, Spinner } from 'flowbite-svelte'
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import Account from '$lib/components/account.svelte'
+
+	let oldUI = false;
+
+	$: newButtonClass = oldUI ? "" : "rounded-full bg-slate-200 border-gray-800 border-2";
 
 	let message = "";
 
@@ -116,8 +120,10 @@
 		showLogin = false;
 	}
 }} />
-
-<main class="font-apple h-screen w-screen dark:bg-gray-800 text-slate-800 dark:text-white">
+{#if oldUI}
+<link rel="stylesheet" href="https://unpkg.com/98.css" />
+{/if}
+<main class="font-apple h-screen w-screen {oldUI ? "bg-gray-300" : "bg-slate-50"} dark:bg-gray-800 text-slate-800 dark:text-white">
 	{#if showLogin}
 	<button class="z-10 fixed flex h-screen w-screen items-center justify-center bg-gray-700/25"
 	on:click={() => {
@@ -129,36 +135,42 @@
 	</button>	
 	{/if}
 	<div class="space-x-10 flex flex-row" class:blur-md={showLogin}>
-		<aside class="font-sans lg:w-64 w-96 h-screen transition-transform bg-gray-100 dark:bg-gray-900" aria-label="Sidebar">
+		<aside class="font-sans lg:w-64 w-96 h-screen transition-transform bg-gray-100 dark:bg-gray-900" class:window={oldUI} aria-label="Sidebar">
 			<div class="h-full px-3 overflow-y-auto flex-col">
 				<div class="justify-start items-start">
 					<h1 class="w-full px-4 pt-4 text-xl font-semibold dark:text-white">
 						boards:
 					</h1>
-					<div class="list-none px-4 py-2 space-y-1.5">
+					<ul class="list-none px-4 py-2 space-y-1.5" class:tree-view={oldUI}>
 						{#each boards as board}
 						<li>
+							{#if !oldUI}
 							<button class="decoration-none transition-all hover:scale-[105%]" class:scale-[105%]={currentBoard == board} class:text-blue-800={currentBoard == board} on:click={() => {
 								currentBoard = board;
 							}}>{board}</button>
+							{:else}
+							<p class="decoration-none transition-all hover:scale-[105%] hover:pl-2" class:scale-[102%]={currentBoard == board} class:pl-1.5={currentBoard == board} on:click={() => {
+								currentBoard = board;
+							}}>{board}</p>
+							{/if}
 						</li>
 						{/each}
-					</div>
+					</ul>
 				</div>
 				<div class="flex items-end">
-					<button class="justify-center flex w-full bg-slate-200 p-2 rounded-full m-2 border-2 border-gray-800" on:click={() => {
-						goto("/98")
+					<button class="justify-center flex w-full p-2 m-2 {newButtonClass}" on:click={() => {
+						oldUI = !oldUI;
 					}}>
 						old ui
 					</button>
 				</div>
 				<div class="flex items-end">
-					<button class="justify-center flex w-full bg-slate-200 p-2 rounded-full m-2 border-2 border-gray-800" on:click={() => {changeDisplay()}}>
+					<button class="justify-center flex w-full p-2 m-2 {newButtonClass}" on:click={() => {changeDisplay()}}>
 						display mode
 					</button>
 				</div>
 				<div class="flex items-end">
-					<button class="justify-center flex w-full bg-slate-200 p-2 rounded-full m-2 border-2 border-gray-800" on:click={() => {
+					<button class="justify-center flex w-full p-2 m-2 {newButtonClass}" on:click={() => {
 						showLogin = true;
 					}}>
 						account
@@ -173,22 +185,27 @@
 		{:then}
 		<div class="px-4 justify-start flex">
 			<div class="lg:w-[75vw] w-[60vw] h-[80vh] justify-center p-4">
-				<h1 class="text-xl font-semibold py-2">
-					messages:
-				</h1>
-				<div class="h-[75vh] overflow-y-auto overflow-x-scroll">
-					{#each messages as message}
-					{#if message.board == currentBoard}
-						<div class="w-[70vw]">
-							{#if displayOption == "time-message"}
-							{timeConverter(message.sent_at)} - {message.sender}: {message.content}
+				<div class:window={oldUI}>
+					<div class="px-4">
+						<h1 class="text-xl font-semibold py-2">
+							messages:
+						</h1>
+						<div class="h-[75vh] overflow-y-auto overflow-x-scroll">
+							{#each messages as message}
+							{#if message.board == currentBoard}
+								<div class="w-[70vw]">
+									{#if displayOption == "time-message"}
+									{timeConverter(message.sent_at)} - {message.sender}: {message.content}
+									{/if}
+									{#if displayOption == "message-time"}
+									{message.sender}: {message.content} @ {timeConverter(message.sent_at)}
+									{/if}
+								</div>
 							{/if}
-							{#if displayOption == "message-time"}
-							{message.sender}: {message.content} @ {timeConverter(message.sent_at)}
-							{/if}
+							{/each}
 						</div>
-					{/if}
-					{/each}
+						
+					</div>
 				</div>
 				<div class="overflow-y-auto overflow-x-scroll py-4 space-x-4 flex items-center justify-center">
 					<input on:keypress={
