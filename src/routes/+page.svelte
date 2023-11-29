@@ -112,7 +112,7 @@
 </script>
 <main class="font-apple h-screen w-screen dark:bg-gray-800 text-slate-800 dark:text-white">
 	{#if showLogin}
-	<div class="z-10 fixed flex h-screen w-screen items-center justify-center bg-gray-700/50" on:click={() => { showLogin = false }}>
+	<div class="z-10 fixed flex h-screen w-screen items-center justify-center bg-gray-700/25" on:click={() => { showLogin = false }}>
 		<div on:click|stopPropagation>
 			<Account {username} titleText="Sign in to your account" />
 		</div>
