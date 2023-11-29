@@ -20,13 +20,13 @@ export const createUser = async (email, username, password) => {
         const { data, error } = await supabase.auth.signUp({
             email: email,
             password: password,
-        });
-
-		fetchUser()
-		.then(data => {
-            insertUsername(username, data.id);
-		})
-
+        })
+        .then(() => {
+            fetchUser()
+            .then(data => {
+                insertUsername(username, data.id);
+            })
+        })
 
         if (error) {
             throw new Error(error.message);
