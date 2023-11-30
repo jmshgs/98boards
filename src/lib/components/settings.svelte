@@ -25,6 +25,9 @@
             case "discord-blue":
                 themesCSS = "bg-blue-800 text-gray-50"
                 break
+            case 'gray':
+                themesCSS = "bg-gray-200 text-gray-800"
+                break
         }
         console.log(themesCSS)
     }
@@ -64,7 +67,8 @@
                     <option value={"light"}>light</option> 
                     <option value={"dark"}>dark</option>
                     <option value={'sky-blue'}>sky blue</option>
-                    <option value="{'discord-blue'}">discord blue</option>
+                    <option value={'discord-blue'}>discord blue</option>
+                    <option value={'gray'}>gray</option>
                 </select>
             </div>
 
