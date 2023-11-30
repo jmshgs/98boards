@@ -4,7 +4,10 @@
     const dispatch = createEventDispatcher();
 
     export let displayOption;
+    export let displayDirection;
+
     export let oldUI;
+
 
     $: newModalClass = oldUI ? "" : "rounded-3xl bg-white border-gray-400 border-2 shadow-md";
 
@@ -36,6 +39,31 @@
                         dispatch("displayOption", displayOption);
                     }}>
             </div>
+        {/if}
+        {#if displayDirection == "top-bottom"}
+            <div class="flex items-center space-x-4">
+                <p class="text-sm font-medium text-black dark:text-white"> Show new messages at the top </p>
+                <input type="text" value="2. 2:01 - james: hi ian" readonly class="bg-gray-50 border-gray-300 text-black rounded-xl w-[30vw] p-2.5 m-1 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 border-2 dark:text-white focus:outline-none">
+                <input type="text" value="1. 2:00 - ian: hello" readonly class="bg-gray-50 border-gray-300 text-black rounded-xl w-[30vw] p-2.5 m-1 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 border-2 dark:text-white focus:outline-none">
+                <input type="checkbox" checked class="form-checkbox h-5 w-5" on:click={() => 
+                    {
+                        displayDirection = "bottom-top";
+                        dispatch("displayDirection", displayDirection);
+                    }}>
+            </div>
+
+        {:else}
+            <div class="flex items-center space-x-4">
+                <p class="text-sm font-medium text-black dark:text-white"> Show new messages at the bottom </p>
+                <input type="text" value="1. 2:00 - ian: hello" readonly class="bg-gray-50 border-gray-300 text-black rounded-xl w-[30vw] p-2.5 m-1 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 border-2 dark:text-white focus:outline-none">
+                <input type="text" value="2. 2:01 - james: hi ian" readonly class="bg-gray-50 border-gray-300 text-black rounded-xl w-[30vw] p-2.5 m-1 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 border-2 dark:text-white focus:outline-none">
+                <input type="checkbox" checked class="form-checkbox h-5 w-5" on:click={() => 
+                    {
+                        displayDirection = "top-bottom";
+                        dispatch("displayDirection", displayDirection);
+                    }}>
+            </div>
+
         {/if}
     </div>
 </div>

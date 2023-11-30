@@ -10,10 +10,12 @@
 
 	let oldUI = false;
 	let displayOption = "time-message";
+	let displayDirection = "top-bottom"
 
 	$: newButtonClass = oldUI ? "" : "rounded-full bg-slate-200 border-gray-800 border-2";
 
 	let message = "";
+	let messageContainer;
 
 	let currentBoard = "general";
 	let username = 'anon';
@@ -75,9 +77,28 @@
 	.subscribe()
 
 	messageStore.subscribe((data) => {
-		//messages = data
-		messages = data.sort((a,b) => a.sent_at - b.sent_at).reverse();
+		if (messageContainer && displayDirection == "bottom-top") {
+
+			messages = data.sort((a,b) => a.sent_at - b.sent_at);
+
+			messageContainer.scrollTop = messageContainer.scrollHeight;
+		}else{
+			messages = data.sort((a,b) => a.sent_at - b.sent_at).reverse();
+		}	
 	})
+
+	$ : messageStore.subscribe((data) => {
+		if (messageContainer && displayDirection == "bottom-top") {
+			messages = data.sort((a,b) => a.sent_at - b.sent_at);
+
+			messageContainer.scrollTop = messageContainer.scrollHeight;
+
+		}else{
+			messages = data.sort((a,b) => a.sent_at - b.sent_at).reverse();
+			
+		}	
+	})
+
 	
 	const sendMessage = async(message) => {
 		if (message === "") {
@@ -133,8 +154,10 @@
 		showSettings = false
 	}}>
 		<button on:click|stopPropagation>
-			<Settings {displayOption} {oldUI} on:displayOption={(e) => {
+			<Settings {displayOption} {displayDirection} {oldUI} on:displayOption={(e) => {
 				displayOption = e.detail;
+			}} on:displayDirection={(e) => {
+				displayDirection = e.detail
 			}}/>
 		</button>
 	</button>	
@@ -198,18 +221,19 @@
 						<h1 class="text-xl font-semibold py-2">
 							messages:
 						</h1>
-						<div class="h-[75vh] overflow-y-auto overflow-x-scroll">
+						<div class="h-[75vh] overflow-y-auto overflow-x-scroll" bind:this={messageContainer}>
+					
 							{#each messages as message}
-							{#if message.board == currentBoard}
-								<div class="w-[70vw]">
-									{#if displayOption == "time-message"}
-									{timeConverter(message.sent_at)} - {message.sender}: {message.content}
-									{/if}
-									{#if displayOption == "message-time"}
-									{message.sender}: {message.content} @ {timeConverter(message.sent_at)}
-									{/if}
-								</div>
-							{/if}
+								{#if message.board == currentBoard} 
+									<div class="w-[70vw]"> 
+										{#if displayOption == "time-message"}
+										{timeConverter(message.sent_at)} - {message.sender}: {message.content}
+										{/if}
+										{#if displayOption == "message-time"}
+										{message.sender}: {message.content} @ {timeConverter(message.sent_at)}
+										{/if}
+									</div>
+								{/if}
 							{/each}
 						</div>
 						
