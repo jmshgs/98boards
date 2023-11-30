@@ -77,28 +77,8 @@
 	.subscribe()
 
 	messageStore.subscribe((data) => {
-		if (messageContainer && displayDirection == "bottom-top") {
-
-			messages = data.sort((a,b) => a.sent_at - b.sent_at);
-
-			messageContainer.scrollTop = messageContainer.scrollHeight;
-		}else{
-			messages = data.sort((a,b) => a.sent_at - b.sent_at).reverse();
-		}	
+		messages = data.sort((a,b) => a.sent_at - b.sent_at).reverse();	
 	})
-
-	$ : messageStore.subscribe((data) => {
-		if (messageContainer && displayDirection == "bottom-top") {
-			messages = data.sort((a,b) => a.sent_at - b.sent_at);
-
-			messageContainer.scrollTop = messageContainer.scrollHeight;
-
-		}else{
-			messages = data.sort((a,b) => a.sent_at - b.sent_at).reverse();
-			
-		}	
-	})
-
 	
 	const sendMessage = async(message) => {
 		if (message === "") {
@@ -221,8 +201,7 @@
 						<h1 class="text-xl font-semibold py-2">
 							messages:
 						</h1>
-						<div class="h-[75vh] overflow-y-auto overflow-x-scroll" bind:this={messageContainer}>
-					
+						<div class="h-[75vh] overflow-y-auto overflow-x-scroll flex flex-col-reverse align-bottom" bind:this={messageContainer}>
 							{#each messages as message}
 								{#if message.board == currentBoard} 
 									<div class="w-[70vw]"> 
