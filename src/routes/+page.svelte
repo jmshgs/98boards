@@ -11,11 +11,11 @@
 	let oldUI = false;
 	let timeFirst = true;
 	let messagesTop = true;
+	let themeColor = 'light';
 
 	$: newButtonClass = oldUI ? "" : "rounded-full bg-slate-200 border-gray-800 border-2";
 
 	let message = "";
-	let messageContainer;
 
 	let currentBoard = "general";
 	let username = 'anon';
@@ -133,7 +133,7 @@
 		showSettings = false
 	}}>
 		<button on:click|stopPropagation>
-			<Settings bind:messagesTop={messagesTop} bind:timeFirst={timeFirst} {oldUI}/>
+			<Settings bind:messagesTop={messagesTop} bind:timeFirst={timeFirst} bind:themeColor={themeColor} {oldUI}/>
 		</button>
 	</button>	
 	{/if}
