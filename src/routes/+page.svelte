@@ -9,8 +9,8 @@
 	import Settings from '$lib/components/settings.svelte'
 
 	let oldUI = false;
-	let displayOption = "time-message";
-	let displayDirection = "top-bottom"
+	let timeFirst = true;
+	let messagesTop = true;
 
 	$: newButtonClass = oldUI ? "" : "rounded-full bg-slate-200 border-gray-800 border-2";
 
@@ -35,9 +35,7 @@
 		"gaming",
 		'random',
 		'school'
-	];
-
-	
+	];	
 
 	let promise = new Promise(() => {});
 	onMount(() => {
@@ -112,6 +110,7 @@
 <svelte:window on:keypress={(e) => {
 	if (e.key == "Escape") {
 		showLogin = false;
+		showSettings = false;
 	}
 }} />
 {#if oldUI}
@@ -134,11 +133,7 @@
 		showSettings = false
 	}}>
 		<button on:click|stopPropagation>
-			<Settings {displayOption} {displayDirection} {oldUI} on:displayOption={(e) => {
-				displayOption = e.detail;
-			}} on:displayDirection={(e) => {
-				displayDirection = e.detail
-			}}/>
+			<Settings bind:messagesTop={messagesTop} bind:timeFirst={timeFirst} {oldUI}/>
 		</button>
 	</button>	
 	{/if}
@@ -201,14 +196,13 @@
 						<h1 class="text-xl font-semibold py-2">
 							messages:
 						</h1>
-						<div class="h-[75vh] overflow-y-auto overflow-x-scroll flex flex-col-reverse align-bottom" bind:this={messageContainer}>
+						<div class="h-[75vh] overflow-y-auto overflow-x-scroll flex {messagesTop ? "flex-col" : "flex-col-reverse align-bottom"}">
 							{#each messages as message}
 								{#if message.board == currentBoard} 
 									<div class="w-[70vw]"> 
-										{#if displayOption == "time-message"}
+										{#if timeFirst}
 										{timeConverter(message.sent_at)} - {message.sender}: {message.content}
-										{/if}
-										{#if displayOption == "message-time"}
+										{:else}
 										{message.sender}: {message.content} @ {timeConverter(message.sent_at)}
 										{/if}
 									</div>

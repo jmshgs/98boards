@@ -3,68 +3,35 @@
 
     const dispatch = createEventDispatcher();
 
-    export let displayOption;
-    export let displayDirection;
+    export let timeFirst;
+    export let messagesTop;
 
     export let oldUI;
-
 
     $: newModalClass = oldUI ? "" : "rounded-3xl bg-white border-gray-400 border-2 shadow-md";
 
 </script>
 
-<div class="w-[50rem] p-4 sm:p-6 md:p-8  text-left {newModalClass}">
-
+<div class="w-[50rem] p-4 sm:p-6 md:p-8 text-left {newModalClass}">
     <form class="space-y-6 mb-4"> 
-        <h5 class="text-3xl font-bold text-black dark:text-white">Settings</h5>
+        <h5 class="text-3xl font-bold text-black dark:text-white">settings</h5>
     </form>
-    <div>
-        {#if displayOption == "time-message"}
-            <div class="flex items-center space-x-4">
-                <p class="text-sm font-medium text-black dark:text-white"> Show messages as: time - user: message </p>
-                <input type="text" value="2:00 - ian: hello" readonly class="bg-gray-50 border-gray-300 text-black rounded-xl w-[30vw] p-2.5 m-1 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 border-2 dark:text-white focus:outline-none">
-                <input type="checkbox" checked class="form-checkbox h-5 w-5" on:click={() => 
-                    {
-                        displayOption = "message-time";
-                        dispatch("displayOption", displayOption);
-                    }}>
-            </div>
-        {:else}
-            <div class="flex items-center space-x-4">
-                <p class="text-sm font-medium text-black dark:text-white"> Show messages as: user: message @ time </p>
-                <input type="text" value="ian: hello @ 2:00" readonly class="bg-gray-50 border-gray-300 text-black rounded-xl w-[30vw] p-2.5 m-1 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 border-2 dark:text-white focus:outline-none">
-                <input type="checkbox" checked class="form-checkbox h-5 w-5" on:click={() => 
-                    {
-                        displayOption = "time-message";
-                        dispatch("displayOption", displayOption);
-                    }}>
-            </div>
-        {/if}
-        {#if displayDirection == "top-bottom"}
-            <div class="flex items-center space-x-4">
-                <p class="text-sm font-medium text-black dark:text-white"> Show new messages at the top </p>
-                <input type="text" value="2. 2:01 - james: hi ian" readonly class="bg-gray-50 border-gray-300 text-black rounded-xl w-[30vw] p-2.5 m-1 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 border-2 dark:text-white focus:outline-none">
-                <input type="text" value="1. 2:00 - ian: hello" readonly class="bg-gray-50 border-gray-300 text-black rounded-xl w-[30vw] p-2.5 m-1 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 border-2 dark:text-white focus:outline-none">
-                <input type="checkbox" checked class="form-checkbox h-5 w-5" on:click={() => 
-                    {
-                        displayDirection = "bottom-top";
-                        dispatch("displayDirection", displayDirection);
-                    }}>
-            </div>
+    <div class="flex flex-row justify-start space-x-20">
+        <div class="flex flex-col">
+            <label for="messageDirection" class="text-lg font-bold text-black dark:text-white">message direction</label>
+            <select id="messageDirection" name="messageDirection" class="w-64 h-10 mt-2 rounded-xl border-gray-400 border-2 shadow-md" bind:value={messagesTop}>
+                <option value={true}>top to bottom</option>
+                <option value={false}>bottom to top</option>
+            </select>
+        </div>
 
-        {:else}
-            <div class="flex items-center space-x-4">
-                <p class="text-sm font-medium text-black dark:text-white"> Show new messages at the bottom </p>
-                <input type="text" value="1. 2:00 - ian: hello" readonly class="bg-gray-50 border-gray-300 text-black rounded-xl w-[30vw] p-2.5 m-1 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 border-2 dark:text-white focus:outline-none">
-                <input type="text" value="2. 2:01 - james: hi ian" readonly class="bg-gray-50 border-gray-300 text-black rounded-xl w-[30vw] p-2.5 m-1 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 border-2 dark:text-white focus:outline-none">
-                <input type="checkbox" checked class="form-checkbox h-5 w-5" on:click={() => 
-                    {
-                        displayDirection = "top-bottom";
-                        dispatch("displayDirection", displayDirection);
-                    }}>
-            </div>
-
-        {/if}
+        <div class="flex flex-col">
+            <label for="messageFormat" class="text-lg font-bold text-black dark:text-white">message format</label>
+            <select id="messageFormat" name="messageFormat" class="w-64 h-10 mt-2 rounded-xl border-gray-400 border-2 shadow-md" bind:value={timeFirst}>
+                <option value={true}>time - user: message</option>
+                <option value={false}>user: message @ time</option>
+            </select>
+        </div>
     </div>
 </div>
 
