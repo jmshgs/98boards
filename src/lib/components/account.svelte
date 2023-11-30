@@ -104,7 +104,7 @@
 			<p class="dark:text-white text-sm text-center p-3 font-medium">
 				or
 			</p>
-			<button type="button" class="w-full transition-all hover:scale-102 font-medium hover:bg-slate-200 hover:dark:bg-slate-300 text-sm px-5 py-2.5 text-center {themeColor=='dark' || themeColor=="discord-blue" ? newDarkGooogleButtonClass: newGoogleButtonClass}" on:click={() => {
+			<button type="button" class="w-full transition-all hover:scale-102 font-medium {themeColor=='dark' || themeColor=='discord-blue' ? "" : "bg-slate-100"} hover:bg-slate-200 hover:dark:bg-slate-300 text-sm px-5 py-2.5 text-center {themeColor=='dark' || themeColor=="discord-blue" ? newDarkGooogleButtonClass: newGoogleButtonClass}" on:click={() => {
 				//signInWithGoogle()
 			}}>
                 {#if !oldUI}
