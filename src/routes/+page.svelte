@@ -11,9 +11,10 @@
 	let oldUI = false;
 	let timeFirst = true;
 	let messagesTop = true;
-	let themeColor = 'light';
+	let themeColor = true;
 
-	$: newButtonClass = oldUI ? "" : "rounded-full bg-slate-200 border-gray-800 border-2";
+	$: themes = (themeColor && !oldUI) ? "text-black" : (!oldUI ? "bg-black text-white": "");
+	$: newButtonClass = `${oldUI ? "" : "rounded-full bg-slate-200 border-gray-800 border-2"} ${themes}`;
 
 	let message = "";
 
@@ -116,9 +117,9 @@
 {#if oldUI}
 <link rel="stylesheet" href="https://unpkg.com/98.css" />
 {/if}
-<main class="font-apple h-screen w-screen {oldUI ? "bg-gray-300" : "bg-slate-50"} dark:bg-gray-800 text-slate-800 dark:text-white">
+<main class="font-apple h-screen w-screen {oldUI ? "bg-gray-300" : "bg-slate-50"} {themes}">
 	{#if showLogin}
-	<button class="z-10 fixed flex h-screen w-screen items-center justify-center bg-gray-700/25"
+	<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themes}}"
 	on:click={() => {
 		showLogin = false
 	}}>
@@ -128,7 +129,7 @@
 	</button>	
 	{/if}
 	{#if showSettings}
-	<button class="z-10 fixed flex h-screen w-screen items-center justify-center bg-gray-700/25"
+	<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themes}"
 	on:click={() => {
 		showSettings = false
 	}}>
@@ -139,10 +140,10 @@
 	{/if}
 
 	<div class="space-x-10 flex flex-row" class:blur-md={showLogin || showSettings}>
-		<aside class="font-sans lg:w-64 w-96 h-screen transition-transform bg-gray-100 dark:bg-gray-900" class:window={oldUI} aria-label="Sidebar">
+		<aside class="font-sans lg:w-64 w-96 h-screen transition-transform bg-gray-100 {themes}" class:window={oldUI} aria-label="Sidebar">
 			<div class="h-full px-3 overflow-y-auto flex-col">
 				<div class="justify-start items-start">
-					<h1 class="w-full pt-4 text-xl font-semibold dark:text-white" class:px-4={!oldUI}>
+					<h1 class="w-full pt-4 text-xl font-semibold {themes}" class:px-4={!oldUI}>
 						boards:
 					</h1>
 					<ul class="list-none px-4 py-2 space-y-1.5" class:tree-view={oldUI}>
@@ -220,7 +221,7 @@
 								message = "";
 							}
 						} 
-						} type="text" name="message" id="message" class="bg-gray-50 border-gray-300 text-black rounded-xl w-[71.5vw] p-2.5 m-1 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 border-2 dark:text-white focus:outline-none" placeholder="say hello, {username}" bind:value={message}>
+						} type="text" name="message" id="message" class="bg-gray-50 border-gray-300 text-black rounded-xl w-[71.5vw] p-2.5 m-1 {themes} focus:outline-none" placeholder="say hello, {username}" bind:value={message}>
 				</div>
 			</div>
 		</div>
