@@ -36,7 +36,7 @@
         <div class="flex flex-col">
             <label for="theme" class="text-lg font-bold {themes}">theme</label>
             <select id="theme" name="theme" class='w-64 h-10 mt-2 rounded-xl border-gray-400 border-2 shadow-md {themes}' bind:value={themeColor}>
-                <option value={true}>light</option>
+                <option value={true}>light</option> 
                 <option value={false}>dark</option>
             </select>
         </div>

@@ -48,7 +48,6 @@
 
 	import { onMount } from 'svelte'
 
-	export let titleText;
 	let questionText;
 	let shortText;
 

@@ -12,9 +12,9 @@
 	let timeFirst = true;
 	let messagesTop = true;
 	let themeColor = true;
-
-	$: themes = (themeColor && !oldUI) ? "text-black" : (!oldUI ? "bg-black text-white": "");
-	$: newButtonClass = `${oldUI ? "" : "rounded-full bg-slate-200 border-gray-800 border-2"} ${themes}`;
+	$: maybe = themeColor ? "bg-gray-50": ""
+	$: themes = (!oldUI && themeColor) ? "text-black" : (!oldUI ? "bg-black text-white" : "");
+	$: newButtonClass = `${oldUI ? "" : "rounded-full border-gray-800 border-2" } ${themes}`
 
 	let message = "";
 
@@ -119,12 +119,12 @@
 {/if}
 <main class="font-apple h-screen w-screen {oldUI ? "bg-gray-300" : "bg-slate-50"} {themes}">
 	{#if showLogin}
-	<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themes}}"
+	<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themes}"
 	on:click={() => {
 		showLogin = false
 	}}>
 		<button on:click|stopPropagation>
-			<Account {oldUI} {username} titleText="Sign in to your account" />
+			<Account {oldUI} {username} titleText="Sign in to your account"/>
 		</button>
 	</button>	
 	{/if}
@@ -139,11 +139,11 @@
 	</button>	
 	{/if}
 
-	<div class="space-x-10 flex flex-row" class:blur-md={showLogin || showSettings}>
-		<aside class="font-sans lg:w-64 w-96 h-screen transition-transform bg-gray-100 {themes}" class:window={oldUI} aria-label="Sidebar">
-			<div class="h-full px-3 overflow-y-auto flex-col">
+	<div class="space-x-10 flex flex-row {themes}" class:blur-md={showLogin || showSettings}> 
+		<aside class="font-sans lg:w-64 w-96 h-screen transition-transform bg-gray-100" class:window={oldUI} aria-label="Sidebar">
+			<div class="h-full px-3 overflow-y-auto flex-col {themes}">
 				<div class="justify-start items-start">
-					<h1 class="w-full pt-4 text-xl font-semibold {themes}" class:px-4={!oldUI}>
+					<h1 class="w-full pt-4 text-xl font-semibold" class:px-4={!oldUI}>
 						boards:
 					</h1>
 					<ul class="list-none px-4 py-2 space-y-1.5" class:tree-view={oldUI}>
@@ -165,19 +165,19 @@
 					</ul>
 				</div>
 				<div class="flex items-end">
-					<button class="justify-center flex w-full p-2 m-2 {newButtonClass}" on:click={() => {
+					<button class="justify-center flex w-full p-2 m-2 {themeColor ? "bg-slate-200": ""} {newButtonClass}" on:click={() => {
 						oldUI = !oldUI;
 					}}>
 						{oldUI ? "new ui" : "old ui"}
 					</button>
 				</div>
 				<div class="flex items-end">
-					<button class="justify-center flex w-full p-2 m-2 {newButtonClass}" on:click={() => {showSettings=true;}}>
+					<button class="justify-center flex w-full p-2 m-2 {themeColor ? "bg-slate-200": ""}  {newButtonClass}" on:click={() => {showSettings=true;}}>
 						settings
 					</button>
 				</div>
 				<div class="flex items-end">
-					<button class="justify-center flex w-full p-2 m-2 {newButtonClass}" on:click={() => {
+					<button class="justify-center flex w-full p-2 m-2 {themeColor ? "bg-slate-200": ""} {newButtonClass}" on:click={() => {
 						showLogin = true;
 					}}>
 						account
@@ -213,7 +213,7 @@
 						
 					</div>
 				</div>
-				<div class="overflow-y-auto overflow-x-scroll py-4 space-x-4 flex items-center justify-center">
+				<div class="overflow-y-auto overflow-x-scroll py-4 space-x-4 flex items-center justify-center {themes}">
 					<input on:keypress={
 						(e) => {
 							if (e.key === "Enter") {
@@ -221,7 +221,7 @@
 								message = "";
 							}
 						} 
-						} type="text" name="message" id="message" class="bg-gray-50 border-gray-300 text-black rounded-xl w-[71.5vw] p-2.5 m-1 {themes} focus:outline-none" placeholder="say hello, {username}" bind:value={message}>
+						} type="text" name="message" id="message" class="border-gray-300 {maybe} {themes} rounded-xl w-[71.5vw] p-2.5 m-1 focus:outline-none" placeholder="say hello, {username}" bind:value={message}>
 				</div>
 			</div>
 		</div>
