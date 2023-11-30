@@ -15,7 +15,8 @@
 
 	let themeColor = "auto";
 	let themesCSS = ""
-    //if dark mode is on this is true else false
+
+	let fontCSS = "font-apple"
 
 	$: newButtonClass = `${oldUI ? "" : "rounded-full border-gray-800 border-2" } ${themesCSS}`
 
@@ -120,14 +121,14 @@
 {#if oldUI}
 <link rel="stylesheet" href="https://unpkg.com/98.css" />
 {/if}
-<main class="font-apple h-screen w-screen {oldUI ? "bg-gray-300" : "bg-slate-50"} {themesCSS}">
+<main class="{fontCSS} h-screen w-screen {oldUI ? "bg-gray-300" : "bg-slate-50"} {themesCSS}">
 	{#if showLogin}
 	<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
 	on:click={() => {
 		showLogin = false
 	}}>
 		<button on:click|stopPropagation>
-			<Account {oldUI} {username} titleText="Sign in to your account"/>
+			<Account {oldUI} {themesCSS} {themeColor} {username} titleText="Sign in to your account"/>
 		</button>
 	</button>	
 	{/if}
@@ -137,13 +138,13 @@
 		showSettings = false
 	}}>
 		<button on:click|stopPropagation>
-			<Settings bind:messagesTop={messagesTop} bind:timeFirst={timeFirst} bind:themeColor={themeColor} bind:themesCSS={themesCSS} {oldUI}/>
+			<Settings bind:messagesTop={messagesTop} bind:timeFirst={timeFirst} bind:themeColor={themeColor} bind:themesCSS={themesCSS} bind:fontCSS={fontCSS} {oldUI}/>
 		</button>
 	</button>	
 	{/if}
 
 	<div class="space-x-10 flex flex-row {themesCSS}" class:blur-md={showLogin || showSettings}> 
-		<aside class="font-sans lg:w-64 w-96 h-screen transition-transform bg-gray-100" class:window={oldUI} aria-label="Sidebar">
+		<aside class="{fontCSS} lg:w-64 w-96 h-screen transition-transform bg-gray-100" class:window={oldUI} aria-label="Sidebar">
 			<div class="h-full px-3 overflow-y-auto flex-col {themesCSS}">
 				<div class="justify-start items-start">
 					<h1 class="w-full pt-4 text-xl font-semibold" class:px-4={!oldUI}>
