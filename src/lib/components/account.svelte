@@ -48,9 +48,6 @@
 
 	import { onMount } from 'svelte'
 
-	let questionText;
-	let shortText;
-
 	let email = "";
 	let username = "";
 	let password = "";
