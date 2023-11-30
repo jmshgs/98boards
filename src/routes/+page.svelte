@@ -9,10 +9,14 @@
 	import Settings from '$lib/components/settings.svelte'
 
 	let oldUI = false;
+
 	let timeFirst = true;
 	let messagesTop = true;
+
 	let themeColor = "auto";
 	let themesCSS = ""
+    //if dark mode is on this is true else false
+
 	$: newButtonClass = `${oldUI ? "" : "rounded-full border-gray-800 border-2" } ${themesCSS}`
 
 	let message = "";
@@ -164,19 +168,19 @@
 					</ul>
 				</div>
 				<div class="flex items-end">
-					<button class="justify-center flex w-full p-2 m-2 {themeColor ? "bg-slate-200": ""} {newButtonClass}" on:click={() => {
+					<button class="justify-center flex w-full p-2 m-2 {themeColor=='light' ? "bg-slate-200": ""} {newButtonClass}" on:click={() => {
 						oldUI = !oldUI;
 					}}>
 						{oldUI ? "new ui" : "old ui"}
 					</button>
 				</div>
 				<div class="flex items-end">
-					<button class="justify-center flex w-full p-2 m-2 {themeColor ? "bg-slate-200": ""}  {newButtonClass}" on:click={() => {showSettings=true;}}>
+					<button class="justify-center flex w-full p-2 m-2 {themeColor=='light' ? "bg-slate-200": ""}  {newButtonClass}" on:click={() => {showSettings=true;}}>
 						settings
 					</button>
 				</div>
 				<div class="flex items-end">
-					<button class="justify-center flex w-full p-2 m-2 {themeColor ? "bg-slate-200": ""} {newButtonClass}" on:click={() => {
+					<button class="justify-center flex w-full p-2 m-2 {themeColor=='light' ? "bg-slate-200": ""} {newButtonClass}" on:click={() => {
 						showLogin = true;
 					}}>
 						account
