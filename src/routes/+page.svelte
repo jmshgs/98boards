@@ -7,6 +7,8 @@
 	import { onMount } from 'svelte';
 	import Account from '$lib/components/account.svelte'
 	import Settings from '$lib/components/settings.svelte'
+	import Message from '$lib/components/message.svelte';
+	import Sidebar from '$lib/components/sidebar.svelte';
 
 	let oldUI = false;
 
@@ -144,51 +146,7 @@
 	{/if}
 
 	<div class="space-x-10 flex flex-row {themesCSS}" class:blur-md={showLogin || showSettings}> 
-		<aside class="{fontCSS} lg:w-64 w-96 h-screen transition-transform bg-gray-100" class:window={oldUI} aria-label="Sidebar">
-			<div class="h-full px-3 overflow-y-auto flex-col {themesCSS}">
-				<div class="justify-start items-start">
-					<h1 class="w-full pt-4 text-xl font-semibold" class:px-4={!oldUI}>
-						boards:
-					</h1>
-					<ul class="list-none px-4 py-2 space-y-1.5" class:tree-view={oldUI}>
-						{#each boards as board}
-						<li>
-							{#if !oldUI}
-							<button class="decoration-none transition-all hover:scale-[105%]" class:scale-[105%]={currentBoard == board} class:text-blue-800={currentBoard == board} on:click={() => {
-								currentBoard = board;
-							}}>{board}</button>
-							{:else}
-							<!-- svelte-ignore a11y-click-events-have-key-events -->
-							<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-							<p class="decoration-none transition-all hover:scale-[105%] hover:pl-2" class:scale-[102%]={currentBoard == board} class:font-bold={currentBoard == board} class:pl-0.5={currentBoard == board} on:click={() => {
-								currentBoard = board;
-							}}>{board}</p>
-							{/if}
-						</li>
-						{/each}
-					</ul>
-				</div>
-				<div class="flex items-end">
-					<button class="justify-center flex w-full p-2 m-2 {themeColor=='light' ? "bg-slate-200": ""} {newButtonClass}" on:click={() => {
-						oldUI = !oldUI;
-					}}>
-						{oldUI ? "new ui" : "old ui"}
-					</button>
-				</div>
-				<div class="flex items-end">
-					<button class="justify-center flex w-full p-2 m-2 {themeColor=='light' ? "bg-slate-200": ""}  {newButtonClass}" on:click={() => {showSettings=true;}}>
-						settings
-					</button>
-				</div>
-				<div class="flex items-end">
-					<button class="justify-center flex w-full p-2 m-2 {themeColor=='light' ? "bg-slate-200": ""} {newButtonClass}" on:click={() => {
-						showLogin = true;
-					}}>
-						account
-					</button>
-				</div>
-			</div>
-		</aside>
+		<Sidebar {boards} {currentBoard} {oldUI} {showLogin} {showSettings} {fontCSS} {themeColor} {themesCSS} {newButtonClass}/>
 		{#await promise}
 		<div class="flex w-screen h-screen justify-center items-center">
 			<Spinner color="blue" />
@@ -204,25 +162,7 @@
 						<div class="h-[75vh] overflow-y-auto overflow-x-scroll flex {messagesTop ? "flex-col" : "flex-col-reverse align-bottom"}">
 							{#each messages as message}
 								{#if message.board == currentBoard} 
-									<div class="w-[70vw]"> 
-										{#if timeFirst}
-										{#if message.content.includes("https://")}
-										<a href={message.content} target="_blank"> 
-											{timeConverter(message.sent_at)} - {message.sender}: <span class="text-blue-500 hover:text-blue-700 no-underline">{message.content}</span>
-										</a>
-									{:else}
-										{timeConverter(message.sent_at)} - {message.sender}: {message.content}
-									{/if}
-									{:else}
-									{#if message.content.includes("https://")}
-										<a href={message.content} target="_blank"> 
-											{message.sender}: <span class="text-blue-500 hover:text-blue-700 no-underline">{message.content}</span> @ {timeConverter(message.sent_at)}
-										</a>
-									{:else}
-										{message.sender}: {message.content} @ {timeConverter(message.sent_at)}
-									{/if}
-									{/if}
-									</div>
+									<Message {timeFirst} {message} />
 								{/if}
 							{/each}
 						</div>
