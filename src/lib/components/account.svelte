@@ -1,23 +1,33 @@
 <script>
-    import { createUser, insertUsername, fetchUser, validateUser } from '$lib/supabaseClient.js';  
+    import { createUser, insertUsername, fetchUser, fetchUsername, loginUser } from '$lib/supabaseClient.js';  
     import { createEventDispatcher } from 'svelte';
 
     export let oldUI = false;
 	export let themesCSS;
 	export let themeColor;
+
   
     const dispatch = createEventDispatcher();
 
 	async function login() {
-      let user = {
-        email: email,
-        password: password
-      };
+		let user = {
+			email: email,
+			password: password
+		};
 
       try {
-        const response = await validateUser(user);
+        const response = await loginUser(user);
         fetchUser()
-        console.log('Supabase Response:', response);
+		.then(data => {
+			if (data) {
+				const id = data.id
+				fetchUsername(id)
+				.then(data => {
+					console.log(data)
+					username = data[0].username;
+				})
+			}
+		})
 
         if (response.user) {
           console.log('Logged in successfully!');
@@ -34,7 +44,8 @@
 
     async function signup() {
         try {
-            const response = await createUser(email,username,password);
+			username = typedUsername;
+            const response = await createUser(email, username, password);
 
             if (response && response.user) {
                 console.log('Account created successfully!');
@@ -51,7 +62,8 @@
 	import { onMount } from 'svelte'
 
 	let email = "";
-	let username = "";
+	let typedUsername = "";
+	export let username = "";
 	let password = "";
 	let errorMessage = "";
 
@@ -85,7 +97,7 @@
 		</div>
 		<div>
 			<label for="username" class="block mb-2 text-sm font-medium {themesCSS}">username</label>
-			<input type="text" name="username" id="username" class="bg-gray-50 border border-gray-300 text-black text-sm rounded-xl block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white focus:border-blue-600 focus:dark:border-blue-400 focus:border-2 focus:outline-none" placeholder="mycoolusername" bind:value={username}>
+			<input type="text" name="username" id="username" class="bg-gray-50 border border-gray-300 text-black text-sm rounded-xl block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white focus:border-blue-600 focus:dark:border-blue-400 focus:border-2 focus:outline-none" placeholder="mycoolusername" bind:value={typedUsername}>
 			{#if errorMessage != ""}
 				<p class="text-red-500 dark:text-red-400 font-medium text-xs mr-auto pt-2">{errorMessage}</p>
 			{/if}

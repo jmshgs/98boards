@@ -19,15 +19,6 @@
             case "dark":
                 themesCSS = "bg-gray-950 text-gray-50"
                 break
-            case "sky-blue":
-                themesCSS = "bg-blue-100 text-black"
-                break
-            case "discord-blue":
-                themesCSS = "bg-blue-800 text-gray-50"
-                break
-            case 'gray':
-                themesCSS = "bg-gray-200 text-gray-800"
-                break
         }
         console.log(themesCSS)
     }
@@ -52,8 +43,8 @@
             <div class="flex flex-col">
                 <label for="messageFormat" class="text-lg font-bold {themesCSS}">message format</label>
                 <select id="messageFormat" name="messageFormat" class="w-64 h-10 mt-2 rounded-xl border-gray-400 border-2 shadow-md {themesCSS}" bind:value={timeFirst}>
-                    <option value={true}>time - user: message</option>
-                    <option value={false}>user: message @ time</option>
+                    <option value={false}>time - user: message</option>
+                    <option value={true}>user: message - time</option>
                 </select>
             </div>
         </div>
@@ -66,9 +57,6 @@
                     <option value={"auto"}>automatic</option>
                     <option value={"light"}>light</option> 
                     <option value={"dark"}>dark</option>
-                    <option value={'sky-blue'}>sky blue</option>
-                    <option value={'discord-blue'}>discord blue</option>
-                    <option value={'gray'}>gray</option>
                 </select>
             </div>
 

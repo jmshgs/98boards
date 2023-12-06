@@ -7,12 +7,13 @@
 	import { onMount } from 'svelte';
 	import Account from '$lib/components/account.svelte'
 	import Settings from '$lib/components/settings.svelte'
-	import Message from '$lib/components/message.svelte';
 	import Sidebar from '$lib/components/sidebar.svelte';
+	import MessageWindow from '$lib/components/message-window.svelte';
+	import MessageInput from '$lib/components/message-input.svelte';
 
 	let oldUI = false;
 
-	let timeFirst = true;
+	let timeFirst = false;
 	let messagesTop = true;
 
 	let themeColor = "auto";
@@ -52,19 +53,22 @@
 				.select()
 			messageStore.set(data.reverse());
 		})()
-		let id;
-		fetchUser()
-		.then(data => {
-			id = data.id
-			console.log("got the data")
-			console.log(id)
-			fetchUsername(id)
+		if (supabase.user) {
+			let id;
+			fetchUser()
 			.then(data => {
-				console.log(data)
-				username = data[0].username;
+				if (data) {
+					id = data.id
+					console.log("got the data")
+					console.log(id)
+					fetchUsername(id)
+					.then(data => {
+						console.log(data)
+						username = data[0].username;
+					})
+				}
 			})
-		})
-
+		}
 	})
 
 	
@@ -124,16 +128,18 @@
 <link rel="stylesheet" href="https://unpkg.com/98.css" />
 {/if}
 <main class="{fontCSS} h-screen w-screen {oldUI ? "bg-gray-300" : "bg-slate-50"} {themesCSS}">
+	<!-- account modal -->
 	{#if showLogin}
 	<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
 	on:click={() => {
 		showLogin = false
 	}}>
 		<button on:click|stopPropagation>
-			<Account {oldUI} {themesCSS} {themeColor} {username} titleText="Sign in to your account"/>
+			<Account {oldUI} {themesCSS} {themeColor} bind:username={username}/>
 		</button>
 	</button>	
 	{/if}
+	<!-- settings modal -->
 	{#if showSettings}
 	<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
 	on:click={() => {
@@ -146,7 +152,7 @@
 	{/if}
 
 	<div class="space-x-10 flex flex-row {themesCSS}" class:blur-md={showLogin || showSettings}> 
-		<Sidebar {boards} {currentBoard} {oldUI} {showLogin} {showSettings} {fontCSS} {themeColor} {themesCSS} {newButtonClass}/>
+		<Sidebar {boards} bind:currentBoard={currentBoard} bind:oldUI={oldUI} bind:showLogin={showLogin} bind:showSettings={showSettings} {fontCSS} {themeColor} {themesCSS} {newButtonClass}/>
 		{#await promise}
 		<div class="flex w-screen h-screen justify-center items-center">
 			<Spinner color="blue" />
@@ -154,31 +160,8 @@
 		{:then}
 		<div class="px-4 justify-start flex">
 			<div class="lg:w-[75vw] w-[60vw] h-[80vh] justify-center p-4">
-				<div class:window={oldUI}>
-					<div class="px-4">
-						<h1 class="text-xl font-semibold py-2">
-							messages:
-						</h1>
-						<div class="h-[75vh] overflow-y-auto overflow-x-scroll flex {messagesTop ? "flex-col" : "flex-col-reverse align-bottom"}">
-							{#each messages as message}
-								{#if message.board == currentBoard} 
-									<Message {timeFirst} {message} />
-								{/if}
-							{/each}
-						</div>
-						
-					</div>
-				</div>
-				<div class="overflow-y-auto overflow-x-scroll py-4 space-x-4 flex items-center justify-center {themesCSS}">
-					<input on:keypress={
-						(e) => {
-							if (e.key === "Enter") {
-								sendMessage(message);
-								message = "";
-							}
-						} 
-						} type="text" name="message" id="message" class="border-gray-300 {themesCSS} rounded-xl w-[71.5vw] p-2.5 m-1 focus:outline-none" placeholder="say hello, {username}" bind:value={message}>
-				</div>
+				<MessageWindow {oldUI} {messages} {currentBoard} {messagesTop} {timeFirst}/>
+				<MessageInput {message} {username} {themesCSS} {sendMessage}/>
 			</div>
 		</div>
 		{/await}

@@ -39,7 +39,7 @@ export const createUser = async (email, username, password) => {
     }
 };
 
-export const validateUser = async (user) => {
+export const loginUser = async (user) => {
     try{
         const { data, error } = await supabase.auth.signInWithPassword({
             email: user.email,
@@ -58,7 +58,6 @@ export const validateUser = async (user) => {
 
 export const fetchUser = async () => {
     const { data: { user } } = await supabase.auth.getUser()
-    console.log(user)
     return user
 }
 

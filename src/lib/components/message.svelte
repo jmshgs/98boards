@@ -17,7 +17,7 @@
 {:else}
 {#if message.content.includes("https://")}
     <a href={message.content} target="_blank"> 
-        {message.sender}: <span class="text-blue-500 hover:text-blue-700 no-underline">{message.content}</span> @ {timeConverter(message.sent_at)}
+        {message.sender}: <span class="text-blue-500 hover:text-blue-700 no-underline">{message.content}</span> - {timeConverter(message.sent_at)}
     </a>
 {:else}
     {message.sender}: {message.content} @ {timeConverter(message.sent_at)}
