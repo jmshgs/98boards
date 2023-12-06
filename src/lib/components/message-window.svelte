@@ -5,7 +5,7 @@
     export let messages;
     export let currentBoard;
     export let messagesTop;
-    export let timeFirst;
+    export let dashMessage;
 </script>
 
 <div class:window={oldUI}>
@@ -16,7 +16,7 @@
         <div class="h-[75vh] overflow-y-auto overflow-x-scroll flex {messagesTop ? "flex-col" : "flex-col-reverse align-bottom"}">
             {#each messages as message}
                 {#if message.board == currentBoard} 
-                    <Message {timeFirst} {message} />
+                    <Message {dashMessage} {message} />
                 {/if}
             {/each}
         </div>

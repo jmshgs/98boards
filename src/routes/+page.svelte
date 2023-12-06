@@ -13,7 +13,7 @@
 
 	let oldUI = false;
 
-	let timeFirst = false;
+	let dashMessage = false;
 	let messagesTop = true;
 
 	let themeColor = "auto";
@@ -147,7 +147,7 @@
 		showSettings = false
 	}}>
 		<button on:click|stopPropagation>
-			<Settings bind:messagesTop={messagesTop} bind:timeFirst={timeFirst} bind:themeColor={themeColor} bind:themesCSS={themesCSS} bind:fontCSS={fontCSS} {oldUI}/>
+			<Settings bind:messagesTop={messagesTop} bind:dashMessage={dashMessage} bind:themeColor={themeColor} bind:themesCSS={themesCSS} bind:fontCSS={fontCSS} {oldUI}/>
 		</button>
 	</button>	
 	{/if}
@@ -161,7 +161,7 @@
 		{:then}
 		<div class="px-4 justify-start flex">
 			<div class="lg:w-[75vw] w-[60vw] h-[80vh] justify-center p-4">
-				<MessageWindow {oldUI} {messages} {currentBoard} {messagesTop} {timeFirst}/>
+				<MessageWindow {oldUI} {messages} {currentBoard} {messagesTop} {dashMessage}/>
 				<MessageInput {message} {username} {themesCSS} {sendMessage}/>
 			</div>
 		</div>
