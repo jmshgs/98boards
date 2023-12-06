@@ -1,4 +1,6 @@
 <script>
+    import { changeTheme } from '$lib/main.js'
+
     export let timeFirst;
     export let messagesTop;
     export let themeColor;
@@ -6,22 +8,6 @@
     export let fontCSS;
 
     export let oldUI;
-
-    const changeTheme = () => {
-        console.log(themeColor)
-        switch (themeColor) {
-            case "auto":
-                themesCSS = "bg-gray-50 text-black dark:bg-gray-950 dark:text-gray-50"
-                break
-            case "light":
-                themesCSS = "bg-gray-50 text-black"
-                break
-            case "dark":
-                themesCSS = "bg-gray-950 text-gray-50"
-                break
-        }
-        console.log(themesCSS)
-    }
 
     $: newModalClass = `${oldUI ? "" : "rounded-3xl border-gray-400 border-2 shadow-md"} ${themesCSS}`
 </script>
@@ -52,7 +38,9 @@
             <div class="flex flex-col">
                 <label for="theme" class="text-lg font-bold {themesCSS}">theme</label>
                 <select id="theme" name="theme" class='w-64 h-10 mt-2 rounded-xl border-gray-400 border-2 shadow-md {themesCSS}' bind:value={themeColor} on:input={() => {
-                    setTimeout((changeTheme), 25)
+                    setTimeout(() => {
+                        themesCSS = changeTheme(themeColor)
+                    }, 25)
                 }}>
                     <option value={"auto"}>automatic</option>
                     <option value={"light"}>light</option> 

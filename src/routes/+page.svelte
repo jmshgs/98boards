@@ -1,6 +1,6 @@
 <script>
 	import { supabase, fetchMessages, insertMessage, fetchUsername, fetchUser } from '$lib/supabaseClient.js'
-	import { timeConverter } from '$lib/main.js'
+	import { timeConverter, changeTheme } from '$lib/main.js'
 	import messageStore from '$lib/stores/messageStore';
 	import timestamp from 'unix-timestamp';
 	import { Spinner } from 'flowbite-svelte'
@@ -47,6 +47,7 @@
 
 	let promise = new Promise(() => {});
 	onMount(() => {
+		themesCSS = changeTheme(themeColor)
 		promise = (async () => {
 			const { data, error } = await supabase
 				.from("messages")
