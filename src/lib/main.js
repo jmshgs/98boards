@@ -10,6 +10,7 @@ export function timeConverter(unixTimestamp){
 }
 
 export const changeTheme = (themeColor) => {
+    let themesCSS = ""
     switch (themeColor) {
         case "auto":
             themesCSS = "bg-gray-50 text-black dark:bg-gray-950 dark:text-gray-50"
