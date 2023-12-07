@@ -29,8 +29,8 @@
             <div class="flex flex-col">
                 <label for="messageFormat" class="text-lg font-bold {themesCSS}">message format</label>
                 <select id="messageFormat" name="messageFormat" class="w-64 h-10 mt-2 rounded-xl border-gray-400 border-2 shadow-md {themesCSS}" bind:value={dashMessage}>
-                    <option value={false}>user: message - time</option>
-                    <option value={true}>user: message @ time</option>
+                    <option value={true}>user: message - time</option>
+                    <option value={false}>user: message @ time</option>
                 </select>
             </div>
         </div>
