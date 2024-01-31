@@ -95,6 +95,7 @@
 			<label for="email" class="block mb-2 text-sm font-medium {themesCSS}">email</label>
 			<input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-black text-sm rounded-xl block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white focus:border-blue-600 focus:dark:border-blue-400 focus:border-2 focus:outline-none" placeholder="james@icloud.com" bind:value={email}>
 		</div>
+		{#if creatingAccount}
 		<div>
 			<label for="username" class="block mb-2 text-sm font-medium {themesCSS}">username</label>
 			<input type="text" name="username" id="username" class="bg-gray-50 border border-gray-300 text-black text-sm rounded-xl block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white focus:border-blue-600 focus:dark:border-blue-400 focus:border-2 focus:outline-none" placeholder="mycoolusername" bind:value={typedUsername}>
@@ -102,6 +103,7 @@
 				<p class="text-red-500 dark:text-red-400 font-medium text-xs mr-auto pt-2">{errorMessage}</p>
 			{/if}
 		</div>
+		{/if}
 		<div>
 			<label for="email" class="block mb-2 text-sm font-medium {themesCSS}">password</label>
 			<input type="password" name="password" id="password" class="bg-gray-50 border border-gray-300 text-black text-sm rounded-xl block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white focus:border-blue-600 focus:dark:border-blue-400 focus:border-2 focus:outline-none" placeholder="iLoveThisWebsite12" bind:value={password}>
@@ -113,7 +115,7 @@
 			<button type="button" class="w-full font-medium text-sm px-5 py-2.5 text-center {themeColor=='dark' || themeColor=="discord-blue" ? newDarkButtonClass: newButtonClass}" on:click={() => {
 				runAccountMethod()
 			}}>{creatingAccount ? "create your account" : "sign in to your account"}</button>
-			<p class="dark:text-white text-sm text-center p-3 font-medium">
+			<!-- <p class="dark:text-white text-sm text-center p-3 font-medium">
 				or
 			</p>
 			<button type="button" class="w-full transition-all hover:scale-102 font-medium {themeColor=='dark' || themeColor=='discord-blue' ? "" : "bg-slate-100"} hover:bg-slate-200 hover:dark:bg-slate-300 text-sm px-5 py-2.5 text-center {themeColor=='dark' || themeColor=="discord-blue" ? newDarkGooogleButtonClass: newGoogleButtonClass}" on:click={() => {
@@ -125,7 +127,7 @@
                 {:else}
 				continue with <img src="/images/old-google.webp" class="inline-block h-6 mr-2" alt="Google logo">
                 {/if}
-			</button>
+			</button> -->
 		</div>
 		<p class="dark:text-white text-sm text-left font-medium">
 			{creatingAccount ? "already have an account?" : "don\'t have an account?"}
