@@ -14,7 +14,9 @@
             if (message.board == inputBoardName){
                 foundBoard = true;
                 console.log('found')
-                boards.push(inputBoardName);
+                if (!boards.includes(inputBoardName)){
+                    boards.push(inputBoardName);
+                }                
                 break;
             }
     }
