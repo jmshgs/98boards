@@ -1,7 +1,6 @@
 <script>
 	export let themesCSS;
     export let oldUI = false;
-	export let themeColor;
 	export let username = "";
 	let inputUsername = "";
 
@@ -13,7 +12,7 @@
 </script>
 
 <div class="w-[32rem] p-4 sm:p-6 md:p-8 text-left {newModalClass}">
-	<h5 class="text-3xl font-bold {themesCSS}">settings</h5>
+	<h5 class="text-3xl font-bold {themesCSS}">user</h5>
     <form class="space-y-6 w-[25rem]">
         <div class="overflow-y-auto overflow-x-scroll py-4 space-x-4 flex items-center justify-between {themesCSS}">
             <input on:keypress={

@@ -8,6 +8,8 @@
 	import Account from '$lib/components/account.svelte'
 	import Settings from '$lib/components/settings.svelte'
 	import Sidebar from '$lib/components/sidebar.svelte';
+	import Oops from '$lib/components/oops.svelte';
+
 	import MessageWindow from '$lib/components/message-window.svelte';
 	import MessageInput from '$lib/components/message-input.svelte';
 
@@ -30,6 +32,9 @@
 
 	let showLogin = false;
 	let showSettings = false;
+
+	let createBoard = false;
+	console.log(createBoard)
 
 	let messages = [{}];
 	let boards = [
@@ -96,7 +101,7 @@
 		}
 		if (messages[0]) {
 
-			if (message == messages[0].content) {
+			if (message == messages[0].content && messages[0].sender == username) {
 				alert("you can't send the same message twice :)")
 				return;
 			}
@@ -136,7 +141,7 @@
 		showLogin = false
 	}}>
 		<button on:click|stopPropagation>
-			<Account {oldUI} {themesCSS} {themeColor} bind:username={username}/>
+			<Account {oldUI} {themesCSS} bind:username={username}/>
 		</button>
 	</button>	
 	{/if}
@@ -151,9 +156,21 @@
 		</button>
 	</button>	
 	{/if}
+	<!-- create board modal-->
+
+	{#if createBoard}
+    <button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
+        on:click={() => {
+            createBoard = false;
+        }}>
+        <button on:click|stopPropagation>
+            <Oops bind:themeColor={themeColor} bind:themesCSS={themesCSS} bind:fontCSS={fontCSS}/>
+        </button>
+    </button>    
+	{/if}
 
 	<div class="space-x-10 flex flex-row {themesCSS}" class:blur-md={showLogin || showSettings}> 
-		<Sidebar {boards} bind:currentBoard={currentBoard} bind:oldUI={oldUI} bind:showLogin={showLogin} bind:showSettings={showSettings} {fontCSS} {themeColor} {themesCSS} {newButtonClass}/>
+		<Sidebar {boards} bind:currentBoard={currentBoard} bind:oldUI={oldUI} bind:showLogin={showLogin} bind:showSettings={showSettings} {fontCSS} {themeColor} {themesCSS} {newButtonClass} {createBoard}/>
 		{#await promise}
 		<div class="flex w-screen h-screen justify-center items-center">
 			<Spinner color="blue" />

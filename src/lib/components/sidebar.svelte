@@ -8,6 +8,8 @@
     export let themeColor;
     export let themesCSS;
     export let newButtonClass;
+    export let createBoard;
+
 </script>
 
 <aside class="{fontCSS} lg:w-64 w-96 h-screen transition-transform bg-gray-100" class:window={oldUI} aria-label="Sidebar">
@@ -53,5 +55,15 @@
                 username
             </button>
         </div>
+        <div class="flex items-end">
+            <button class="justify-center flex w-full p-2 m-2 {themeColor=='light' ? "bg-slate-200": ""} {newButtonClass}" on:click={() => {
+                createBoard = true;
+                console.log(createBoard)
+            }}>
+                create board
+            </button>
+        </div>
+
     </div>
+
 </aside>
