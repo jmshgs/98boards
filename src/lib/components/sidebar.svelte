@@ -9,6 +9,7 @@
     export let themesCSS;
     export let newButtonClass;
     export let createBoard;
+    export let joinBoard
 
     console.log(createBoard)
 
@@ -64,6 +65,14 @@
                 create board
             </button>
         </div>
+        <div class="flex items-end">
+            <button class="justify-center flex w-full p-2 m-2 {themeColor=='light' ? "bg-slate-200": ""} {newButtonClass}" on:click={() => {
+                joinBoard = true;
+            }}>
+                join board
+            </button>
+        </div>
+
     </div>
 
 </aside>

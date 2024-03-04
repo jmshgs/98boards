@@ -7,8 +7,11 @@
 	import { onMount } from 'svelte';
 	import Account from '$lib/components/account.svelte'
 	import Settings from '$lib/components/settings.svelte'
+
 	import Sidebar from '$lib/components/sidebar.svelte';
 	import Oops from '$lib/components/oops.svelte';
+	import JoinBoard from '$lib/components/joinboard.svelte';
+
 	import CreateBoard from '$lib/components/createboard.svelte';
 	import MessageWindow from '$lib/components/message-window.svelte';
 	import MessageInput from '$lib/components/message-input.svelte';
@@ -32,9 +35,12 @@
 
 	let showLogin = false;
 	let showSettings = false;
+
 	let createBoard = false;
+	let joinBoard = false;
 
 	let messages = [{}];
+	
 	let boards = [
 		"general",
 		"programming",
@@ -162,12 +168,24 @@
 		createBoard = false
 	}}>
 		<button on:click|stopPropagation>
-			<CreateBoard {themesCSS}/>
+			<CreateBoard {themesCSS} bind:boards={boards}/>
 		</button>
 	</button>
 	{/if}
+	<!-- join board modal -->
+	{#if joinBoard}
+	<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
+	on:click={() => {
+		joinBoard = false
+	}}>
+		<button on:click|stopPropagation>
+			<JoinBoard {themesCSS} bind:boards={boards} {messages}/>
+		</button>
+	</button>
+	{/if}
+
 	<div class="space-x-10 flex flex-row {themesCSS}" class:blur-md={showLogin || showSettings}> 
-		<Sidebar {boards} bind:createBoard={createBoard} bind:currentBoard={currentBoard} bind:oldUI={oldUI} bind:showLogin={showLogin} bind:showSettings={showSettings} {fontCSS} {themeColor} {themesCSS} {newButtonClass}/>
+		<Sidebar bind:boards={boards} bind:createBoard={createBoard} bind:joinBoard={joinBoard} bind:currentBoard={currentBoard} bind:oldUI={oldUI} bind:showLogin={showLogin} bind:showSettings={showSettings} {fontCSS} {themeColor} {themesCSS} {newButtonClass}/>
 		{#await promise}
 		<div class="flex w-screen h-screen justify-center items-center">
 			<Spinner color="blue" />
