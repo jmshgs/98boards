@@ -50,7 +50,7 @@
             <button class="justify-center flex w-full p-2 m-2 {themeColor=='light' ? "bg-slate-200": ""} {newButtonClass}" on:click={() => {
                 showLogin = true;
             }}>
-                account
+                username
             </button>
         </div>
     </div>

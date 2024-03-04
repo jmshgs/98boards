@@ -1,5 +1,5 @@
 <script>
-	import { supabase, fetchMessages, insertMessage, fetchUsername, fetchUser } from '$lib/supabaseClient.js'
+	import { supabase, fetchMessages, insertMessage} from '$lib/supabaseClient.js'
 	import { timeConverter, changeTheme } from '$lib/main.js'
 	import messageStore from '$lib/stores/messageStore';
 	import timestamp from 'unix-timestamp';
