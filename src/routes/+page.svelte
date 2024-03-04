@@ -9,7 +9,7 @@
 	import Settings from '$lib/components/settings.svelte'
 	import Sidebar from '$lib/components/sidebar.svelte';
 	import Oops from '$lib/components/oops.svelte';
-
+	import CreateBoard from '$lib/components/createboard.svelte';
 	import MessageWindow from '$lib/components/message-window.svelte';
 	import MessageInput from '$lib/components/message-input.svelte';
 
@@ -32,9 +32,7 @@
 
 	let showLogin = false;
 	let showSettings = false;
-
 	let createBoard = false;
-	console.log(createBoard)
 
 	let messages = [{}];
 	let boards = [
@@ -128,6 +126,7 @@
 	if (e.key == "Escape") {
 		showLogin = false;
 		showSettings = false;
+		createBoard = false;
 	}
 }} />
 {#if oldUI}
@@ -157,20 +156,18 @@
 	</button>	
 	{/if}
 	<!-- create board modal-->
-
 	{#if createBoard}
-    <button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
-        on:click={() => {
-            createBoard = false;
-        }}>
-        <button on:click|stopPropagation>
-            <Oops bind:themeColor={themeColor} bind:themesCSS={themesCSS} bind:fontCSS={fontCSS}/>
-        </button>
-    </button>    
+	<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
+	on:click={() => {
+		createBoard = false
+	}}>
+		<button on:click|stopPropagation>
+			<CreateBoard {themesCSS}/>
+		</button>
+	</button>
 	{/if}
-
 	<div class="space-x-10 flex flex-row {themesCSS}" class:blur-md={showLogin || showSettings}> 
-		<Sidebar {boards} bind:currentBoard={currentBoard} bind:oldUI={oldUI} bind:showLogin={showLogin} bind:showSettings={showSettings} {fontCSS} {themeColor} {themesCSS} {newButtonClass} {createBoard}/>
+		<Sidebar {boards} bind:createBoard={createBoard} bind:currentBoard={currentBoard} bind:oldUI={oldUI} bind:showLogin={showLogin} bind:showSettings={showSettings} {fontCSS} {themeColor} {themesCSS} {newButtonClass}/>
 		{#await promise}
 		<div class="flex w-screen h-screen justify-center items-center">
 			<Spinner color="blue" />
