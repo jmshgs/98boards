@@ -40,15 +40,16 @@
             </ul>
         </div>
         <div class="flex items-end">
-            <button class="justify-center flex w-1/2 p-2 m-2 {themeColor=='light' ? "bg-slate-200": ""} {newButtonClass}" on:click={() => {
+            <button class="justify-center flex w-full p-2 m-2 {themeColor=='light' ? "bg-slate-200": ""} {newButtonClass}" on:click={() => {
                 oldUI = !oldUI;
             }}>
                 {oldUI ? "new ui" : "old ui"}
             </button>
-            <button class="justify-center flex w-1/2 p-2 m-2 {themeColor=='light' ? "bg-slate-200": ""}  {newButtonClass}" on:click={() => {showSettings=true;}}>
+        </div>
+        <div class="flex items-end">
+            <button class="justify-center flex w-full p-2 m-2 {themeColor=='light' ? "bg-slate-200": ""}  {newButtonClass}" on:click={() => {showSettings=true;}}>
                 settings
             </button>
-
         </div>
         <div class="flex items-end">
             <button class="justify-center flex w-full p-2 m-2 {themeColor=='light' ? "bg-slate-200": ""} {newButtonClass}" on:click={() => {
@@ -56,11 +57,14 @@
             }}>
                 create board
             </button>
+        </div>
+        <div class="flex items-end">
             <button class="justify-center flex w-full p-2 m-2 {themeColor=='light' ? "bg-slate-200": ""} {newButtonClass}" on:click={() => {
                 joinBoard = true;
             }}>
                 join a board
             </button>
+
         </div>
         <div class="flex items-end">
             <button class="justify-center flex w-full p-2 m-2 {themeColor=='light' ? "bg-slate-200": ""} {newButtonClass}" on:click={() => {
