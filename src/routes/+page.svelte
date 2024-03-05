@@ -179,7 +179,7 @@
 		joinBoard = false
 	}}>
 		<button on:click|stopPropagation>
-			<JoinBoard {themesCSS} bind:boards={boards} {messages}/>
+			<JoinBoard {themesCSS} bind:boards={boards} />
 		</button>
 	</button>
 	{/if}

@@ -15,3 +15,15 @@ export const fetchMessages = async () => {
     return data;
 };
 
+export const insertBoard = async (board) => {
+    const { data, error } = await supabase
+        .from("boards")
+        .insert([{ boardname: board.name , isPrivate: board.isPrivate, password: board.password }]);
+}
+
+export const fetchBoards = async () => {
+    const { data, error } = await supabase
+        .from("boards")
+        .select()
+    return data;
+}

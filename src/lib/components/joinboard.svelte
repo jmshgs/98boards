@@ -1,27 +1,67 @@
 <script>
+	import { supabase, fetchBoards} from '$lib/supabaseClient.js'
+
     export let themesCSS;
     export let oldUI = false;
     export let boards;
-    export let messages;
 
     let inputBoardName = "";
     let inputBoardPassword = "";
     let foundBoard = false;
 
+    let needPassword = false;
+    let wrongPassword = false;
+
     function searchBoard(){
-        console.log(messages)
-        for (let message of messages){
-            if (message.board == inputBoardName){
-                foundBoard = true;
-                console.log('found')
-                if (!boards.includes(inputBoardName)){
-                    boards.push(inputBoardName);
-                }                
-                break;
+        let bars = []
+        fetchBoards().then(data => {
+            console.log(data) 
+            bars = data  
+            for (let board of bars){
+            if (board.boardname == inputBoardName){
+                if (board.isPrivate == true){
+                    if (board.password == inputBoardPassword){
+                        foundBoard = true;
+                        needPassword = false;
+                        wrongPassword = false;
+                        console.log('found')
+                        if (!boards.includes(inputBoardName)){
+                            boards.push(inputBoardName);
+                        }                
+                        break;
+                    }
+                    else if (inputBoardPassword == ""){
+                        foundBoard = false;
+                        needPassword = true;
+                        wrongPassword = false;
+                        console.log('no password')
+                        break;
+                    }
+                    else{
+                        foundBoard = false;
+                        wrongPassword = true;
+                        needPassword = false;
+                        console.log('wrong password')
+                        break;
+                    }
+                }
+                else{
+                    foundBoard = true;
+                    needPassword = false;
+                    wrongPassword = false;
+                    console.log('found')
+                    if (!boards.includes(inputBoardName)){
+                        boards.push(inputBoardName);
+                    }                
+                    break;
+                }
             }
+        }
+
+        })
     }
-}
     $: newModalClass = `${oldUI ? "" : "rounded-3xl border-gray-400 border-2 shadow-md"} ${themesCSS}`;
+
 
 </script>
 
@@ -40,6 +80,12 @@
         </button>
         {#if foundBoard && inputBoardName != ""}
         <div class="mt-4 text-green-500">Board found! Joined Board!</div>
+        {/if}
+        {#if needPassword}
+        <div class="mt-4 text-yellow-500">This board needs a password</div>
+        {/if}
+        {#if wrongPassword}
+        <div class="mt-4 text-red-500">Incorrect Password!</div>
         {/if}
 
     </form>

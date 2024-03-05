@@ -1,4 +1,6 @@
 <script>
+	import { supabase, insertBoard} from '$lib/supabaseClient.js'
+
     export let themesCSS;
     export let oldUI = false;
     export let boards;
@@ -7,6 +9,9 @@
     let inputBoardPassword = "";
 
     let isPrivate = false;
+    let isEmpty = false;
+    let isCreated = false;
+    let isExist = false;
 
     $: checkboxLabel = isPrivate ? "private" : "public";
     $: newModalClass = `${oldUI ? "" : "rounded-3xl border-gray-400 border-2 shadow-md"} ${themesCSS}`;
@@ -16,12 +21,35 @@
         console.log(isPrivate)
     }
 
-    function createNewBoard() {
-        boards.push(inputBoardName);
-        inputBoardName = "";
-    
+    async function createNewBoard() {
+    if (inputBoardName == "") {
+        isEmpty = true;
+        isCreated = false;
+        isExist = false;
+        return;
     }
-</script>
+    else{
+        let newBoard = {
+            name: inputBoardName, 
+            isPrivate: isPrivate, 
+            password: inputBoardPassword
+        }
+        try {
+            await insertBoard(newBoard);
+            boards.push(inputBoardName);
+            inputBoardName = "";
+            inputBoardPassword = "";
+            isEmpty = false;
+            isCreated = true;
+            isExist = false;
+        } catch (error) {
+            console.log(error);
+            isExist = true;
+            isCreated = false;
+            isEmpty = false;
+        }
+    }
+}</script>
 
 <div class="w-[30rem] p-4 sm:p-6 md:p-8 text-left {newModalClass}">
     <h5 class="text-3xl font-bold {themesCSS}">create board</h5>
@@ -41,5 +69,14 @@
         }}>
             Create
         </button>
+        {#if isEmpty}
+        <div class="mt-4 text-red-500">Board name cannot be empty!</div>
+        {/if}
+        {#if isExist}
+        <div class="mt-4 text-red-500">Board already exists!</div>
+        {/if}
+        {#if isCreated}
+        <div class="mt-4 text-green-500">Board created!</div>
+        {/if}
     </form>
 </div>
