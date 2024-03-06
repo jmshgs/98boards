@@ -38,7 +38,7 @@
         }
         try {
             await insertBoard(newBoard);
-            boards.push(inputBoardName);
+            boards = [...boards, inputBoardName];
             inputBoardName = "";
             inputBoardPassword = "";
             isEmpty = false;

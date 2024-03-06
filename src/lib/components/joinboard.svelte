@@ -27,8 +27,9 @@
                         wrongPassword = false;
                         notfound = false;
                         console.log('found')
+                        console.log(boards)
                         if (!boards.includes(inputBoardName)){
-                            boards.push(inputBoardName);
+                            boards = [...boards, inputBoardName];
                         }                
                         break;
                     }
