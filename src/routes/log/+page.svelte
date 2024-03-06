@@ -8,6 +8,7 @@
         <h5 class="text-2xl font-bold ">changes</h5> 
         <form class="space-y-2 w-[25rem]">
             <br> - Added Changelog
+            <br> - Fixed creatboard glitch, joinboard not fixed
         </form> 
     </div>
     <div class="w-[90vw] p-4 sm:p-6 md:p-8 rounded-3xl border-gray-400 border-2 shadow-md">
