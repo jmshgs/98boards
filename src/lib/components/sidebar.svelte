@@ -105,7 +105,8 @@
             </button>
         </div>
         {/if}
-
     </div>
-
+    <div class="overflow">
+        <p class="text-blue-500"><a href="/log">changelog</a></p>
+    </div>
 </aside>
