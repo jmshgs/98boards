@@ -94,6 +94,7 @@
             }}>
                 user
             </button>
+            
         </div>
         {#if isCreator}
         <div class="flex items-end">
