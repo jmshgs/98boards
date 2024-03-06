@@ -11,6 +11,7 @@
 	import Sidebar from '$lib/components/sidebar.svelte';
 	import Oops from '$lib/components/oops.svelte';
 	import JoinBoard from '$lib/components/joinboard.svelte';
+	import DeleteBoard from '$lib/components/deleteboard.svelte';
 
 	import CreateBoard from '$lib/components/createboard.svelte';
 	import MessageWindow from '$lib/components/message-window.svelte';
@@ -38,6 +39,8 @@
 
 	let createBoard = false;
 	let joinBoard = false;
+	let isDeleting = false;
+	let isCreator = false;
 
 	let messages = [{}];
 	
@@ -45,12 +48,10 @@
 		"general",
 		"programming",
 		"technology",
-		"philosophy",
 		"photography",
 		"art",
 		"music",
 		"gaming",
-		'random',
 		'school'
 	];	
 
@@ -168,7 +169,7 @@
 		createBoard = false
 	}}>
 		<button on:click|stopPropagation>
-			<CreateBoard {themesCSS} bind:boards={boards}/>
+			<CreateBoard {themesCSS} {username} bind:boards={boards}/>
 		</button>
 	</button>
 	{/if}
@@ -183,9 +184,18 @@
 		</button>
 	</button>
 	{/if}
-
+	{#if isDeleting}
+	<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
+	on:click={() => {
+		isDeleting = false
+	}}>
+		<button on:click|stopPropagation>
+			<DeleteBoard {themesCSS} bind:isCreator={isCreator} bind:isDeleting={isDeleting} bind:boards={boards} bind:board={currentBoard}/>
+		</button>
+	</button>
+	{/if}
 	<div class="space-x-10 flex flex-row {themesCSS}" class:blur-md={showLogin || showSettings}> 
-		<Sidebar bind:boards={boards} bind:createBoard={createBoard} bind:joinBoard={joinBoard} bind:currentBoard={currentBoard} bind:oldUI={oldUI} bind:showLogin={showLogin} bind:showSettings={showSettings} {fontCSS} {themeColor} {themesCSS} {newButtonClass}/>
+		<Sidebar bind:isCreator={isCreator} bind:isDeleting={isDeleting} bind:boards={boards} bind:createBoard={createBoard} bind:joinBoard={joinBoard} bind:currentBoard={currentBoard} bind:oldUI={oldUI} bind:showLogin={showLogin} bind:showSettings={showSettings} {fontCSS} {themeColor} {username} {themesCSS} {newButtonClass}/>
 		{#await promise}
 		<div class="flex w-screen h-screen justify-center items-center">
 			<Spinner color="blue" />

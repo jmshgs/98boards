@@ -8,6 +8,7 @@
     let inputBoardName = "";
     let inputBoardPassword = "";
     let foundBoard = false;
+    let notfound = false;
 
     let needPassword = false;
     let wrongPassword = false;
@@ -24,6 +25,7 @@
                         foundBoard = true;
                         needPassword = false;
                         wrongPassword = false;
+                        notfound = false;
                         console.log('found')
                         if (!boards.includes(inputBoardName)){
                             boards.push(inputBoardName);
@@ -34,6 +36,7 @@
                         foundBoard = false;
                         needPassword = true;
                         wrongPassword = false;
+                        notfound = false;
                         console.log('no password')
                         break;
                     }
@@ -41,6 +44,7 @@
                         foundBoard = false;
                         wrongPassword = true;
                         needPassword = false;
+                        notfound = false;
                         console.log('wrong password')
                         break;
                     }
@@ -49,13 +53,17 @@
                     foundBoard = true;
                     needPassword = false;
                     wrongPassword = false;
+                    notfound = false;
                     console.log('found')
                     if (!boards.includes(inputBoardName)){
                         boards.push(inputBoardName);
                     }                
                     break;
                 }
+            }else{
+                notfound = true;
             }
+
         }
 
         })
@@ -86,6 +94,9 @@
         {/if}
         {#if wrongPassword}
         <div class="mt-4 text-red-500">Incorrect Password!</div>
+        {/if}
+        {#if notfound}
+        <div class="mt-4 text-red-500">This board doesn't exist</div>
         {/if}
 
     </form>

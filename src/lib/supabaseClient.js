@@ -18,7 +18,7 @@ export const fetchMessages = async () => {
 export const insertBoard = async (board) => {
     const { data, error } = await supabase
         .from("boards")
-        .insert([{ boardname: board.name , isPrivate: board.isPrivate, password: board.password }]);
+        .insert([{ boardname: board.name , isPrivate: board.isPrivate, password: board.password, creator: board.creator }]);
 }
 
 export const fetchBoards = async () => {
@@ -26,4 +26,11 @@ export const fetchBoards = async () => {
         .from("boards")
         .select()
     return data;
+}
+
+export const deleteBoard = async (boardname) => {
+    const { data, error } = await supabase
+        .from("boards")
+        .delete()
+        .eq('boardname', boardname)
 }

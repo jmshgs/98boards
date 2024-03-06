@@ -4,6 +4,7 @@
     export let themesCSS;
     export let oldUI = false;
     export let boards;
+    export let username
 
     let inputBoardName = "";
     let inputBoardPassword = "";
@@ -32,7 +33,8 @@
         let newBoard = {
             name: inputBoardName, 
             isPrivate: isPrivate, 
-            password: inputBoardPassword
+            password: inputBoardPassword,
+            creator: username
         }
         try {
             await insertBoard(newBoard);
