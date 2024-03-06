@@ -29,6 +29,12 @@
                     if (board.creator == username && username != "anon" ){
                         isCreator = true;
                     }
+                    else{
+                        isCreator = false;
+                    }
+                }
+                else{
+                    isCreator = false;
                 }
             }
         })
@@ -63,13 +69,6 @@
             </ul>
         </div>
         <div class="flex items-end">
-            <button class="justify-center flex w-full p-2 m-2 {themeColor=='light' ? "bg-slate-200": ""} {newButtonClass}" on:click={() => {
-                oldUI = !oldUI;
-            }}>
-                {oldUI ? "new ui" : "old ui"}
-            </button>
-        </div>
-        <div class="flex items-end">
             <button class="justify-center flex w-full p-2 m-2 {themeColor=='light' ? "bg-slate-200": ""}  {newButtonClass}" on:click={() => {showSettings=true;}}>
                 settings
             </button>
@@ -93,7 +92,7 @@
             <button class="justify-center flex w-full p-2 m-2 {themeColor=='light' ? "bg-slate-200": ""} {newButtonClass}" on:click={() => {
                 showLogin = true;
             }}>
-                username
+                user
             </button>
         </div>
         {#if isCreator}

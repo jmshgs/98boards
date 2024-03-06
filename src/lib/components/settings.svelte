@@ -12,7 +12,7 @@
     $: newModalClass = `${oldUI ? "" : "rounded-3xl border-gray-400 border-2 shadow-md"} ${themesCSS}`
 </script>
 
-<div class="w-[40rem] p-4 sm:p-6 md:p-8 text-left {newModalClass}">
+<div class="w-[43rem] p-4 sm:p-6 md:p-8 text-left {newModalClass}">
     <form class="space-y-6 mb-4"> 
         <h5 class="text-3xl font-bold {themesCSS} {fontCSS}">settings</h5>
     </form>
@@ -50,13 +50,21 @@
 
             <div class="flex flex-col">
                 <label for="font" class="text-lg font-bold {fontCSS}">font</label>
-                <select id="font" name="font" class="w-64 h-10 mt-2 rounded-xl border-gray-400 border-2 shadow-md {themesCSS}" bind:value={fontCSS}>
+                <select id="font" name="font" class="w-32 h-10 mt-2 rounded-xl border-gray-400 border-2 shadow-md {themesCSS}" bind:value={fontCSS}>
                     <option value={'font-apple'}>apple</option>
                     <option value={"font-sans"}>sans-serif</option>
                     <option value={"font-serif"}>serif</option>
                     <option value={"font-mono"}>monospace</option>
                 </select>
             </div>
+            <div class="flex flex-col">
+                <label for="ui" class="text-lg font-bold {fontCSS}">ui</label>
+                <select id="ui" name="ui" class="w-32 h-10 mt-2 rounded-xl border-gray-400 border-2 shadow-md {themesCSS}" bind:value={oldUI}>
+                    <option value={true}>old ui</option>
+                    <option value={false}>new ui</option>
+                </select>
+            </div>
+
         </div>
     </div>
 </div>

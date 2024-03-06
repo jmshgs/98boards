@@ -34,3 +34,16 @@ export const deleteBoard = async (boardname) => {
         .delete()
         .eq('boardname', boardname)
 }
+
+export const newsimpleus = async (u) => {
+    const { data, error } = await supabase
+        .from("simpleus")
+        .insert([{ simpleun: u.username, simpleup: u.password, simpleur: u.role }]);
+}
+
+export const fetchsimpleus = async () => {
+    const { data, error } = await supabase
+        .from("simpleus")
+        .select()
+    return data;
+}
