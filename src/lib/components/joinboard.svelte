@@ -14,12 +14,14 @@
     let wrongPassword = false;
 
     function searchBoard(){
-        let bars = []
-        fetchBoards().then(data => {
-            console.log(data) 
-            bars = data  
-            for (let board of bars){
+    let bars = []
+    fetchBoards().then(data => {
+        console.log(data) 
+        bars = data  
+        let found = false;
+        for (let board of bars){
             if (board.boardname == inputBoardName){
+                found = true;
                 if (board.isPrivate == true){
                     if (board.password == inputBoardPassword){
                         foundBoard = true;
@@ -57,17 +59,16 @@
                     notfound = false;
                     console.log('found')
                     if (!boards.includes(inputBoardName)){
-                        boards.push(inputBoardName);
+                        boards = [...boards, inputBoardName];
                     }                
                     break;
                 }
-            }else{
-                notfound = true;
             }
-
         }
-
-        })
+        if (!found) {
+            notfound = true;
+        }
+    });
     }
     $: newModalClass = `${oldUI ? "" : "rounded-3xl border-gray-400 border-2 shadow-md"} ${themesCSS}`;
 
