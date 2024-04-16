@@ -64,7 +64,7 @@
             <h7>{checkboxLabel}</h7>
         </div>				
         {#if isPrivate}
-        <input type="text" class="border-gray-300 {themesCSS} rounded-xl w-full p-2.5 m-1 focus:outline-none" placeholder="enter password" bind:value={inputBoardPassword}>            
+        <input type="password" class="border-gray-300 {themesCSS} rounded-xl w-full p-2.5 m-1 focus:outline-none" placeholder="enter password" bind:value={inputBoardPassword}>            
         <br><br>
         {/if}
         <button class={isPrivate ? "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4" : "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"} on:click={() => {
