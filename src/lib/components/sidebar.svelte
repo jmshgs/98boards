@@ -14,6 +14,7 @@
     export let createBoard;
     export let joinBoard;
     export let isDeleting;
+    export let isPrivate;
 
     export let username;
     export let isCreator;
@@ -52,14 +53,14 @@
                 {#each boards as board}
                 <li>
                     {#if !oldUI}
-                    <button class="decoration-none transition-all hover:scale-[105%]" class:scale-[105%]={currentBoard == board} class:text-blue-800={currentBoard == board} on:click={() => {
+                    <button class="decoration-none transition-all hover:scale-[105%]" class:scale-[105%]={currentBoard == board && !isPrivate} class:text-blue-800={currentBoard == board && !isPrivate} on:click={() => {
                         currentBoard = board;
                         isOwner();
                     }}>{board}</button>
                     {:else}
                     <!-- svelte-ignore a11y-click-events-have-key-events -->
                     <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-                    <p class="decoration-none transition-all hover:scale-[105%] hover:pl-2" class:scale-[102%]={currentBoard == board} class:font-bold={currentBoard == board} class:pl-0.5={currentBoard == board} on:click={() => {
+                    <p class="decoration-none transition-all hover:scale-[105%] hover:pl-2" class:scale-[102%]={currentBoard == board && !isPrivate} class:font-bold={currentBoard == board && !isPrivate} class:pl-0.5={currentBoard == board && !isPrivate} on:click={() => {
                         currentBoard = board;
                         isOwner();
                     }}>{board}</p>
