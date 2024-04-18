@@ -41,6 +41,16 @@
         })
     }
 
+    function generateRandomString(length) {
+        let result = '';
+        let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let charactersLength = characters.length;
+        for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    }
+
 </script>
 
 <aside class="{fontCSS} lg:w-64 w-96 h-screen transition-transform bg-gray-100" class:window={oldUI} aria-label="Sidebar">
@@ -56,14 +66,14 @@
                     <button class="decoration-none transition-all hover:scale-[105%]" class:scale-[105%]={currentBoard == board && !isPrivate} class:text-blue-800={currentBoard == board && !isPrivate} on:click={() => {
                         currentBoard = board;
                         isOwner();
-                    }}>{board}</button>
+                    }}>{isPrivate && currentBoard==board ? generateRandomString(10) : board}</button>
                     {:else}
                     <!-- svelte-ignore a11y-click-events-have-key-events -->
                     <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
                     <p class="decoration-none transition-all hover:scale-[105%] hover:pl-2" class:scale-[102%]={currentBoard == board && !isPrivate} class:font-bold={currentBoard == board && !isPrivate} class:pl-0.5={currentBoard == board && !isPrivate} on:click={() => {
                         currentBoard = board;
                         isOwner();
-                    }}>{board}</p>
+                    }}>{isPrivate && currentBoard==board ? generateRandomString(10) : board}</p>
                     {/if}
                 </li>
                 {/each}
