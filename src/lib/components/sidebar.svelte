@@ -70,8 +70,6 @@
         return array;
     } 
 
-    // Shuffle the boards array
-    $: boards = shuffle(boards);
 </script>
 
 <aside class="{fontCSS} lg:w-64 w-96 h-screen transition-transform bg-gray-100" class:window={oldUI} aria-label="Sidebar">
