@@ -51,6 +51,27 @@
         return result;
     }
 
+    function shuffle(array) {
+        let currentIndex = array.length, temporaryValue, randomIndex;
+
+        // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
+
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+        }
+
+        return array;
+    } 
+
+    // Shuffle the boards array
+    $: boards = shuffle(boards);
 </script>
 
 <aside class="{fontCSS} lg:w-64 w-96 h-screen transition-transform bg-gray-100" class:window={oldUI} aria-label="Sidebar">
@@ -66,6 +87,9 @@
                     <button class="decoration-none transition-all hover:scale-[105%]" class:scale-[105%]={currentBoard == board && !isPrivate} class:text-blue-800={currentBoard == board && !isPrivate} on:click={() => {
                         currentBoard = board;
                         isOwner();
+                        if (isPrivate) {
+                          boards = shuffle(boards);
+                        }
                     }}>{isPrivate && currentBoard==board ? generateRandomString(10) : board}</button>
                     {:else}
                     <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -73,6 +97,9 @@
                     <p class="decoration-none transition-all hover:scale-[105%] hover:pl-2" class:scale-[102%]={currentBoard == board && !isPrivate} class:font-bold={currentBoard == board && !isPrivate} class:pl-0.5={currentBoard == board && !isPrivate} on:click={() => {
                         currentBoard = board;
                         isOwner();
+                        if (isPrivate) {
+                          boards = shuffle(boards);
+                        }
                     }}>{isPrivate && currentBoard==board ? generateRandomString(10) : board}</p>
                     {/if}
                 </li>

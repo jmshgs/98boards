@@ -7,7 +7,8 @@
         <h5 class='text-right'>Apr 18, 2024</h5>
         <h5 class="text-2xl font-bold ">changes</h5> 
         <form class="space-y-2 w-[25rem]">
-            <br> - Encrypted room name when private is on
+            <br> - Encrypted boards name when private is on
+            <br> - Boards shuffle when private is on
         </form> 
     </div>
 

@@ -39,7 +39,7 @@
                 </select>
             </div>
             <div class="flex flex-col">
-                <label for="private" class="text-lg font-bold {isPrivate}">room private</label>
+                <label for="private" class="text-lg font-bold {isPrivate}">privacy</label>
                 <select id="private" name="private" class='w-32 h-10 mt-2 rounded-xl border-gray-400 border-2 shadow-md {themesCSS}' bind:value={isPrivate} on:input={() => {
                     setTimeout(() => {
                         themesCSS = changeTheme(themeColor)
