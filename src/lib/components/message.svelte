@@ -12,7 +12,7 @@
         {message.sender}: <span class="text-blue-500 hover:text-blue-700 no-underline">{message.content}</span> - {timeConverter(message.sent_at)}
     </a>
     {:else}
-    {message.sender}: {message.content} - {timeConverter(message.sent_at)}
+    {message.sender}: {message.content} - {timeConverter(message.sent_at)} {message.send_date}
     {/if}
 {:else}
     {#if message.content.includes("https://")}
@@ -20,7 +20,7 @@
             {message.sender}: <span class="text-blue-500 hover:text-blue-700 no-underline">{message.content}</span> @ {timeConverter(message.sent_at)}
         </a>
     {:else}
-        {message.sender}: {message.content} @ {timeConverter(message.sent_at)}
+        {message.sender}: {message.content} @ {timeConverter(message.sent_at)} {message.send_date}
     {/if}
 {/if}
 </div>

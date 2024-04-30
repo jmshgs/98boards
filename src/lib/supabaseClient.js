@@ -5,7 +5,7 @@ export const supabase = createClient("https://bhcurpsrskowsgqxdjim.supabase.co",
 export const insertMessage = async (message) => {
     const { data, error } = await supabase
         .from("messages")
-        .insert([{ content: message.content, sent_at: message.sent_at, sender: message.sender, board: message.board }]);
+        .insert([{ content: message.content, sent_at: message.sent_at, send_date: message.date, sender: message.sender, board: message.board }]);
 };
 
 export const fetchMessages = async () => {

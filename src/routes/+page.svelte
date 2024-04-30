@@ -17,6 +17,8 @@
 	import MessageWindow from '$lib/components/message-window.svelte';
 	import MessageInput from '$lib/components/message-input.svelte';
 
+	const currentDate = new Date();
+
 	let oldUI = false;
 
 	let dashMessage = false;
@@ -119,6 +121,7 @@
 		let newMessage = {
 			content: message,
 			sent_at: timestamp.now(),
+			date: currentDate,
 			sender: username, //TODO add user auth
 			board: currentBoard,
 		}
