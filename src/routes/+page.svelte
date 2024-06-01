@@ -178,7 +178,14 @@
 <main class="{fontCSS} h-screen w-screen {oldUI ? "bg-gray-300" : "bg-slate-50"} {themesCSS}">
 	<!-- account modal -->
 	{#if isBanned}
-	<Banned />
+	<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
+	on:click={() => {
+		showLogin = false
+	}}>
+		<button on:click|stopPropagation>
+			<Banned {iP}/>
+		</button>
+	</button>
 	{/if}
 	{#if showLogin}
 	<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"

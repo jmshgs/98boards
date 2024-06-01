@@ -1,48 +1,28 @@
 <script>
-    import { onMount } from 'svelte';
-  
-    let banned_IPS = [];
-    let iP = '';
-  
-    const getBannedUserIPAddresses = async () => {
-      try {
-        const response = await fetch('/getBannedIPs'); // Example endpoint, replace with your actual API endpoint
-        banned_IPS = await response.json();
-      } catch (error) {
-        console.error('Error fetching banned IPs:', error);
-      }
-    };
-  
-    onMount(async () => {
-      await getBannedUserIPAddresses();
-      try {
-        const response = await fetch('https://api.ipify.org?format=json');
-        const data = await response.json();
-        iP = data.ip;
-        if (banned_IPS.includes(iP)) {
-          alert("You are banned from this site");
-          window.location.href = "https://www.google.com";
-        }
-      } catch (error) {
-        console.error('Error fetching IP address:', error);
-      }
-    });
-  </script>
-  
-  <svelte:head>
-    <title>98boards</title>
-  </svelte:head>
-  
-  <main>
-    <div class="min-h-screen bg-black flex justify-center items-center">
-      <div class="p-8 bg-red-600 rounded-lg shadow-lg">
-        <h1 class="text-white text-3xl font-semibold mb-4">You are banned!</h1>
-        <p class="text-white">You are not allowed to access this site.</p>
-      </div>
+  import { getUserInfoByIP } from '$lib/supabaseClient.js'
+
+  export let iP;
+  let username = '';
+  let reason = ''; 
+
+  async function fetchUserInfo() {
+    const userInfo = await getUserInfoByIP(iP);
+    if(userInfo){
+      username = userInfo.user_id;
+      reason = userInfo.reason;
+    } else {
+      console.log('User info not found for IP address:', ipAddress);
+    }
+  }
+
+  fetchUserInfo();
+</script>
+
+<div class="flex flex-col items-center justify-center h-screen bg-gray-100">
+    <div class="max-w-md mx-auto p-8 bg-white rounded-lg shadow-md">
+        <h2 class="text-xl font-bold mb-4 text-red-500">You Have Been Banned!</h2>
+        <p class="text-gray-700 mb-8">Your account [{username}] has been temporarily suspended for [{reason}].</p>
+        <hr class="my-4 border-t-2 border-gray-200 w-3/4 mx-auto">
+        <p class="text-gray-600">Please contact support for further assistance.</p>
     </div>
-  </main>
-  
-  <style>
-    /* You can customize further here */
-  </style>
-  
+</div>

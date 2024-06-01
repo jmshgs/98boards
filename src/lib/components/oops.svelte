@@ -2,6 +2,7 @@
     $: newModalClass = `${oldUI ? "" : "rounded-3xl border-gray-400 border-2 shadow-md"} ${themesCSS}`;
 
     export let themesCSS
+    export let oldUI
 </script>
 
 <div class="w-[32rem] p-4 sm:p-6 md:p-8 text-left {newModalClass}">

@@ -64,5 +64,29 @@ export const getBannedUserIPAddresses = async () => {
   
     return ipAddresses;
   }
+
+  export const getUserInfoByIP = async (ipAddress) => {
+    // Query the banned_users table to select user_id and reason columns
+    const { data, error } = await supabase
+      .from('banned_users')
+      .select('user_id, reason')
+      .eq('ip_address', ipAddress);
+  
+    if (error) {
+      console.error('Error fetching user info:', error);
+      return null;
+    }
+  
+    // If no data found, return null
+    if (!data || data.length === 0) {
+      return null;
+    }
+  
+    // Extract user_id and reason values
+    const { user_id, reason } = data[0];
+  
+    return { user_id, reason };
+}
+
   
   

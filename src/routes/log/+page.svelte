@@ -8,6 +8,7 @@
         <h5 class="text-2xl font-bold ">changes</h5> 
         <form class="space-y-2 w-[25rem]">
             <br> - Added Banning System
+            <br> - Fixed Errors, Styled Ban.
         </form> 
     </div>
 
