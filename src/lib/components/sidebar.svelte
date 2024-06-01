@@ -19,6 +19,8 @@
     export let username;
     export let isCreator;
 
+    export let goAbout
+
     console.log(createBoard)
 
     function isOwner(){
@@ -141,8 +143,13 @@
             </button>
         </div>
         {/if}
-    </div>
-    <div class="overflow">
-        <p class="text-blue-500"><a href="/log">changelog</a></p>
+        <div class="flex items-end">
+            <button class="justify-center flex w-full p-2 m-2 {themeColor=='light' ? "bg-slate-200": ""} {newButtonClass}" on:click={() => {
+                goAbout = true;
+            }}>
+                about
+            </button>
+        </div>
+
     </div>
 </aside>

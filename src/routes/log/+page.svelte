@@ -1,52 +1,48 @@
-<script>
-</script>
-
-<div class="w-[99vw] h-full p-4 sm:p-6 space-y-5 md:p-8 text-left rounded-3xl border-gray-400 border-2 shadow-md">
-    <h5 class="text-3xl font-bold">update log</h5>
-    <div class="w-[90vw] p-4 sm:p-6 md:p-8 rounded-3xl border-gray-400 border-2 shadow-md">
-        <h5 class='text-right'>May 31, 2024</h5>
-        <h5 class="text-2xl font-bold ">changes</h5> 
-        <form class="space-y-2 w-[25rem]">
-            <br> - Added Banning System
-            <br> - Fixed Errors, Styled Ban.
-        </form> 
+<div class="max-w-screen-lg mx-auto p-8 bg-white rounded-lg shadow-lg">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Update Log</h1>
+    
+    <div class="mb-8">
+        <h2 class="text-lg font-semibold text-gray-800 mb-2">May 31, 2024</h2>
+        <ul class="list-disc pl-5 text-gray-700">
+            <li>Added Banning System</li>
+            <li>Fixed Errors, Styled Ban</li>
+        </ul>
+    </div>
+    
+    <div class="mb-8">
+        <h2 class="text-lg font-semibold text-gray-800 mb-2">Apr 18, 2024</h2>
+        <ul class="list-disc pl-5 text-gray-700">
+            <li>Encrypted boards name when private is on</li>
+            <li>Boards shuffle when private is on</li>
+        </ul>
+    </div>
+    
+    <div class="mb-8">
+        <h2 class="text-lg font-semibold text-gray-800 mb-2">Apr 16, 2024</h2>
+        <ul class="list-disc pl-5 text-gray-700">
+            <li>Added public/private view for boards</li>
+            <li>Passwords now have dots to signify letters</li>
+        </ul>
+    </div>
+    
+    <div class="mb-8">
+        <h2 class="text-lg font-semibold text-gray-800 mb-2">Mar 6, 2024</h2>
+        <ul class="list-disc pl-5 text-gray-700">
+            <li>Added Changelog</li>
+            <li>Fixed creatboard glitch, joinboard not fixed</li>
+        </ul>
+    </div>
+    
+    <div class="mb-8">
+        <h2 class="text-lg font-semibold text-gray-800 mb-2">Mar 5, 2024</h2>
+        <ul class="list-disc pl-5 text-gray-700">
+            <li>Added Back Users</li>
+            <li>Quality of Life Improvements</li>
+            <li>Moved oldUI to settings</li>
+            <li>Update some themesCSS</li>
+            <li>Fixed some glitches</li>
+        </ul>
     </div>
 
-    <div class="w-[90vw] p-4 sm:p-6 md:p-8 rounded-3xl border-gray-400 border-2 shadow-md">
-        <h5 class='text-right'>Apr 18, 2024</h5>
-        <h5 class="text-2xl font-bold ">changes</h5> 
-        <form class="space-y-2 w-[25rem]">
-            <br> - Encrypted boards name when private is on
-            <br> - Boards shuffle when private is on
-        </form> 
-    </div>
-
-    <div class="w-[90vw] p-4 sm:p-6 md:p-8 rounded-3xl border-gray-400 border-2 shadow-md">
-        <h5 class='text-right'>Apr 16, 2024</h5>
-        <h5 class="text-2xl font-bold ">changes</h5> 
-        <form class="space-y-2 w-[25rem]">
-            <br> - Added public/private view for boards
-            <br> - Passwords now have dots to signify letters
-        </form> 
-    </div>
-    <div class="w-[90vw] p-4 sm:p-6 md:p-8 rounded-3xl border-gray-400 border-2 shadow-md">
-        <h5 class='text-right'>Mar 6, 2024</h5>
-        <h5 class="text-2xl font-bold ">changes</h5> 
-        <form class="space-y-2 w-[25rem]">
-            <br> - Added Changelog
-            <br> - Fixed creatboard glitch, joinboard not fixed
-        </form> 
-    </div>
-    <div class="w-[90vw] p-4 sm:p-6 md:p-8 rounded-3xl border-gray-400 border-2 shadow-md">
-        <h5 class='text-right'>Mar 5, 2024</h5>
-        <h5 class="text-2xl font-bold ">changes</h5> 
-        <form class="space-y-2 w-[25rem]">
-            <br> -   Added Back Users
-            <br> -   Quality of Life Improvements
-            <br> -   Moved oldUI to settings
-            <br> -   Update some themesCSS
-            <br> -   Fixed some glitches
-        </form>
-    </div>
-    <p class="text-blue-500"><a href="/">return to main</a></p>
+    <p class="text-blue-500"><a href="/">Return to Main</a></p>
 </div>

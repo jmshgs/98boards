@@ -12,6 +12,7 @@
 	import JoinBoard from '$lib/components/joinboard.svelte';
 	import DeleteBoard from '$lib/components/deleteboard.svelte';
 	import Banned from '$lib/components/banned.svelte';
+	import About from '$lib/components/about.svelte';
 
 	import CreateBoard from '$lib/components/createboard.svelte';
 	import MessageWindow from '$lib/components/message-window.svelte';
@@ -44,6 +45,7 @@
 	let joinBoard = false;
 	let isDeleting = false;
 	let isCreator = false;
+	let goAbout = false;
 
 	let messages = [{}];
 
@@ -177,6 +179,17 @@
 {/if}
 <main class="{fontCSS} h-screen w-screen {oldUI ? "bg-gray-300" : "bg-slate-50"} {themesCSS}">
 	<!-- account modal -->
+	{#if goAbout}
+	<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
+	on:click={() => {
+		goAbout = false
+	}}>
+		<button on:click|stopPropagation>
+			<About/>
+		</button>
+	</button>
+
+	{/if}
 	{#if isBanned}
 	<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
 	on:click={() => {
@@ -204,7 +217,7 @@
 		showSettings = false
 	}}>
 		<button on:click|stopPropagation>
-			<Settings bind:messagesTop={messagesTop} bind:dashMessage={dashMessage} bind:themeColor={themeColor} bind:themesCSS={themesCSS} bind:fontCSS={fontCSS} bind:isPrivate={isPrivate} bind:oldUI={oldUI}/>
+			<Settings bind:messagesTop={messagesTop} bind:dashMessage={dashMessage} bind:themeColor={themeColor} bind:themesCSS={themesCSS} bind:fontCSS={fontCSS} bind:isPrivate={isPrivate} bind:goAbout={goAbout} bind:oldUI={oldUI}/>
 		</button>
 	</button>	
 	{/if}
@@ -241,7 +254,7 @@
 	</button>
 	{/if}
 	<div class="space-x-10 flex flex-row {themesCSS}" class:blur-md={showLogin || showSettings}> 
-		<Sidebar bind:isCreator={isCreator} bind:isDeleting={isDeleting} bind:boards={boards} bind:createBoard={createBoard} bind:joinBoard={joinBoard} bind:currentBoard={currentBoard} bind:oldUI={oldUI} bind:showLogin={showLogin} bind:showSettings={showSettings} {isPrivate} {fontCSS} {themeColor} {username} {themesCSS} {newButtonClass}/>
+		<Sidebar bind:isCreator={isCreator} bind:isDeleting={isDeleting} bind:boards={boards} bind:createBoard={createBoard} bind:joinBoard={joinBoard} bind:currentBoard={currentBoard} bind:oldUI={oldUI} bind:showLogin={showLogin} bind:goAbout={goAbout} bind:showSettings={showSettings} {isPrivate} {fontCSS} {themeColor} {username} {themesCSS} {newButtonClass}/>
 		{#await promise}
 		<div class="flex w-screen h-screen justify-center items-center">
 			<Spinner color="blue" />
