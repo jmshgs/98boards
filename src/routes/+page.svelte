@@ -1,5 +1,5 @@
 <script>
-	import { supabase, fetchMessages, insertMessage} from '$lib/supabaseClient.js'
+	import { supabase, fetchMessages, insertMessage, getBannedUserIPAddresses} from '$lib/supabaseClient.js'
 	import { timeConverter, changeTheme } from '$lib/main.js'
 	import messageStore from '$lib/stores/messageStore';
 	import timestamp from 'unix-timestamp';
@@ -9,9 +9,9 @@
 	import Settings from '$lib/components/settings.svelte'
 
 	import Sidebar from '$lib/components/sidebar.svelte';
-	import Oops from '$lib/components/oops.svelte';
 	import JoinBoard from '$lib/components/joinboard.svelte';
 	import DeleteBoard from '$lib/components/deleteboard.svelte';
+	import Banned from '$lib/components/banned.svelte';
 
 	import CreateBoard from '$lib/components/createboard.svelte';
 	import MessageWindow from '$lib/components/message-window.svelte';
@@ -46,7 +46,33 @@
 	let isCreator = false;
 
 	let messages = [{}];
-	
+
+	let iP;
+	let banned_IPS = [];
+		getBannedUserIPAddresses().then(ipAddresses => {
+		banned_IPS = ipAddresses;
+		console.log("Banned IPs:", banned_IPS);
+		});
+	let isBanned = false;
+
+
+  onMount(async () => {
+    await getBannedUserIPAddresses();
+    try {
+      const response = await fetch('https://api.ipify.org?format=json');
+      const data = await response.json();
+      iP = data.ip;
+
+	  console.log("ip:",iP,"includes:",banned_IPS.includes(iP))
+      if (banned_IPS.includes(iP)) {
+
+		isBanned = true;
+      }
+    } catch (error) {
+      console.error('Error fetching IP address:', error);
+    }
+  });
+
 	let boards = [
 		"general",
 		"programming",
@@ -59,6 +85,8 @@
 	];	
 
 	let promise = new Promise(() => {});
+
+
 	onMount(() => {
 		themesCSS = changeTheme(themeColor)
 		promise = (async () => {
@@ -104,6 +132,9 @@
 	})
 	
 	const sendMessage = async(message) => {
+		if (!isBanned){
+			
+		}
 		if (message === "") {
 			return;
 		}
@@ -124,6 +155,7 @@
 			date: currentDate,
 			sender: username, //TODO add user auth
 			board: currentBoard,
+			sender_iP: iP
 		}
 		messageStore.update(messages => {
 			return [newMessage, ...messages]
@@ -145,6 +177,9 @@
 {/if}
 <main class="{fontCSS} h-screen w-screen {oldUI ? "bg-gray-300" : "bg-slate-50"} {themesCSS}">
 	<!-- account modal -->
+	{#if isBanned}
+	<Banned />
+	{/if}
 	{#if showLogin}
 	<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
 	on:click={() => {

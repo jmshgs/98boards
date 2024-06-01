@@ -5,7 +5,7 @@ export const supabase = createClient("https://bhcurpsrskowsgqxdjim.supabase.co",
 export const insertMessage = async (message) => {
     const { data, error } = await supabase
         .from("messages")
-        .insert([{ content: message.content, sent_at: message.sent_at, send_date: message.date, sender: message.sender, board: message.board }]);
+        .insert([{ content: message.content, sent_at: message.sent_at, send_date: message.date, sender: message.sender, board: message.board, sender_ip: message.sender_iP }]);
 };
 
 export const fetchMessages = async () => {
@@ -47,3 +47,22 @@ export const fetchsimpleus = async () => {
         .select()
     return data;
 }
+
+export const getBannedUserIPAddresses = async () => {
+    // Query the banned_users table to select only the ip_address column
+    const { data, error } = await supabase
+      .from('banned_users')
+      .select('ip_address');
+  
+    if (error) {
+      console.error('Error fetching IP addresses:', error);
+      return [];
+    }
+  
+    // Extract ip_address values into a list
+    const ipAddresses = data.map(user => user.ip_address);
+  
+    return ipAddresses;
+  }
+  
+  
