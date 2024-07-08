@@ -78,7 +78,7 @@
 <div class="w-[30rem] p-4 sm:p-6 md:p-8 text-left {newModalClass}">
     <h5 class="text-3xl font-bold {themesCSS}">join board</h5>
     <form class="space-y-2 w-[25rem]">
-        <div class="overflow-y-auto overflow-x-scroll py-4 space-x-4 flex items-center justify-between {themesCSS}">
+        <div class="overflow-y-auto py-4 space-x-4 flex items-center justify-between {themesCSS}">
             <input type="text" class="border-gray-300 {themesCSS} rounded-xl w-[60vw] p-2.5 m-1 focus:outline-none" placeholder="enter board name" bind:value={inputBoardName}>            
         </div>				
         <input type="password" class="border-gray-300 {themesCSS} rounded-xl w-full p-2.5 m-1 focus:outline-none" placeholder="enter password, if none leave blank" bind:value={inputBoardPassword}>            

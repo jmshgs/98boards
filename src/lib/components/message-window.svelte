@@ -13,7 +13,7 @@
         <h1 class="text-xl font-semibold py-2">
             messages:
         </h1>
-        <div class="h-[75vh] overflow-y-auto overflow-x-scroll flex {messagesTop ? "flex-col" : "flex-col-reverse align-bottom"}">
+        <div class="h-[75vh] overflow-y-auto flex {messagesTop ? "flex-col" : "flex-col-reverse align-bottom"}">
             {#each messages as message}
                 {#if message.board == currentBoard} 
                     <Message {dashMessage} {message} />

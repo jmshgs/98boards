@@ -56,7 +56,7 @@
 <div class="w-[30rem] p-4 sm:p-6 md:p-8 text-left {newModalClass}">
     <h5 class="text-3xl font-bold {themesCSS}">create board</h5>
     <form class="space-y-2 w-[25rem]">
-        <div class="overflow-y-auto overflow-x-scroll py-4 space-x-4 flex items-center justify-between {themesCSS}">
+        <div class="overflow-y-auto py-4 space-x-4 flex items-center justify-between {themesCSS}">
             <input type="text" class="border-gray-300 {themesCSS} rounded-xl w-[60vw] p-2.5 m-1 focus:outline-none" placeholder="enter board name" bind:value={inputBoardName}>            
             <input type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" bind:checked={isPrivate} on:click={() => {
                 changePrivate();

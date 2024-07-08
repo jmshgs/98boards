@@ -5,7 +5,7 @@
     export let sendMessage;
 </script>
 
-<div class="overflow-y-auto overflow-x-scroll py-4 space-x-4 flex items-center justify-center {themesCSS}">
+<div class="overflow-y-auto py-4 space-x-4 flex items-center justify-center {themesCSS}">
     <input on:keypress={
         (e) => {
             if (e.key === "Enter") {
