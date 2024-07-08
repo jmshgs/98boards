@@ -88,5 +88,30 @@ export const getBannedUserIPAddresses = async () => {
     return { user_id, reason };
 }
 
-  
-  
+export const getAllBannedUserData = async () => {
+  const { data, error } = await supabase
+    .from('banned_users')
+    .select('*');
+
+  if (error) {
+    console.error('Error fetching banned users data:', error);
+    return [];
+  }
+
+  return data;
+};  
+
+export const deleteBannedUser = async (ip_address) => {
+  // Delete the user from the banned_users table based on the ip_address
+  const { data, error } = await supabase
+    .from('banned_users')
+    .delete()
+    .eq('ip_address', ip_address);
+
+  if (error) {
+    console.error('Error deleting user:', error);
+    return false;
+  }
+
+  return true;
+};

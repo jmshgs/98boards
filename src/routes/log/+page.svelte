@@ -1,6 +1,12 @@
 <div class="max-w-screen-lg mx-auto p-8 bg-white rounded-lg shadow-lg">
     <h1 class="text-3xl font-bold text-gray-800 mb-6">Update Log</h1>
-    
+    <div class="mb-8">
+        <h2 class="text-lg font-semibold text-gray-800 mb-2">July 8, 2024</h2>
+        <ul class="list-disc pl-5 text-gray-700">
+            <li>Can now unban users</li>
+            <li>Improved AboutCSS</li>
+        </ul>
+    </div>
     <div class="mb-8">
         <h2 class="text-lg font-semibold text-gray-800 mb-2">May 31, 2024</h2>
         <ul class="list-disc pl-5 text-gray-700">
