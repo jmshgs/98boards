@@ -1,10 +1,14 @@
 <div class="max-w-screen-lg mx-auto p-8 bg-white rounded-lg shadow-lg">
     <h1 class="text-3xl font-bold text-gray-800 mb-6">Update Log</h1>
     <div class="mb-8">
-        <h2 class="text-lg font-semibold text-gray-800 mb-2">July 9, 2024</h2>
+        <h2 class="text-lg font-semibold text-gray-800 mb-2">July 9, 2024 10:00 AM PST</h2>
         <ul class="list-disc pl-5 text-gray-700">
             <li>Emoji Picker Added</li>
             <li>Improved Highlight CSS</li>
+        </ul>
+        <h2 class="text-lg font-semibold text-gray-800 mb-2">July 9, 2024 11:37 AM PST</h2>
+        <ul class="list-disc pl-5 text-gray-700">
+            <li>Removed Users</li>
         </ul>
     </div>    
 

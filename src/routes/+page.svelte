@@ -18,6 +18,8 @@
 	import MessageWindow from '$lib/components/message-window.svelte';
 	import MessageInput from '$lib/components/message-input.svelte';
 
+	import User from "$lib/components/user.svelte"
+
 	const currentDate = new Date();
 
 	let oldUI = false;
@@ -36,8 +38,9 @@
 	let message = "";
 
 	let currentBoard = "general";
-	let username = 'anon';
+	let username = '';
 
+	let showUsername = false;
 	let showLogin = false;
 	let showSettings = false;
 	let showDate = false;
@@ -117,6 +120,7 @@
 				}
 			})
 		}
+		showUsername = true;
 	})
 
 	
@@ -183,6 +187,16 @@
 {/if}
 <main class="{fontCSS} h-screen w-screen {oldUI ? "bg-gray-300" : "bg-slate-50"} {themesCSS}">
 	<!-- account modal -->
+	{#if showUsername}
+	<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
+	on:click={() => {
+		null
+	}}>
+		<button on:click|stopPropagation>
+			<User bind:showUsername={showUsername} bind:username={username}/>
+		</button>
+	</button>
+	{/if}
 	{#if goAbout}
 	<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
 	on:click={() => {
@@ -204,7 +218,7 @@
 		</button>
 	</button>
 	{/if}
-	{#if showLogin}
+	<!-- {#if showLogin}
 	<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
 	on:click={() => {
 		showLogin = false
@@ -213,7 +227,7 @@
 			<Account {oldUI} {themesCSS} bind:username={username}/>
 		</button>
 	</button>	
-	{/if}
+	{/if} -->
 	<!-- settings modal -->
 	{#if showSettings}
 	<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
