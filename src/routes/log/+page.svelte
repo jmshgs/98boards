@@ -1,7 +1,17 @@
 <div class="max-w-screen-lg mx-auto p-8 bg-white rounded-lg shadow-lg">
     <h1 class="text-3xl font-bold text-gray-800 mb-6">Update Log</h1>
+
     <div class="mb-8">
-        <h2 class="text-lg font-semibold text-gray-800 mb-2">July 8, 2024</h2>
+        <h2 class="text-lg font-semibold text-gray-800 mb-2">July 8, 2024 7:55 PM PST</h2>
+        <ul class="list-disc pl-5 text-gray-700">
+            <li>Show/Hide Date</li>
+            <li>Highlight newest message</li>
+            <li>Page 2 of Settings</li>
+            <li>Functional Linking</li>
+        </ul>
+    </div>    
+    <div class="mb-8">
+        <h2 class="text-lg font-semibold text-gray-800 mb-2">July 8, 2024 5:20 PM PST</h2>
         <ul class="list-disc pl-5 text-gray-700">
             <li>Can now unban users</li>
             <li>Improved AboutCSS</li>

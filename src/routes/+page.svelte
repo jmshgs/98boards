@@ -40,6 +40,8 @@
 
 	let showLogin = false;
 	let showSettings = false;
+	let showDate = false;
+	let showHighlight = true;
 
 	let createBoard = false;
 	let joinBoard = false;
@@ -217,7 +219,7 @@
 		showSettings = false
 	}}>
 		<button on:click|stopPropagation>
-			<Settings bind:messagesTop={messagesTop} bind:dashMessage={dashMessage} bind:themeColor={themeColor} bind:themesCSS={themesCSS} bind:fontCSS={fontCSS} bind:isPrivate={isPrivate} bind:goAbout={goAbout} bind:oldUI={oldUI}/>
+			<Settings bind:messagesTop={messagesTop} bind:dashMessage={dashMessage} bind:themeColor={themeColor} bind:themesCSS={themesCSS} bind:fontCSS={fontCSS} bind:isPrivate={isPrivate} bind:goAbout={goAbout} bind:oldUI={oldUI} bind:showDate={showDate} bind:showHighlight={showHighlight}/>
 		</button>
 	</button>	
 	{/if}
@@ -262,7 +264,7 @@
 		{:then}
 		<div class="px-4 justify-start flex">
 			<div class="lg:w-[75vw] w-[60vw] h-[80vh] justify-center p-4">
-				<MessageWindow {oldUI} {messages} {currentBoard} {messagesTop} {dashMessage}/>
+				<MessageWindow {oldUI} {showHighlight} {showDate} {messages} {currentBoard} {messagesTop} {dashMessage}/>
 				<MessageInput {message} {username} {themesCSS} {sendMessage}/>
 			</div>
 		</div>
