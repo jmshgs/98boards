@@ -43,6 +43,6 @@
         {#if failSubmit}
         <div class="mt-4 text-red-400">Username cannot be empty. </div>
         {/if}
-        <button class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded mt-6" on:click={handleSubmit}>Submit</button>
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-xl mt-6" on:click={handleSubmit}>Submit</button>
     </form>
 </div>
