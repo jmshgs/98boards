@@ -51,6 +51,8 @@
 
 	let messages = [{}];
 
+	let emojiPickerOpen = true;
+
 	let iP;
 	let banned_IPS = [];
 		getBannedUserIPAddresses().then(ipAddresses => {
@@ -265,7 +267,7 @@
 		<div class="px-4 justify-start flex">
 			<div class="lg:w-[75vw] w-[60vw] h-[80vh] justify-center p-4">
 				<MessageWindow {oldUI} {showHighlight} {showDate} {messages} {currentBoard} {messagesTop} {dashMessage}/>
-				<MessageInput {message} {username} {themesCSS} {sendMessage}/>
+				<MessageInput {message} {username} {themesCSS} bind:emojiPickerOpen={emojiPickerOpen} {sendMessage}/>
 			</div>
 		</div>
 		{/await}

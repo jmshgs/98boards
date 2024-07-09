@@ -17,7 +17,7 @@
     }
 </script>
 
-<div class={showHighlight ? messageClass : ""}>
+<div class={`${showHighlight ? messageClass : ""} rounded-padded`}>
     {#if dashMessage}
         {#if message.content.includes("https://")}
             <span>
@@ -40,3 +40,10 @@
     {/if}
 </div>
 
+<style>
+    .rounded-padded {
+        border-radius: 10px; /* Adjust the value as needed */
+        padding: 5px; /* Adjust the value as needed */
+    }
+</style>
+  

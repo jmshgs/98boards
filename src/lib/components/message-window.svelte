@@ -34,7 +34,7 @@
                         message={message}
                         showHighlight={showHighlight} 
                         showDate={showDate}
-                        messageClass={message === latestMessage ? 'bg-gray-300' : ''}
+                        messageClass={message === latestMessage ? 'bg-gray-200' : ''}
                     />
                 {/if}
             {/each}
