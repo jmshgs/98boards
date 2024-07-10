@@ -55,7 +55,7 @@
             {#if file}
                 ✔️ <!-- Display checkmark emoji when a file is selected -->
             {:else}
-                📎 <!-- Display paperclip emoji when no file is selected -->
+                📁 <!-- Display paperclip emoji when no file is selected -->
             {/if}
         </span>
     </label>
