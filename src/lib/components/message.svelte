@@ -6,6 +6,7 @@
     export let message;
     export let showHighlight;
     export let showDate;
+    export let showImages;
     export let messageClass = ''; // Renamed to avoid conflict
 
     function renderMessageWithLink(content) {
@@ -28,7 +29,7 @@
 </script>
 
 <div class={`${showHighlight ? messageClass : ""} rounded-lg p-2 flex flex-col relative group`}>
-    {#if message.image_url}
+    {#if message.image_url && showImages}
         <div class="message-content">
             {#if dashMessage}
                 {#if message.content.includes("https://")}

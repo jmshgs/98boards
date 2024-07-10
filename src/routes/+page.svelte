@@ -53,6 +53,7 @@
 	let isDeleting = false;
 	let isCreator = false;
 	let goAbout = false;
+	let showImages = true;
 
 	let messages = [{}];
 
@@ -272,7 +273,7 @@ const sendMessage = async (message, file) => {
 		showSettings = false
 	}}>
 		<button on:click|stopPropagation>
-			<Settings bind:messagesTop={messagesTop} bind:dashMessage={dashMessage} bind:themeColor={themeColor} bind:themesCSS={themesCSS} bind:fontCSS={fontCSS} bind:isPrivate={isPrivate} bind:goAbout={goAbout} bind:oldUI={oldUI} bind:showDate={showDate} bind:showHighlight={showHighlight}/>
+			<Settings bind:messagesTop={messagesTop} bind:dashMessage={dashMessage} bind:themeColor={themeColor} bind:themesCSS={themesCSS} bind:fontCSS={fontCSS} bind:isPrivate={isPrivate} bind:goAbout={goAbout} bind:oldUI={oldUI} bind:showDate={showDate} bind:showHighlight={showHighlight} bind:showImages={showImages}/>
 		</button>
 	</button>	
 	{/if}
@@ -317,7 +318,7 @@ const sendMessage = async (message, file) => {
 		{:then}
 		<div class="px-4 justify-start flex">
 			<div class="lg:w-[75vw] w-[60vw] h-[80vh] justify-center p-4">
-				<MessageWindow {oldUI} {showHighlight} {showDate} {messages} {currentBoard} {messagesTop} {dashMessage}/>
+				<MessageWindow {oldUI} {showHighlight} {showDate} {showImages} {messages} {currentBoard} {messagesTop} {dashMessage}/>
 				<MessageInput {message} {username} {themesCSS} bind:emojiPickerOpen={emojiPickerOpen} {sendMessage}/>
 			</div>
 		</div>

@@ -1,6 +1,5 @@
 <script>
     import { changeTheme } from '$lib/main.js';
-    import SettingsPage2 from '$lib/components/settings2.svelte';
 
     export let dashMessage;
     export let messagesTop;
@@ -10,27 +9,16 @@
     export let isPrivate;
     export let showDate;
     export let showHighlight;
+    export let showImages;
 
     export let oldUI;
 
-    let showPage2 = false;
 
     $: newModalClass = `${oldUI ? "" : "rounded-3xl border-gray-400 border-2 shadow-md"} ${themesCSS}`;
 
-    function togglePage() {
-        showPage2 = !showPage2;
-    }
 </script>
 
 <div class="w-[43rem] p-4 sm:p-6 md:p-8 text-left {newModalClass}">
-    {#if showPage2}
-        <SettingsPage2 
-            bind:themesCSS={themesCSS} 
-            bind:fontCSS={fontCSS} 
-            bind:showDate={showDate}
-            bind:showHighlight={showHighlight}
-        />
-    {:else}
         <form class="space-y-6 mb-4"> 
             <h5 class="text-3xl font-bold {themesCSS} {fontCSS}">settings</h5>
         </form>
@@ -93,15 +81,30 @@
                     </select>
                 </div>
             </div>
-        </div>
-    {/if}
+                <div class="flex flex-row justify-start space-x-10">
+                    <div class="flex flex-col">
+                        <label for="anotherSetting" class="text-lg font-bold {themesCSS}">highlight new msg</label>
+                        <select id="anotherSetting" name="anotherSetting" class="w-64 h-10 mt-2 rounded-xl border-gray-400 border-2 {themesCSS}" bind:value={showHighlight}>
+                            <option value={true}>Show Highlight</option>
+                            <option value={false}>Hide Highlight</option>
+                        </select>
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="someSetting" class="text-lg font-bold {themesCSS}">show date</label>
+                        <select id="someSetting" name="someSetting" class="w-32 h-10 mt-2 rounded-xl border-gray-400 border-2 {themesCSS}" bind:value={showDate}>
+                            <option value={true}>Show</option>
+                            <option value={false}>Hide</option>
+                        </select>
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="anotherSetting" class="text-lg font-bold {themesCSS}">show images</label>
+                        <select id="anotherSetting" name="anotherSetting" class="w-32 h-10 mt-2 rounded-xl border-gray-400 border-2 {themesCSS}" bind:value={showImages}>
+                            <option value={true}>Show</option>
+                            <option value={false}>Hide</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- Add more settings as needed -->
+            </div>
 
-    <div class="mt-6">
-        <button 
-            on:click={togglePage} 
-            class={`w-full h-10 rounded-xl border-2 shadow-md bg-gray-200 text-gray-800 hover:bg-gray-300 {themesCSS}`}
-        >
-            {showPage2 ? 'Back to Main Settings' : 'Go to Additional Settings'}
-        </button>
-    </div>
 </div>

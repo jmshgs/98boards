@@ -8,6 +8,7 @@
     export let dashMessage;
     export let showHighlight;
     export let showDate;
+    export let showImages;
 
     let latestMessage = null;
 
@@ -34,6 +35,7 @@
                         message={message}
                         showHighlight={showHighlight} 
                         showDate={showDate}
+                        showImages={showImages}
                         messageClass={message === latestMessage ? 'bg-gray-200' : ''}
                     />
                 {/if}
