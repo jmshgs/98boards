@@ -5,7 +5,7 @@ export const supabase = createClient("https://bhcurpsrskowsgqxdjim.supabase.co",
 export const insertMessage = async (message) => {
     const { data, error } = await supabase
         .from("messages")
-        .insert([{ content: message.content, sent_at: message.sent_at, send_date: message.date, sender: message.sender, board: message.board, sender_ip: message.sender_iP }]);
+        .insert([{ content: message.content, sent_at: message.sent_at, send_date: message.date, sender: message.sender, board: message.board, sender_ip: message.sender_iP, image_url: message.image_url }]);
 };
 
 export const fetchMessages = async () => {
@@ -148,3 +148,38 @@ export const pushDelUsername = async (username) => {
   }
   return true;
 };
+
+
+const BASE_URL = 'https://bhcurpsrskowsgqxdjim.supabase.co/storage/v1/object/public/images/';
+
+export async function uploadImage(file) {
+  try {
+    // Upload the file
+    const { data, error } = await supabase.storage
+      .from('images') // Ensure this matches your Supabase bucket name
+      .upload(`images/${Date.now()}_${file.name}`, file);
+
+    if (error) {
+      console.error('Error uploading image:', error);
+      return null;
+    }
+
+    if (!data || !data.path) {
+      console.error('Upload successful but no data.path found');
+      return null;
+    }
+
+    console.log('Upload successful:', data);
+
+    // Construct the public URL manually
+    const imagePath = data.path; // Use the returned path from upload
+    const publicURL = `${BASE_URL}${imagePath}`;
+
+    console.log('Public URL:', publicURL);
+
+    return publicURL;
+  } catch (err) {
+    console.error('Unexpected error:', err);
+    return null;
+  }
+}

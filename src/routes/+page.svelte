@@ -1,5 +1,5 @@
 <script>
-	import { supabase, fetchMessages, insertMessage, getBannedUserIPAddresses, pushDelUsername} from '$lib/supabaseClient.js'
+	import { supabase, fetchMessages, insertMessage, getBannedUserIPAddresses, pushDelUsername, uploadImage} from '$lib/supabaseClient.js'
 	import { timeConverter, changeTheme } from '$lib/main.js'
 	import messageStore from '$lib/stores/messageStore';
 	import timestamp from 'unix-timestamp';
@@ -64,7 +64,7 @@
 		banned_IPS = ipAddresses;
 		});
 	let isBanned = false;
-
+		
 	function handleBeforeUnload() {
 
 		console.log("deleting")
@@ -158,38 +158,57 @@
 		messages = data.sort((a,b) => a.sent_at - b.sent_at).reverse();	
 	})
 	
-	const sendMessage = async(message) => {
-		if (!isBanned){
-			
-		}
-		if (message === "") {
-			return;
-		}
-		if (messages[0]) {
 
-			if (message == messages[0].content && messages[0].sender == username) {
-				alert("you can't send the same message twice :)")
-				return;
-			}
-			if (timestamp.now() - messages[0].sent_at < 1 && username == messages[0].sender) {
-				alert("you can't send messages that fast :)")
-				return;
-			}
-		}
-		let newMessage = {
-			content: message,
-			sent_at: timestamp.now(),
-			date: currentDate,
-			sender: username, //TODO add user auth
-			board: currentBoard,
-			sender_iP: iP
-		}
-		messageStore.update(messages => {
-			return [newMessage, ...messages]
-		})
-		await insertMessage(newMessage);
-	}
+const sendMessage = async (message, file) => {
+  if (!isBanned) {
+    // Add logic to handle banned users if needed
+  }
 
+  if (message === "" && file == null) {
+    toast.error("message content cannot be empty!");
+  }
+
+  if (messages[0]) {
+    if (message === messages[0].content && messages[0].sender === username) {
+      toast.error("you can't send the same message twice :)");
+      return;
+    }
+    if (timestamp.now() - messages[0].sent_at < 1 && username === messages[0].sender) {
+      toast.error("you can't send messages that fast :)");
+      return;
+    }
+  }
+
+  let imageUrl = null;
+  if (file) {
+    imageUrl = await uploadImage(file);
+
+    if (!imageUrl) {
+      toast.error('Error uploading image. Please try again.');
+      return;
+    } else {
+      toast.success("Successfully uploaded image.");
+    }
+  }
+
+  let newMessage = {
+    content: message,
+    sent_at: timestamp.now(),
+    date: currentDate,
+    sender: username, // TODO: Add user auth
+    board: currentBoard,
+    sender_iP: iP,
+    image_url: imageUrl // Add the image URL to the message
+  };
+
+  console.log('New message object:', newMessage); // Debugging statement to check message object
+
+  messageStore.update(messages => {
+    return [newMessage, ...messages];
+  });
+
+  await insertMessage(newMessage);
+};
 </script>
 
 <svelte:window on:keypress={(e) => {
@@ -290,7 +309,7 @@
 	</button>
 	{/if}
 	<div class="space-x-10 flex flex-row {themesCSS}" class:blur-md={showLogin || showSettings}> 
-		<Sidebar bind:isCreator={isCreator} bind:isDeleting={isDeleting} bind:boards={boards} bind:createBoard={createBoard} bind:joinBoard={joinBoard} bind:currentBoard={currentBoard} bind:oldUI={oldUI} bind:showLogin={showLogin} bind:goAbout={goAbout} bind:showSettings={showSettings} {isPrivate} {fontCSS} {themeColor} {username} {themesCSS} {newButtonClass}/>
+		<Sidebar bind:isCreator={isCreator} bind:isDeleting={isDeleting} bind:boards={boards} bind:createBoard={createBoard} bind:joinBoard={joinBoard} bind:currentBoard={currentBoard} bind:oldUI={oldUI} bind:goAbout={goAbout} bind:showSettings={showSettings} {isPrivate} {fontCSS} {themeColor} {username} {themesCSS} {newButtonClass}/>
 		{#await promise}
 		<div class="flex w-screen h-screen justify-center items-center">
 			<Spinner color="blue" />
