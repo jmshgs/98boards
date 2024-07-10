@@ -1,12 +1,13 @@
 <script>
     import { supabase } from '$lib/supabaseClient.js';
     import messageStore from '$lib/stores/messageStore';
-    import { onMount } from 'svelte';
+    import { onMount, onDestroy } from 'svelte';
     import { timeConverter } from '$lib/main.js'
 
     let messages = [];
 
-    supabase.channel('custom-all-channel')
+    // Subscribe to Supabase changes
+    const channel = supabase.channel('custom-all-channel')
     .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'messages' },
@@ -19,10 +20,12 @@
     )
     .subscribe();
 
-	messageStore.subscribe((data) => {
-		messages = data.sort((a,b) => a.sent_at - b.sent_at).reverse();	
-	})
+    // Subscribe to message store
+    const unsubscribe = messageStore.subscribe((data) => {
+        messages = data.sort((a, b) => a.sent_at - b.sent_at).reverse();
+    });
 
+    // Function to fetch messages from Supabase
     async function fetchMessages() {
         let { data: messages, error } = await supabase
             .from('messages')
@@ -32,13 +35,7 @@
         return messages;
     }
 
-    onMount(() => {
-        fetchMessages()
-        .then((data) => {
-            messageStore.set(data.reverse());
-        });
-    });
-
+    // Function to delete a message
     async function deleteMessage(id) {
         const { error } = await supabase
             .from('messages')
@@ -55,7 +52,27 @@
         }
     }
 
+    // Fetch messages initially and set up interval for periodic fetching
+    let interval;
+    onMount(() => {
+        fetchMessages()
+        .then((data) => {
+            messageStore.set(data.reverse());
+        });
 
+        interval = setInterval(() => {
+            fetchMessages()
+            .then((data) => {
+                messageStore.set(data.reverse());
+            });
+        }, 5000); // Fetch every 5 seconds
+    });
+
+    // Clean up interval on component destroy
+    onDestroy(() => {
+        clearInterval(interval);
+        unsubscribe(); // Unsubscribe from the message store
+    });
 </script>
 
 <style>
