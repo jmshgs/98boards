@@ -1,26 +1,54 @@
 <script>
+    import { pullUsername, pushUsername } from '$lib/supabaseClient.js'
+
     export let username = '';
     export let showUsername;
     let isSubmitted = false;
     let failSubmit = false;
+    let isExist = false;
+
+    let listUsername = [];
+
+    async function fetchUsernames() {
+        try {
+            listUsername = await pullUsername();
+        } catch (error) {
+            console.error('Error fetching usernames:', error);
+        }
+    }
+
+    fetchUsernames();
 
     function waitForSeconds(seconds) {
         return new Promise(resolve => setTimeout(resolve, seconds * 1000));
     }
 
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
         event.preventDefault(); // Prevent default form submission
         if (username.trim() === '') {
-            failSubmit=true;
-            isSubmitted=false;
-        }
-        else{
-            isSubmitted = true;
-            failSubmit = false;
+            failSubmit = true;
+            isSubmitted = false;
+            isExist = false;
+        } else {
+            const usernameExists = listUsername.some(user => user.username === username);
+            if (usernameExists) {
+                isSubmitted = false;
+                isExist = true;
+                failSubmit = false;
+            } else {
+                try {
+                    await pushUsername(username);
+                    isSubmitted = true;
+                    isExist = false;
+                    failSubmit = false;
 
-            waitForSeconds(1.5);
+                    await waitForSeconds(1.0);
 
-            showUsername=false;
+                    showUsername = false;
+                } catch (error) {
+                    console.error('Error inserting username:', error);
+                }
+            }
         }
     }
 </script>
@@ -43,6 +71,9 @@
         {#if failSubmit}
         <div class="mt-4 text-red-400">Username cannot be empty. </div>
         {/if}
-        <button class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-xl mt-6" on:click={handleSubmit}>Submit</button>
+        {#if isExist}
+        <div class="mt-4 text-yellow-400">Username already exists.</div>
+        {/if}
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-xl mt-6">Submit</button>
     </form>
 </div>

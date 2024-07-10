@@ -10,6 +10,11 @@
         <ul class="list-disc pl-5 text-gray-700">
             <li>Removed Users</li>
         </ul>
+        <h2 class="text-lg font-semibold text-gray-800 mb-2">July 9, 2024 9:00 PM PST</h2>
+        <ul class="list-disc pl-5 text-gray-700">
+            <li>Username push to DB</li>
+            <li>Username removed on close</li>
+        </ul>
     </div>    
 
     <div class="mb-8">

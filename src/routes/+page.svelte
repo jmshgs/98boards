@@ -1,10 +1,10 @@
 <script>
-	import { supabase, fetchMessages, insertMessage, getBannedUserIPAddresses} from '$lib/supabaseClient.js'
+	import { supabase, fetchMessages, insertMessage, getBannedUserIPAddresses, pushDelUsername} from '$lib/supabaseClient.js'
 	import { timeConverter, changeTheme } from '$lib/main.js'
 	import messageStore from '$lib/stores/messageStore';
 	import timestamp from 'unix-timestamp';
 	import { Spinner } from 'flowbite-svelte'
-	import { onMount } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import Account from '$lib/components/account.svelte'
 	import Settings from '$lib/components/settings.svelte'
 
@@ -60,27 +60,40 @@
 	let banned_IPS = [];
 		getBannedUserIPAddresses().then(ipAddresses => {
 		banned_IPS = ipAddresses;
-		console.log("Banned IPs:", banned_IPS);
 		});
 	let isBanned = false;
 
+	function handleBeforeUnload(event) {
+		pushDelUsername(username);
+		
+		return new Promise(resolve => setTimeout(resolve, seconds * 3000));
 
-  onMount(async () => {
-    await getBannedUserIPAddresses();
-    try {
-      const response = await fetch('https://api.ipify.org?format=json');
-      const data = await response.json();
-      iP = data.ip;
+	}
 
-	  console.log("ip:",iP,"includes:",banned_IPS.includes(iP))
-      if (banned_IPS.includes(iP)) {
+  onMount(() => {
+    window.addEventListener('beforeunload', handleBeforeUnload);
 
-		isBanned = true;
-      }
-    } catch (error) {
-      console.error('Error fetching IP address:', error);
-    }
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
   });
+
+
+  	onMount(async () => {
+		await getBannedUserIPAddresses();
+		try {
+		const response = await fetch('https://api.ipify.org?format=json');
+		const data = await response.json();
+		iP = data.ip;
+
+		if (banned_IPS.includes(iP)) {
+
+			isBanned = true;
+		}
+		} catch (error) {
+		console.error('Error fetching IP address:', error);
+		}
+	});
 
 	let boards = [
 		"general",

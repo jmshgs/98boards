@@ -5,7 +5,6 @@
     export let boards;
     export let currentBoard;
     export let oldUI;
-    export let showLogin;
     export let showSettings;
     export let fontCSS;
     export let themeColor;
@@ -20,8 +19,6 @@
     export let isCreator;
 
     export let goAbout
-
-    console.log(createBoard)
 
     function isOwner(){
         let bars = []

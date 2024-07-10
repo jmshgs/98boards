@@ -115,3 +115,36 @@ export const deleteBannedUser = async (ip_address) => {
 
   return true;
 };
+
+export const pullUsername = async () => {
+  const { data, error } = await supabase
+    .from('usernames')
+    .select("*")
+  if (error) {
+    throw error;
+  }
+  return data;
+}
+
+export const pushUsername = async (username) => {
+  const { data, error } = await supabase
+    .from('usernames')
+    .insert([{ username }])
+  if (error) {
+    throw error;
+  }
+  return data;
+}
+
+export const pushDelUsername = async (username) => {
+  const { data, error } = await supabase
+    .from('usernames')
+    .delete()
+    .eq('username', username); // Ensure the correct column name is used
+
+  if (error) {
+    console.error('Error deleting user:', error);
+    return false;
+  }
+  return true;
+};
