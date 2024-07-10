@@ -3,17 +3,28 @@
     <div class="mb-8">
         <h2 class="text-lg font-semibold text-gray-800 mb-2">July 9, 2024 10:00 AM PST</h2>
         <ul class="list-disc pl-5 text-gray-700">
+            <li>Added Sonner (toaster)</li>
+            <li>Copy to Clipboard function</li>
+        </ul>
+    </div>
+    <div class="mb-8">
+        <h2 class="text-lg font-semibold text-gray-800 mb-2">July 9, 2024 10:00 AM PST</h2>
+        <ul class="list-disc pl-5 text-gray-700">
             <li>Emoji Picker Added</li>
             <li>Improved Highlight CSS</li>
         </ul>
+    </div> 
+    <div class="mb-8">
         <h2 class="text-lg font-semibold text-gray-800 mb-2">July 9, 2024 11:37 AM PST</h2>
         <ul class="list-disc pl-5 text-gray-700">
             <li>Removed Users</li>
         </ul>
+    </div>
+    <div class="mb-8">
         <h2 class="text-lg font-semibold text-gray-800 mb-2">July 9, 2024 9:00 PM PST</h2>
         <ul class="list-disc pl-5 text-gray-700">
             <li>Username push to DB</li>
-            <li>Username removed on close</li>
+            <li>Username removed on click</li>
         </ul>
     </div>    
 

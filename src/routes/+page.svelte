@@ -19,6 +19,8 @@
 	import MessageInput from '$lib/components/message-input.svelte';
 
 	import User from "$lib/components/user.svelte"
+    import { Toaster, toast } from 'svelte-sonner';
+
 
 	const currentDate = new Date();
 
@@ -198,6 +200,7 @@
 {#if oldUI}
 <link rel="stylesheet" href="https://unpkg.com/98.css" />
 {/if}
+<Toaster position="bottom-left" richColors />
 <main class="{fontCSS} h-screen w-screen {oldUI ? "bg-gray-300" : "bg-slate-50"} {themesCSS}">
 	<!-- account modal -->
 	{#if showUsername}

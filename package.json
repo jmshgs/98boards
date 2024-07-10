@@ -20,6 +20,7 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.38.4",
     "flowbite-svelte": "^0.44.20",
+    "svelte-sonner": "^0.3.25",
     "unix-timestamp": "^1.0.3"
   }
 }
