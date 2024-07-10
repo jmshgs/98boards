@@ -30,45 +30,55 @@
 
 <div class={`${showHighlight ? messageClass : ""} rounded-lg p-2 flex flex-col relative group`}>
     {#if message.image_url && showImages}
-        <div class="message-content">
-            {#if dashMessage}
-                {#if message.content.includes("https://")}
-                    <span>
-                        {message.sender}: {@html renderMessageWithLink(message.content)} - {timeConverter(message.sent_at)} {showDate ? (message.send_date) : ''}
-                    </span>
+        <div class="message-content flex justify-between items-center">
+            <div>
+                {#if dashMessage}
+                    {#if message.content.includes("https://")}
+                        <span>
+                            {message.sender}: {@html renderMessageWithLink(message.content)}
+                        </span>
+                    {:else}
+                        {message.sender}: {message.content}
+                    {/if}
                 {:else}
-                    {message.sender}: {message.content} - {timeConverter(message.sent_at)} {showDate ? (message.send_date) : ''}
+                    {#if message.content.includes("https://")}
+                        <span>
+                            {message.sender}: {@html renderMessageWithLink(message.content)}
+                        </span>
+                    {:else}
+                        {message.sender}: {message.content}
+                    {/if}
                 {/if}
-            {:else}
-                {#if message.content.includes("https://")}
-                    <span>
-                        {message.sender}: {@html renderMessageWithLink(message.content)} @ {timeConverter(message.sent_at)} {showDate ? (message.send_date) : ''}
-                    </span>
-                {:else}
-                    {message.sender}: {message.content} @ {timeConverter(message.sent_at)} {showDate ? (message.send_date) : ''}
-                {/if}
-            {/if}
+            </div>
+            <div class="text-gray-500 text-sm flex-shrink-0 mr-7">
+                at {timeConverter(message.sent_at)} {showDate ? (message.send_date) : ''}
+            </div>
         </div>
         <img src={message.image_url} alt="Image" class="chat-image mt-2" />
     {:else}
-        <div class="message-content">
-            {#if dashMessage}
-                {#if message.content.includes("https://")}
-                    <span>
-                        {message.sender}: {@html renderMessageWithLink(message.content)} - {timeConverter(message.sent_at)} {showDate ? (message.send_date) : ''}
-                    </span>
+        <div class="message-content flex justify-between items-center">
+            <div>
+                {#if dashMessage}
+                    {#if message.content.includes("https://")}
+                        <span>
+                            {message.sender}: {@html renderMessageWithLink(message.content)}
+                        </span>
+                    {:else}
+                        {message.sender}: {message.content}
+                    {/if}
                 {:else}
-                    {message.sender}: {message.content} - {timeConverter(message.sent_at)} {showDate ? (message.send_date) : ''}
+                    {#if message.content.includes("https://")}
+                        <span>
+                            {message.sender}: {@html renderMessageWithLink(message.content)}
+                        </span>
+                    {:else}
+                        {message.sender}: {message.content}
+                    {/if}
                 {/if}
-            {:else}
-                {#if message.content.includes("https://")}
-                    <span>
-                        {message.sender}: {@html renderMessageWithLink(message.content)} @ {timeConverter(message.sent_at)} {showDate ? (message.send_date) : ''}
-                    </span>
-                {:else}
-                    {message.sender}: {message.content} @ {timeConverter(message.sent_at)} {showDate ? (message.send_date) : ''}
-                {/if}
-            {/if}
+            </div>
+            <div class="text-gray-500 text-sm flex-shrink-0 mr-7">
+                at {timeConverter(message.sent_at)} {showDate ? (message.send_date) : ''}
+            </div>
         </div>
     {/if}
     <svg
@@ -93,7 +103,6 @@
 
     .message-content {
         display: flex;
-        flex-direction: column;
         gap: 0.5rem; /* Optional: Space between text elements */
     }
 </style>

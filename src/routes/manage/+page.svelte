@@ -65,7 +65,7 @@
             .then((data) => {
                 messageStore.set(data.reverse());
             });
-        }, 5000); // Fetch every 5 seconds
+        }, 2000); // Fetch every 5 seconds
     });
 
     // Clean up interval on component destroy
