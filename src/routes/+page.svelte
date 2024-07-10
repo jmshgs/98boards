@@ -65,10 +65,12 @@
 		});
 	let isBanned = false;
 
-	function handleBeforeUnload(event) {
+	function handleBeforeUnload() {
+
+		console.log("deleting")
+
 		pushDelUsername(username);
 		
-		return new Promise(resolve => setTimeout(resolve, seconds * 3000));
 
 	}
 

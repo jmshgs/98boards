@@ -17,7 +17,12 @@
         }
     }
 
-    fetchUsernames();
+    fetchUsernames().then(
+        data => console.log(data)
+    ).catch(
+        error => console.error('Error:', error)
+    );
+
 
     function waitForSeconds(seconds) {
         return new Promise(resolve => setTimeout(resolve, seconds * 1000));

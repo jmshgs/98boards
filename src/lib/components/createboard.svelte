@@ -37,8 +37,10 @@
             creator: username
         }
         try {
-            await insertBoard(newBoard);
-            boards = [...boards, inputBoardName];
+            if (!boards.includes(inputBoardName)){
+                    await insertBoard(newBoard);
+                    boards = [...boards, inputBoardName];
+                }                
             inputBoardName = "";
             inputBoardPassword = "";
             isEmpty = false;
