@@ -126,15 +126,31 @@ export const pullUsername = async () => {
   return data;
 }
 
-export const pushUsername = async (username) => {
+// supabaseClient.js
+
+export const pushUsername = async (username, time_made) => {
   const { data, error } = await supabase
     .from('usernames')
-    .insert([{ username }])
+    .insert([{ username, time_made }]);
   if (error) {
     throw error;
   }
   return data;
-}
+};
+// supabaseClient.js
+
+export const getTimeMade = async (username) => {
+  const { data, error } = await supabase
+    .from('usernames')
+    .select('time_made')
+    .eq('username', username)
+    .single(); // We expect a single result
+
+  if (error) {
+    throw error;
+  }
+  return data ? data.time_made : null;
+};
 
 export const pushDelUsername = async (username) => {
   const { data, error } = await supabase

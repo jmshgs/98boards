@@ -1,5 +1,5 @@
 <script>
-    import { pullUsername, pushUsername } from '$lib/supabaseClient.js'
+    import { pullUsername, pushUsername } from '$lib/supabaseClient.js';
 
     export let username = '';
     export let showUsername;
@@ -23,7 +23,6 @@
         error => console.error('Error:', error)
     );
 
-
     function waitForSeconds(seconds) {
         return new Promise(resolve => setTimeout(resolve, seconds * 1000));
     }
@@ -41,8 +40,10 @@
                 isExist = true;
                 failSubmit = false;
             } else {
+                const time_made = new Date().toISOString(); // Get the current timestamp
+
                 try {
-                    await pushUsername(username);
+                    await pushUsername(username, time_made);
                     isSubmitted = true;
                     isExist = false;
                     failSubmit = false;
