@@ -2,12 +2,15 @@
     "version": 2,
     "builds": [
       {
-        "src": "api/**/*.js",
-        "use": "@vercel/node"
+        "src": "src/**/*",
+        "use": "@sveltejs/kit",
+        "config": {
+          "distDir": "build"
+        }
       },
       {
-        "src": "src/**/*",
-        "use": "@vercel/svelte"
+        "src": "api/**/*",
+        "use": "@vercel/node"
       }
     ],
     "routes": [
