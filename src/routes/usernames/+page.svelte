@@ -37,8 +37,14 @@
         await fetchUsernames();
     }
 
-    // Call deleteOldUsernames function on component mount
+    // Call deleteOldUsernames function on component mount and every minute
     deleteOldUsernames();
+    const interval = setInterval(deleteOldUsernames, 60000);
+
+    // Clear the interval when the component is destroyed to prevent memory leaks
+    onDestroy(() => {
+        clearInterval(interval);
+    });
 </script>
 
 <div class="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">

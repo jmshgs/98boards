@@ -1,0 +1,14 @@
+name: Username Cleanup
+
+on:
+  schedule:
+    - cron: '*/1 * * * *' # Runs every minute
+  workflow_dispatch:
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Call the cleanup function
+        run: curl -X GET https://98boards.vercel.app/api/cleanup

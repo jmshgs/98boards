@@ -9,17 +9,20 @@
     export let showDate;
     export let showImages;
     export let messageClass = ''; // Renamed to avoid conflict
-    export let username; // Add this line to pass the username
+    export let username = ''; // Initialize username with an empty string
 
     let audio = new Audio('/sounds/ping.mp3'); // Replace with the path to your sound file
     let soundPlayed = false; // Flag to track if the sound has been played
 
     async function checkAndPlaySound() {
-        const playedSound = await getPlayedSound(message.id); // Fetch the played_sound status
-        if (!playedSound && message.content.includes(`@${username}`)) {
-            audio.play();
-            soundPlayed = true; // Set the flag to true after playing the sound
-            await markSoundAsPlayed(message.id); // Update the played_sound status in the database
+        // Ensure message.id is defined and is a number
+        if (username && message.id && !isNaN(message.id)) {
+            const playedSound = await getPlayedSound(message.id); // Fetch the played_sound status
+            if (!playedSound && playedSound != null && message.content.includes(`@${username}`)) {
+                audio.play();
+                soundPlayed = true; // Set the flag to true after playing the sound
+                await markSoundAsPlayed(message.id); // Update the played_sound status in the database
+            }
         }
     }
 
