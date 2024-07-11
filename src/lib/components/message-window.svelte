@@ -9,6 +9,7 @@
     export let showHighlight;
     export let showDate;
     export let showImages;
+    export let username;
 
     let latestMessage = null;
 
@@ -31,6 +32,7 @@
             {#each messages as message (message.id)}
                 {#if message.board === currentBoard}
                     <Message 
+                        username={username}
                         dashMessage={dashMessage} 
                         message={message}
                         showHighlight={showHighlight} 

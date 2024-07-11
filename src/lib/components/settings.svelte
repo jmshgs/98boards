@@ -56,17 +56,10 @@
                 </div>
             </div>
             <div class="flex flex-row justify-start space-x-10">
-                <div class="flex flex-col">
-                    <label for="messageFormat" class="text-lg font-bold {themesCSS}">message format</label>
-                    <select id="messageFormat" name="messageFormat" class="w-64 h-10 mt-2 rounded-xl border-gray-400 border-2 shadow-md {themesCSS}" bind:value={dashMessage}>
-                        <option value={true}>user: message - time</option>
-                        <option value={false}>user: message @ time</option>
-                    </select>
-                </div>
 
                 <div class="flex flex-col">
                     <label for="font" class="text-lg font-bold {fontCSS}">font</label>
-                    <select id="font" name="font" class="w-32 h-10 mt-2 rounded-xl border-gray-400 border-2 shadow-md {themesCSS}" bind:value={fontCSS}>
+                    <select id="font" name="font" class="w-64 h-10 mt-2 rounded-xl border-gray-400 border-2 shadow-md {themesCSS}" bind:value={fontCSS}>
                         <option value={'font-apple'}>apple</option>
                         <option value={"font-sans"}>sans-serif</option>
                         <option value={"font-serif"}>serif</option>
@@ -75,7 +68,7 @@
                 </div>
                 <div class="flex flex-col">
                     <label for="ui" class="text-lg font-bold {fontCSS}">ui</label>
-                    <select id="ui" name="ui" class="w-32 h-10 mt-2 rounded-xl border-gray-400 border-2 shadow-md {themesCSS}" bind:value={oldUI}>
+                    <select id="ui" name="ui" class="w-64 h-10 mt-2 rounded-xl border-gray-400 border-2 shadow-md {themesCSS}" bind:value={oldUI}>
                         <option value={true}>old ui</option>
                         <option value={false}>new ui</option>
                     </select>

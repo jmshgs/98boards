@@ -5,7 +5,7 @@ export const supabase = createClient("https://bhcurpsrskowsgqxdjim.supabase.co",
 export const insertMessage = async (message) => {
     const { data, error } = await supabase
         .from("messages")
-        .insert([{ content: message.content, sent_at: message.sent_at, send_date: message.date, sender: message.sender, board: message.board, sender_ip: message.sender_iP, image_url: message.image_url }]);
+        .insert([{ content: message.content, sent_at: message.sent_at, send_date: message.date, sender: message.sender, board: message.board, sender_ip: message.sender_iP, image_url: message.image_url, played_sound: message.played_sound }]);
 };
 
 export const fetchMessages = async () => {
@@ -183,3 +183,32 @@ export async function uploadImage(file) {
     return null;
   }
 }
+
+export const getPlayedSound = async (messageId) => {
+  const { data, error } = await supabase
+      .from("messages")
+      .select("played_sound")
+      .eq("id", messageId) // Assuming "id" is the unique identifier for messages
+      .single();
+
+  if (error) {
+      console.error("Error fetching played_sound:", error);
+      return null; // Or handle the error as needed
+  }
+
+  return data.played_sound;
+};
+
+export const markSoundAsPlayed = async (messageId) => {
+  const { data, error } = await supabase
+      .from("messages")
+      .update({ played_sound: true })
+      .eq("id", messageId); // Assuming "id" is the unique identifier for messages
+
+  if (error) {
+      console.error("Error updating played_sound:", error);
+      return false; // Or handle the error as needed
+  }
+
+  return true;
+};

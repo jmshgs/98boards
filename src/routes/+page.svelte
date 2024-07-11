@@ -199,7 +199,8 @@ const sendMessage = async (message, file) => {
     sender: username, // TODO: Add user auth
     board: currentBoard,
     sender_iP: iP,
-    image_url: imageUrl // Add the image URL to the message
+    image_url: imageUrl, // Add the image URL to the message
+	played_sound: false
   };
 
   console.log('New message object:', newMessage); // Debugging statement to check message object
@@ -318,7 +319,7 @@ const sendMessage = async (message, file) => {
 		{:then}
 		<div class="px-4 justify-start flex">
 			<div class="lg:w-[75vw] w-[60vw] h-[80vh] justify-center p-4">
-				<MessageWindow {oldUI} {showHighlight} {showDate} {showImages} {messages} {currentBoard} {messagesTop} {dashMessage}/>
+				<MessageWindow {username} {oldUI} {showHighlight} {showDate} {showImages} {messages} {currentBoard} {messagesTop} {dashMessage}/>
 				<MessageInput {message} {username} {themesCSS} bind:emojiPickerOpen={emojiPickerOpen} {sendMessage}/>
 			</div>
 		</div>

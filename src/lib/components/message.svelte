@@ -1,6 +1,7 @@
 <script>
     import { Toaster, toast } from 'svelte-sonner';
     import { timeConverter } from '$lib/main.js';
+    import { getPlayedSound, markSoundAsPlayed } from '$lib/supabaseClient.js'; // Import your functions
 
     export let dashMessage;
     export let message;
@@ -8,14 +9,37 @@
     export let showDate;
     export let showImages;
     export let messageClass = ''; // Renamed to avoid conflict
+    export let username; // Add this line to pass the username
+
+    let audio = new Audio('/sounds/ping.mp3'); // Replace with the path to your sound file
+    let soundPlayed = false; // Flag to track if the sound has been played
+
+    async function checkAndPlaySound() {
+        const playedSound = await getPlayedSound(message.id); // Fetch the played_sound status
+        if (!playedSound && message.content.includes(`@${username}`)) {
+            audio.play();
+            soundPlayed = true; // Set the flag to true after playing the sound
+            await markSoundAsPlayed(message.id); // Update the played_sound status in the database
+        }
+    }
+
+    // Reset the flag and check sound when message changes
+    $: if (message.content) {
+        soundPlayed = false; // Reset flag
+        checkAndPlaySound(); // Check and play sound if necessary
+    }
 
     function renderMessageWithLink(content) {
         const parts = content.split(' ');
-        return parts.map(part =>
-            part.startsWith('https://')
-                ? `<a href="${part}" target="_blank" class="text-blue-500 hover:text-blue-700 no-underline">${part}</a>`
-                : part
-        ).join(' ');
+        return parts.map(part => {
+            if (part.startsWith('https://')) {
+                return `<a href="${part}" target="_blank" class="text-blue-500 hover:text-blue-700 no-underline">${part}</a>`;
+            } else if (part.startsWith('@')) {
+                return `<span class="text-blue-500">${part}</span>`;
+            } else {
+                return part;
+            }
+        }).join(' ');
     }
 
     function copyToClipboard(content) {
@@ -38,7 +62,7 @@
                             {message.sender}: {@html renderMessageWithLink(message.content)}
                         </span>
                     {:else}
-                        {message.sender}: {message.content}
+                        {message.sender}: {@html renderMessageWithLink(message.content)}
                     {/if}
                 {:else}
                     {#if message.content.includes("https://")}
@@ -46,7 +70,7 @@
                             {message.sender}: {@html renderMessageWithLink(message.content)}
                         </span>
                     {:else}
-                        {message.sender}: {message.content}
+                        {message.sender}: {@html renderMessageWithLink(message.content)}
                     {/if}
                 {/if}
             </div>
@@ -64,7 +88,7 @@
                             {message.sender}: {@html renderMessageWithLink(message.content)}
                         </span>
                     {:else}
-                        {message.sender}: {message.content}
+                        {message.sender}: {@html renderMessageWithLink(message.content)}
                     {/if}
                 {:else}
                     {#if message.content.includes("https://")}
@@ -72,7 +96,7 @@
                             {message.sender}: {@html renderMessageWithLink(message.content)}
                         </span>
                     {:else}
-                        {message.sender}: {message.content}
+                        {message.sender}: {@html renderMessageWithLink(message.content)}
                     {/if}
                 {/if}
             </div>
