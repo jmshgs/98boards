@@ -40,7 +40,7 @@
 	let message = "";
 
 	let currentBoard = "general";
-	let username = '';
+	let username = '' || 'anon';
 
 	let showUsername = false;
 	let showLogin = false;
