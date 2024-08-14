@@ -63,33 +63,35 @@
 </script>
 
 <div class={`${showHighlight ? messageClass : ""} rounded-lg p-2 flex flex-row relative group`} on:mouseenter={toggleHover} on:mouseleave={toggleHover}>
-    <div class="message-content flex w-full justify-between items-center">
-        <div>
-            {#if dashMessage}
-                {#if message.content.includes("https://")}
-                    <span>
+    <div class="flex flex-col">
+        <div class="message-content flex w-full justify-between items-center">
+            <div>
+                {#if dashMessage}
+                    {#if message.content.includes("https://")}
+                        <span>
+                            {message.sender}: {@html renderMessageWithLink(message.content)}
+                        </span>
+                    {:else}
                         {message.sender}: {@html renderMessageWithLink(message.content)}
-                    </span>
+                    {/if}
                 {:else}
-                    {message.sender}: {@html renderMessageWithLink(message.content)}
-                {/if}
-            {:else}
-                {#if message.content.includes("https://")}
-                    <span>
+                    {#if message.content.includes("https://")}
+                        <span>
+                            {message.sender}: {@html renderMessageWithLink(message.content)}
+                        </span>
+                    {:else}
                         {message.sender}: {@html renderMessageWithLink(message.content)}
-                    </span>
-                {:else}
-                    {message.sender}: {@html renderMessageWithLink(message.content)}
+                    {/if}
                 {/if}
-            {/if}
+            </div>
+            <div class="text-gray-500 text-sm flex-shrink-0 mr-7">
+                at {timeConverter(message.sent_at)} {showDate ? (message.send_date) : ''}
+            </div>
         </div>
-        <div class="text-gray-500 text-sm flex-shrink-0 mr-7">
-            at {timeConverter(message.sent_at)} {showDate ? (message.send_date) : ''}
-        </div>
+        {#if message.image_url && showImages}
+            <img src={message.image_url} alt="Image" class="chat-image mt-2" />
+        {/if}
     </div>
-    {#if message.image_url && showImages}
-        <img src={message.image_url} alt="Image" class="chat-image mt-2" />
-    {/if}
     <div class="h-full flex items-center justify-center" class:invisible={!messageHovered} >
         <Button class="w-8 h-8 p-0" variant="ghost" on:click={() => copyToClipboard(message.content)}>
             <CopyIcon size="20"/> 
