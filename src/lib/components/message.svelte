@@ -2,6 +2,7 @@
     import { Toaster, toast } from 'svelte-sonner';
     import { timeConverter } from '$lib/main.js';
     import { getPlayedSound, markSoundAsPlayed } from '$lib/supabaseClient.js'; // Import your functions
+    import { CopyIcon } from 'svelte-feather-icons'
 
     export let dashMessage;
     export let message;
@@ -108,16 +109,8 @@
             </div>
         </div>
     {/if}
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-6 w-6 text-gray-500 hover:text-gray-700 cursor-pointer absolute right-2 hidden group-hover:block"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        on:click={() => copyToClipboard(message.content)}
-    >
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V9a2 2 0 00-2-2H8zm-1 4h10m-5-5v4" />
-    </svg>
+    <CopyIcon on:click={() => copyToClipboard(message.content)}/>
+
 </div>
 
 <style>
