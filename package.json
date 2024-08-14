@@ -20,8 +20,12 @@
   "type": "module",
   "dependencies": {
     "@supabase/supabase-js": "^2.38.4",
+    "bits-ui": "^0.21.13",
+    "clsx": "^2.1.1",
     "flowbite-svelte": "^0.44.20",
     "svelte-sonner": "^0.3.25",
+    "tailwind-merge": "^2.5.2",
+    "tailwind-variants": "^0.2.1",
     "unix-timestamp": "^1.0.3"
   }
 }

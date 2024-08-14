@@ -3,7 +3,7 @@
     import { timeConverter } from '$lib/main.js';
     import { getPlayedSound, markSoundAsPlayed } from '$lib/supabaseClient.js'; // Import your functions
     import { CopyIcon } from 'svelte-feather-icons'
-
+    import { Button } from "$lib/components/ui/button";
     export let dashMessage;
     export let message;
     export let showHighlight;
@@ -14,6 +14,12 @@
 
     let audio = new Audio('/sounds/ping.mp3'); // Replace with the path to your sound file
     let soundPlayed = false; // Flag to track if the sound has been played
+    
+    let messageHovered = false
+    
+    function toggleHover() {
+        messageHovered = !messageHovered
+    }
 
     async function checkAndPlaySound() {
         // Ensure message.id is defined and is a number
@@ -56,61 +62,39 @@
     }
 </script>
 
-<div class={`${showHighlight ? messageClass : ""} rounded-lg p-2 flex flex-col relative group`}>
+<div class={`${showHighlight ? messageClass : ""} rounded-lg p-2 flex flex-row relative group`} on:mouseenter={toggleHover} on:mouseleave={toggleHover}>
+    <div class="message-content flex w-full justify-between items-center">
+        <div>
+            {#if dashMessage}
+                {#if message.content.includes("https://")}
+                    <span>
+                        {message.sender}: {@html renderMessageWithLink(message.content)}
+                    </span>
+                {:else}
+                    {message.sender}: {@html renderMessageWithLink(message.content)}
+                {/if}
+            {:else}
+                {#if message.content.includes("https://")}
+                    <span>
+                        {message.sender}: {@html renderMessageWithLink(message.content)}
+                    </span>
+                {:else}
+                    {message.sender}: {@html renderMessageWithLink(message.content)}
+                {/if}
+            {/if}
+        </div>
+        <div class="text-gray-500 text-sm flex-shrink-0 mr-7">
+            at {timeConverter(message.sent_at)} {showDate ? (message.send_date) : ''}
+        </div>
+    </div>
     {#if message.image_url && showImages}
-        <div class="message-content flex justify-between items-center">
-            <div>
-                {#if dashMessage}
-                    {#if message.content.includes("https://")}
-                        <span>
-                            {message.sender}: {@html renderMessageWithLink(message.content)}
-                        </span>
-                    {:else}
-                        {message.sender}: {@html renderMessageWithLink(message.content)}
-                    {/if}
-                {:else}
-                    {#if message.content.includes("https://")}
-                        <span>
-                            {message.sender}: {@html renderMessageWithLink(message.content)}
-                        </span>
-                    {:else}
-                        {message.sender}: {@html renderMessageWithLink(message.content)}
-                    {/if}
-                {/if}
-            </div>
-            <div class="text-gray-500 text-sm flex-shrink-0 mr-7">
-                at {timeConverter(message.sent_at)} {showDate ? (message.send_date) : ''}
-            </div>
-        </div>
         <img src={message.image_url} alt="Image" class="chat-image mt-2" />
-    {:else}
-        <div class="message-content flex justify-between items-center">
-            <div>
-                {#if dashMessage}
-                    {#if message.content.includes("https://")}
-                        <span>
-                            {message.sender}: {@html renderMessageWithLink(message.content)}
-                        </span>
-                    {:else}
-                        {message.sender}: {@html renderMessageWithLink(message.content)}
-                    {/if}
-                {:else}
-                    {#if message.content.includes("https://")}
-                        <span>
-                            {message.sender}: {@html renderMessageWithLink(message.content)}
-                        </span>
-                    {:else}
-                        {message.sender}: {@html renderMessageWithLink(message.content)}
-                    {/if}
-                {/if}
-            </div>
-            <div class="text-gray-500 text-sm flex-shrink-0 mr-7">
-                at {timeConverter(message.sent_at)} {showDate ? (message.send_date) : ''}
-            </div>
-        </div>
     {/if}
-    <CopyIcon on:click={() => copyToClipboard(message.content)}/>
-
+    <div class:invisible={!messageHovered} >
+        <Button class="w-8 h-8 p-0" variant="ghost" on:click={() => copyToClipboard(message.content)}>
+            <CopyIcon size="20"/> 
+        </Button>
+    </div>
 </div>
 
 <style>
