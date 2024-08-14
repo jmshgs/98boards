@@ -1,42 +1,38 @@
 <script>
     import { Toaster, toast } from 'svelte-sonner';
     import { timeConverter } from '$lib/main.js';
-    import { getPlayedSound, markSoundAsPlayed } from '$lib/supabaseClient.js'; // Import your functions
-    import { CopyIcon } from 'svelte-feather-icons'
+    import { getPlayedSound, markSoundAsPlayed } from '$lib/supabaseClient.js';
+    import { CopyIcon } from 'svelte-feather-icons';
     import { Button } from "$lib/components/ui/button";
     export let dashMessage;
     export let message;
     export let showHighlight;
     export let showDate;
     export let showImages;
-    export let messageClass = ''; // Renamed to avoid conflict
-    export let username = ''; // Initialize username with an empty string
+    export let messageClass = '';
+    export let username = '';
 
-    let audio = new Audio('/sounds/ping.mp3'); // Replace with the path to your sound file
-    let soundPlayed = false; // Flag to track if the sound has been played
-    
-    let messageHovered = false
-    
+    let audio = new Audio('/sounds/ping.mp3');
+    let soundPlayed = false;
+
     function toggleHover() {
-        messageHovered = !messageHovered
+        messageHovered = !messageHovered;
     }
 
     async function checkAndPlaySound() {
-        // Ensure message.id is defined and is a number
         if (username && message.id && !isNaN(message.id)) {
-            const playedSound = await getPlayedSound(message.id); // Fetch the played_sound status
+            const playedSound = await getPlayedSound(message.id);
             if (!playedSound && playedSound != null && message.content.includes(`@${username}`)) {
                 audio.play();
-                soundPlayed = true; // Set the flag to true after playing the sound
-                await markSoundAsPlayed(message.id); // Update the played_sound status in the database
+                soundPlayed = true;
+                await markSoundAsPlayed(message.id);
             }
         }
     }
 
-    // Reset the flag and check sound when message changes
     $: if (message.content) {
-        soundPlayed = false; // Reset flag
-        checkAndPlaySound(); // Check and play sound if necessary
+        soundPlayed = false;
+        checkAndPlaySound();
     }
 
     function renderMessageWithLink(content) {
@@ -62,9 +58,9 @@
     }
 </script>
 
-<div class={`${showHighlight ? messageClass : ""} rounded-lg p-2 flex flex-row relative group`} on:mouseenter={toggleHover} on:mouseleave={toggleHover}>
-    <div class="flex flex-col">
-        <div class="message-content flex w-full justify-between items-center">
+<div class={`${showHighlight ? messageClass : ""} rounded-lg p-2 flex flex-row justify-between relative group`} on:mouseenter={toggleHover} on:mouseleave={toggleHover}>
+    <div class="flex flex-col flex-grow">
+        <div class="message-content flex w-full">
             <div>
                 {#if dashMessage}
                     {#if message.content.includes("https://")}
@@ -84,15 +80,15 @@
                     {/if}
                 {/if}
             </div>
-            <div class="text-gray-500 text-sm flex-shrink-0 mr-7">
-                at {timeConverter(message.sent_at)} {showDate ? (message.send_date) : ''}
-            </div>
         </div>
         {#if message.image_url && showImages}
             <img src={message.image_url} alt="Image" class="chat-image mt-2" />
         {/if}
     </div>
-    <div class="h-full flex items-center justify-center" class:invisible={!messageHovered} >
+    <div class="flex-shrink-0 flex items-center space-x-2 copy-icon-container">
+        <div class="text-gray-500 text-sm">
+            at {timeConverter(message.sent_at)} {showDate ? (message.send_date) : ''}
+        </div>
         <Button class="w-8 h-8 p-0" variant="ghost" on:click={() => copyToClipboard(message.content)}>
             <CopyIcon size="20"/> 
         </Button>
@@ -101,14 +97,23 @@
 
 <style>
     .chat-image {
-        max-width: 40%; /* Ensures the image fits within the message container */
-        height: auto;    /* Keeps aspect ratio */
-        border-radius: 0.5rem; /* Optional: Rounded corners */
-        margin-top: 0.5rem; /* Optional: Space above the image */
+        max-width: 40%;
+        height: auto;
+        border-radius: 0.5rem;
+        margin-top: 0.5rem;
     }
 
     .message-content {
         display: flex;
-        gap: 0.5rem; /* Optional: Space between text elements */
+        gap: 0.5rem;
+    }
+
+    .copy-icon-container {
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    .group:hover .copy-icon-container {
+        opacity: 1;
     }
 </style>
