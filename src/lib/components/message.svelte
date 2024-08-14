@@ -90,7 +90,7 @@
     {#if message.image_url && showImages}
         <img src={message.image_url} alt="Image" class="chat-image mt-2" />
     {/if}
-    <div class:invisible={!messageHovered} >
+    <div class="h-full flex items-center justify-center" class:invisible={!messageHovered} >
         <Button class="w-8 h-8 p-0" variant="ghost" on:click={() => copyToClipboard(message.content)}>
             <CopyIcon size="20"/> 
         </Button>
