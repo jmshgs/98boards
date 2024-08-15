@@ -59,7 +59,7 @@
 </script>
 
 <div class={`${showHighlight ? messageClass : ""} rounded-lg p-2 flex flex-row justify-between relative group`} on:mouseenter={toggleHover} on:mouseleave={toggleHover}>
-    <div class="flex flex-col flex-grow">
+    <div class="flex flex-col justify-center flex-grow">
         <div class="message-content flex w-full">
             <div>
                 {#if dashMessage}

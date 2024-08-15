@@ -223,7 +223,7 @@ const sendMessage = async (message, file) => {
 {#if oldUI}
 <link rel="stylesheet" href="https://unpkg.com/98.css" />
 {/if}
-<Toaster position="bottom-left" richColors />
+<Toaster position="bottom-right" richColors />
 <main class="{fontCSS} h-screen w-screen {oldUI ? "bg-gray-300" : "bg-slate-50"} {themesCSS}">
 	<!-- account modal -->
 	{#if showUsername}
