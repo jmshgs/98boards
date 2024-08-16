@@ -1,10 +1,13 @@
 <script>
 	import { supabase, deleteBoard} from '$lib/supabaseClient.js'
+    import { persisted } from 'svelte-persisted-store';
 
     export let themesCSS;
     export let oldUI = false;
     export let board;
     export let boards;
+
+    export let persistedBoardsStore  = persisted('boards', {key: 'boards' });
 
     export let isDeleting;
     export let isCreator;
@@ -32,6 +35,7 @@
                 console.log(`board ${board} deleted`)
             })
             boards = boards.filter(item => item !== board);
+            persistedBoardsStore.set(boards)
             isDeleting = false;
             console.log(isDeleting)
             isCreator = false;

@@ -1,10 +1,9 @@
 <script>
     import { pullUsername, pushUsername } from '$lib/supabaseClient.js';
     import { persisted } from 'svelte-persisted-store';
-    import { get } from 'svelte/store'
 
     // Persist the username in local storage
-    export let persistedUsernameStore = persisted('', { key: 'username' });
+    export let persistedUsernameStore = persisted('username', { key: 'username' });
 
     export let showUsername;
     let isSubmitted = false;

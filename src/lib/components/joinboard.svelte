@@ -1,9 +1,15 @@
 <script>
 	import { supabase, fetchBoards} from '$lib/supabaseClient.js'
+    import { persisted } from 'svelte-persisted-store';
+
 
     export let themesCSS;
+    export let joinBoard;
     export let oldUI = false;
     export let boards;
+
+    export let persistedBoardsStore  = persisted('boards', {key: 'boards' });
+
 
     let inputBoardName = "";
     let inputBoardPassword = "";
@@ -32,6 +38,10 @@
                         console.log(boards)
                         if (!boards.includes(inputBoardName)){
                             boards = [...boards, inputBoardName];
+                            persistedBoardsStore.set(boards)
+                            setTimeout(() => {
+                                joinBoard=false;
+                            }, 500);
                         }                
                         break;
                     }
@@ -60,6 +70,10 @@
                     console.log('found')
                     if (!boards.includes(inputBoardName)){
                         boards = [...boards, inputBoardName];
+                        persistedBoardsStore.set(boards)
+                        setTimeout(() => {
+                            joinBoard=false;
+                        }, 500);
                     }                
                     break;
                 }

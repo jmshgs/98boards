@@ -26,8 +26,10 @@
             bars = data
             for (let board of bars){
                 if (board.boardname == currentBoard){
+                    console.log(board.creator)
                     if (board.creator == username && username != "anon" ){
                         isCreator = true;
+                        break
                     }
                     else{
                         isCreator = false;

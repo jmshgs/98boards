@@ -1,13 +1,17 @@
 <script>
 	import { supabase, insertBoard} from '$lib/supabaseClient.js'
+    import { persisted } from 'svelte-persisted-store';
 
     export let themesCSS;
     export let oldUI = false;
     export let boards;
+    export let createBoard;
     export let username
 
     let inputBoardName = "";
     let inputBoardPassword = "";
+
+    export let persistedBoardsStore  = persisted('boards', {key: 'boards' });
 
     let isPrivate = false;
     let isEmpty = false;
@@ -40,6 +44,10 @@
             if (!boards.includes(inputBoardName)){
                     await insertBoard(newBoard);
                     boards = [...boards, inputBoardName];
+                    persistedBoardsStore.set(boards)
+                    setTimeout(() => {
+                        createBoard=false;
+                    }, 500);
                 }                
             inputBoardName = "";
             inputBoardPassword = "";

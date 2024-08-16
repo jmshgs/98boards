@@ -40,31 +40,64 @@
 	let message = "";
 
 	let currentBoard = "general";
+	let boards = [];
 
-	// Initialize username and showUsername
 	let username = '';
 	let showUsername = false;
-	let persistedUsernameStore = persisted('', { key: 'username' });
+	let persistedUsernameStore = persisted('username', { key: 'username' });
+	let persistedBoardsStore = persisted('boards', {key: 'boards' });
 
 	$: {
     try {
-      const storedValue = get(persistedUsernameStore);
+      const storedUsername = get(persistedUsernameStore);
+      const storedBoards = get(persistedBoardsStore);
 
-      if (typeof storedValue === 'string') {
-        username = storedValue;
-      } else if (storedValue && storedValue.username) {
-        username = storedValue.username; 
+      // Handle username
+      if (typeof storedUsername === 'string') {
+        username = storedUsername;
+      } else if (storedUsername && storedUsername.username) {
+        username = storedUsername.username;
       } else {
-        username = ''; 
+        username = '';
       }
 
+      // Handle boards
+      if (Array.isArray(storedBoards)) {
+        boards = storedBoards;
+      } else if (storedBoards && Array.isArray(storedBoards.boards) && storedBoards.boards.length > 0) {
+        boards = storedBoards.boards;
+      } else {
+        boards = [		
+          "general",
+          "programming",
+          "technology",
+          "photography",
+          "art",
+          "music",
+          "gaming",
+          'school'
+        ];
+      }
+
+      // Determine if username input form should be shown
       showUsername = !username;
     } catch (error) {
-      console.error('Error retrieving username:', error);
+      console.error('Error retrieving data:', error);
       username = '';
       showUsername = true;
+      boards = [		
+        "general",
+        "programming",
+        "technology",
+        "photography",
+        "art",
+        "music",
+        "gaming",
+        'school'
+      ];
     }
   }
+
 	let showLogin = false;
 	let showSettings = false;
 	let showDate = false;
@@ -122,7 +155,7 @@
 		}
 	});
 
-	let boards = [
+	boards = [
 		"general",
 		"programming",
 		"technology",
@@ -279,7 +312,7 @@ const sendMessage = async (message, file) => {
 		createBoard = false
 	}}>
 		<button on:click|stopPropagation>
-			<CreateBoard {themesCSS} {username} bind:boards={boards}/>
+			<CreateBoard {themesCSS} {username} bind:createBoard={createBoard} bind:boards={boards}/>
 		</button>
 	</button>
 	{/if}
@@ -290,7 +323,7 @@ const sendMessage = async (message, file) => {
 		joinBoard = false
 	}}>
 		<button on:click|stopPropagation>
-			<JoinBoard {themesCSS} bind:boards={boards} />
+			<JoinBoard {themesCSS} bind:joinBoard={joinBoard} bind:boards={boards} />
 		</button>
 	</button>
 	{/if}
@@ -313,7 +346,7 @@ const sendMessage = async (message, file) => {
 		{:then}
 		<div class="px-4 justify-start flex">
 			<div class="lg:w-[75vw] w-[60vw] h-[80vh] justify-center p-4">
-				<MessageWindow {username} {oldUI} {showHighlight} {showDate} {showImages} {messages} {currentBoard} {messagesTop} {dashMessage}/>
+				<MessageWindow {username} {oldUI} {showHighlight} {showDate} {showImages} {messages} {currentBoard} {messagesTop} {dashMessage} {themesCSS}/>
 				<MessageInput {message} {username} {themesCSS} bind:emojiPickerOpen={emojiPickerOpen} {sendMessage}/>
 			</div>
 		</div>
