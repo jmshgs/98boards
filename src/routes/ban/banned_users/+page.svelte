@@ -38,75 +38,34 @@
   };
 </script>
 
-<style>
-  .table-container {
-    max-width: 100%;
-    overflow-x: auto;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-  }
-  .table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  .th,
-  .td {
-    padding: 12px 16px;
-    text-align: left;
-    border-bottom: 1px solid #e2e8f0;
-  }
-  .th {
-    background-color: #f1f5f9;
-    font-weight: 600;
-  }
-  .tr:nth-child(even) {
-    background-color: #f9fafb;
-  }
-  .delete-button {
-    background-color: #ef4444;
-    color: white;
-    padding: 6px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  .delete-button:hover {
-    background-color: #dc2626;
-  }
-  .loading,
-  .error {
-    text-align: center;
-    margin-top: 20px;
-  }
-</style>
-
 <div class="container mx-auto mt-10 px-4">
-  <div class="table-container bg-white">
+  <div class="bg-white rounded-lg shadow-md overflow-x-auto">
     {#if isLoading}
-      <div class="loading">Loading...</div>
+      <div class="text-center text-gray-600 mt-5">Loading...</div>
     {:else}
       {#if bannedUsers.length === 0}
-        <div class="loading">No banned users found.</div>
+        <div class="text-center text-gray-600 mt-5">No banned users found.</div>
       {:else}
-        <table class="table">
-          <thead>
-            <tr class="tr">
-              <th class="th">#</th>
-              <th class="th">User ID</th>
-              <th class="th">IP Address</th>
-              <th class="th">Reason</th>
-              <th class="th">Actions</th>
+        <table class="min-w-full table-auto border-collapse">
+          <thead class="bg-gray-100">
+            <tr>
+              <th class="py-3 px-4 text-left text-gray-700 font-semibold">#</th>
+              <th class="py-3 px-4 text-left text-gray-700 font-semibold">User ID</th>
+              <th class="py-3 px-4 text-left text-gray-700 font-semibold">IP Address</th>
+              <th class="py-3 px-4 text-left text-gray-700 font-semibold">Reason</th>
+              <th class="py-3 px-4 text-left text-gray-700 font-semibold">Actions</th>
             </tr>
           </thead>
           <tbody>
             {#each bannedUsers as user, index}
-              <tr class="tr">
-                <td class="td">{index + 1}</td>
-                <td class="td">{user.user_id}</td>
-                <td class="td">{user.ip_address}</td>
-                <td class="td">{user.reason}</td>
-                <td class="td">
+              <tr class="odd:bg-white even:bg-gray-50">
+                <td class="py-3 px-4">{index + 1}</td>
+                <td class="py-3 px-4">{user.user_id}</td>
+                <td class="py-3 px-4">{user.ip_address}</td>
+                <td class="py-3 px-4">{user.reason}</td>
+                <td class="py-3 px-4">
                   <button
-                    class="delete-button"
+                    class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 disabled:opacity-50"
                     on:click={() => handleDelete(user.ip_address)}
                     disabled={isDeleting}
                   >
@@ -120,7 +79,7 @@
       {/if}
     {/if}
     {#if deleteError}
-      <div class="error text-red-500">{deleteError}</div>
+      <div class="text-center text-red-500 mt-5">{deleteError}</div>
     {/if}
   </div>
 </div>

@@ -32,10 +32,11 @@
         }
     }
 
-    $: if (message.content) {
-        soundPlayed = false;
-        checkAndPlaySound();
-    }
+    $: 
+        if (message.content) {
+            soundPlayed = false;
+            checkAndPlaySound();
+        }
 
     function renderMessageWithLink(content) {
         const parts = content.split(' ');

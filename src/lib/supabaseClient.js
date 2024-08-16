@@ -49,7 +49,6 @@ export const fetchsimpleus = async () => {
 }
 
 export const getBannedUserIPAddresses = async () => {
-    // Query the banned_users table to select only the ip_address column
     const { data, error } = await supabase
       .from('banned_users')
       .select('ip_address');
@@ -59,14 +58,12 @@ export const getBannedUserIPAddresses = async () => {
       return [];
     }
   
-    // Extract ip_address values into a list
     const ipAddresses = data.map(user => user.ip_address);
   
     return ipAddresses;
   }
 
   export const getUserInfoByIP = async (ipAddress) => {
-    // Query the banned_users table to select user_id and reason columns
     const { data, error } = await supabase
       .from('banned_users')
       .select('user_id, reason')
@@ -77,12 +74,10 @@ export const getBannedUserIPAddresses = async () => {
       return null;
     }
   
-    // If no data found, return null
     if (!data || data.length === 0) {
       return null;
     }
   
-    // Extract user_id and reason values
     const { user_id, reason } = data[0];
   
     return { user_id, reason };
@@ -102,7 +97,6 @@ export const getAllBannedUserData = async () => {
 };  
 
 export const deleteBannedUser = async (ip_address) => {
-  // Delete the user from the banned_users table based on the ip_address
   const { data, error } = await supabase
     .from('banned_users')
     .delete()
@@ -126,8 +120,6 @@ export const pullUsername = async () => {
   return data;
 }
 
-// supabaseClient.js
-
 export const pushUsername = async (username, time_made) => {
   const { data, error } = await supabase
     .from('usernames')
@@ -137,15 +129,13 @@ export const pushUsername = async (username, time_made) => {
   }
   return data;
 };
-// supabaseClient.js
 
 export const getTimeMade = async (username) => {
   const { data, error } = await supabase
     .from('usernames')
     .select('time_made')
     .eq('username', username)
-    .single(); // We expect a single result
-
+    .single(); 
   if (error) {
     throw error;
   }
@@ -156,8 +146,7 @@ export const pushDelUsername = async (username) => {
   const { data, error } = await supabase
     .from('usernames')
     .delete()
-    .eq('username', username); // Ensure the correct column name is used
-
+    .eq('username', username); 
   if (error) {
     console.error('Error deleting user:', error);
     return false;
@@ -170,9 +159,8 @@ const BASE_URL = 'https://bhcurpsrskowsgqxdjim.supabase.co/storage/v1/object/pub
 
 export async function uploadImage(file) {
   try {
-    // Upload the file
     const { data, error } = await supabase.storage
-      .from('images') // Ensure this matches your Supabase bucket name
+      .from('images')
       .upload(`images/${Date.now()}_${file.name}`, file);
 
     if (error) {
@@ -187,8 +175,7 @@ export async function uploadImage(file) {
 
     console.log('Upload successful:', data);
 
-    // Construct the public URL manually
-    const imagePath = data.path; // Use the returned path from upload
+    const imagePath = data.path; 
     const publicURL = `${BASE_URL}${imagePath}`;
 
     console.log('Public URL:', publicURL);
@@ -204,12 +191,12 @@ export const getPlayedSound = async (messageId) => {
   const { data, error } = await supabase
       .from("messages")
       .select("played_sound")
-      .eq("id", messageId) // Assuming "id" is the unique identifier for messages
+      .eq("id", messageId) 
       .single();
 
   if (error) {
       console.error("Error fetching played_sound:", error);
-      return null; // Or handle the error as needed
+      return null; 
   }
 
   return data.played_sound;
@@ -219,11 +206,10 @@ export const markSoundAsPlayed = async (messageId) => {
   const { data, error } = await supabase
       .from("messages")
       .update({ played_sound: true })
-      .eq("id", messageId); // Assuming "id" is the unique identifier for messages
-
+      .eq("id", messageId); 
   if (error) {
       console.error("Error updating played_sound:", error);
-      return false; // Or handle the error as needed
+      return false; 
   }
 
   return true;

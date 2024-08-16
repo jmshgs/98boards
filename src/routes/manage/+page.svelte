@@ -6,7 +6,6 @@
 
     let messages = [];
 
-    // Subscribe to Supabase changes
     const channel = supabase.channel('custom-all-channel')
     .on(
         'postgres_changes',
@@ -20,12 +19,10 @@
     )
     .subscribe();
 
-    // Subscribe to message store
     const unsubscribe = messageStore.subscribe((data) => {
         messages = data.sort((a, b) => a.sent_at - b.sent_at).reverse();
     });
 
-    // Function to fetch messages from Supabase
     async function fetchMessages() {
         let { data: messages, error } = await supabase
             .from('messages')
@@ -35,7 +32,6 @@
         return messages;
     }
 
-    // Function to delete a message
     async function deleteMessage(id) {
         const { error } = await supabase
             .from('messages')
@@ -45,14 +41,12 @@
         if (error) {
             console.error(error);
         } else {
-            // Fetch messages again to update the store
             fetchMessages().then((data) => {
                 messageStore.set(data.reverse());
             });
         }
     }
 
-    // Fetch messages initially and set up interval for periodic fetching
     let interval;
     onMount(() => {
         fetchMessages()
@@ -65,13 +59,12 @@
             .then((data) => {
                 messageStore.set(data.reverse());
             });
-        }, 2000); // Fetch every 5 seconds
+        }, 2000); 
     });
 
-    // Clean up interval on component destroy
     onDestroy(() => {
         clearInterval(interval);
-        unsubscribe(); // Unsubscribe from the message store
+        unsubscribe(); 
     });
 </script>
 

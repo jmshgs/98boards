@@ -23,11 +23,11 @@
         await sendMessage(message, file);
         message = "";
         file = null;
-        document.getElementById("file-upload").value = null; // Clear the file input
+        document.getElementById("file-upload").value = null; 
     }
 
     function handleFileChange(event) {
-        file = event.target.files[0]; // Update file state when a file is selected
+        file = event.target.files[0]; 
     }
 </script>
 
@@ -53,9 +53,9 @@
     <label for="file-upload" class="cursor-pointer border border-gray-300 {themesCSS} rounded-xl w-[5vw] p-2.5 m-1 flex items-center justify-center">
         <span class="h-6 {file ? 'icon-checkmark' : 'icon-paperclip'}" role="img" aria-label={file ? 'checkmark' : 'paperclip'}>
             {#if file}
-                ✔️ <!-- Display checkmark emoji when a file is selected -->
+                ✔️ 
             {:else}
-                📁 <!-- Display paperclip emoji when no file is selected -->
+                📁
             {/if}
         </span>
     </label>

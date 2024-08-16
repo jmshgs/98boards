@@ -47,56 +47,56 @@
 	let persistedUsernameStore = persisted('username', { key: 'username' });
 	let persistedBoardsStore = persisted('boards', {key: 'boards' });
 
-	$: {
-    try {
-      const storedUsername = get(persistedUsernameStore);
-      const storedBoards = get(persistedBoardsStore);
+	onMount(() => {
+    	try {
+			const storedUsername = get(persistedUsernameStore);
+			const storedBoards = get(persistedBoardsStore);
 
-      // Handle username
-      if (typeof storedUsername === 'string') {
-        username = storedUsername;
-      } else if (storedUsername && storedUsername.username) {
-        username = storedUsername.username;
-      } else {
-        username = '';
-      }
+			// Handle username
+			if (typeof storedUsername === 'string') {
+				username = storedUsername;
+			} else if (storedUsername && storedUsername.username) {
+				username = storedUsername.username;
+			} else {
+				username = '';
+			}
 
-      // Handle boards
-      if (Array.isArray(storedBoards)) {
-        boards = storedBoards;
-      } else if (storedBoards && Array.isArray(storedBoards.boards) && storedBoards.boards.length > 0) {
-        boards = storedBoards.boards;
-      } else {
-        boards = [		
-          "general",
-          "programming",
-          "technology",
-          "photography",
-          "art",
-          "music",
-          "gaming",
-          'school'
-        ];
-      }
+			// Handle boards
+			if (Array.isArray(storedBoards)) {
+				boards = storedBoards;
+			} else if (storedBoards && Array.isArray(storedBoards.boards) && storedBoards.boards.length > 0) {
+				boards = storedBoards.boards;
+			} else {
+				boards = [		
+				"general",
+				"programming",
+				"technology",
+				"photography",
+				"art",
+				"music",
+				"gaming",
+				'school'
+				];
+			}
 
-      // Determine if username input form should be shown
-      showUsername = !username;
-    } catch (error) {
-      console.error('Error retrieving data:', error);
-      username = '';
-      showUsername = true;
-      boards = [		
-        "general",
-        "programming",
-        "technology",
-        "photography",
-        "art",
-        "music",
-        "gaming",
-        'school'
-      ];
-    }
-  }
+			// Determine if username input form should be shown
+			showUsername = !username;
+		} catch (error) {
+			console.error('Error retrieving data:', error);
+			username = '';
+			showUsername = true;
+			boards = [		
+				"general",
+				"programming",
+				"technology",
+				"photography",
+				"art",
+				"music",
+				"gaming",
+				'school'
+			];
+		}
+	})
 
 	let showLogin = false;
 	let showSettings = false;
@@ -116,9 +116,11 @@
 
 	let iP;
 	let banned_IPS = [];
-		getBannedUserIPAddresses().then(ipAddresses => {
+	
+	getBannedUserIPAddresses().then(ipAddresses => {
 		banned_IPS = ipAddresses;
-		});
+	});
+
 	let isBanned = false;
 		
 	function handleBeforeUnload() {
@@ -130,28 +132,22 @@
 
 	}
 
-  onMount(() => {
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  });
 
 
   	onMount(async () => {
 		await getBannedUserIPAddresses();
 		try {
-		const response = await fetch('https://api.ipify.org?format=json');
-		const data = await response.json();
-		iP = data.ip;
+			const response = await fetch('https://api.ipify.org?format=json');
+			const data = await response.json();
+			
+			iP = data.ip;
 
-		if (banned_IPS.includes(iP)) {
+			if (banned_IPS.includes(iP)) {
 
-			isBanned = true;
-		}
+				isBanned = true;
+			}
 		} catch (error) {
-		console.error('Error fetching IP address:', error);
+			console.error('Error fetching IP address:', error);
 		}
 	});
 
@@ -198,57 +194,57 @@
 	})
 	
 
-const sendMessage = async (message, file) => {
-  if (!isBanned) {
-    // Add logic to handle banned users if needed
-  }
+	const sendMessage = async (message, file) => {
+  		if (!isBanned) {
+			// Add logic to handle banned users if needed
+		}
 
-  if (message === "" && file == null) {
-    toast.error("message content cannot be empty!");
-  }
+		if (message === "" && file == null) {
+			toast.error("message content cannot be empty!");
+		}
 
-  if (messages[0]) {
-    if (message === messages[0].content && messages[0].sender === username) {
-      toast.error("you can't send the same message twice :)");
-      return;
-    }
-    if (timestamp.now() - messages[0].sent_at < 1 && username === messages[0].sender) {
-      toast.error("you can't send messages that fast :)");
-      return;
-    }
-  }
+		if (messages[0]) {
+			if (message === messages[0].content && messages[0].sender === username) {
+				toast.error("you can't send the same message twice :)");
+			return;
+			}
+			if (timestamp.now() - messages[0].sent_at < 1 && username === messages[0].sender) {
+				toast.error("you can't send messages that fast :)");
+			return;
+			}
+		}
 
-  let imageUrl = null;
-  if (file) {
-    imageUrl = await uploadImage(file);
+		let imageUrl = null;
+		if (file) {
+			imageUrl = await uploadImage(file);
 
-    if (!imageUrl) {
-      toast.error('Error uploading image. Please try again.');
-      return;
-    } else {
-      toast.success("Successfully uploaded image.");
-    }
-  }
+			if (!imageUrl) {
+				toast.error('Error uploading image. Please try again.');
+				return;
+			} else {
+				toast.success("Successfully uploaded image.");
+			}
+		}
 
-  let newMessage = {
-    content: message,
-    sent_at: timestamp.now(),
-    date: currentDate,
-    sender: username, // TODO: Add user auth
-    board: currentBoard,
-    sender_iP: iP,
-    image_url: imageUrl, // Add the image URL to the message
-	played_sound: false
-  };
+		let newMessage = {
+			content: message,
+			sent_at: timestamp.now(),
+			date: currentDate,
+			sender: username, // TODO: Add user auth
+			board: currentBoard,
+			sender_iP: iP,
+			image_url: imageUrl, // Add the image URL to the message
+			played_sound: false
+		};
 
-  console.log('New message object:', newMessage); // Debugging statement to check message object
+		console.log('New message object:', newMessage); // Debugging statement to check message object
 
-  messageStore.update(messages => {
-    return [newMessage, ...messages];
-  });
+		messageStore.update(messages => {
+			return [newMessage, ...messages];
+		});
 
-  await insertMessage(newMessage);
-};
+		await insertMessage(newMessage);
+		};
 </script>
 
 <svelte:window on:keypress={(e) => {
@@ -258,27 +254,30 @@ const sendMessage = async (message, file) => {
 		createBoard = false;
 	}
 }} />
+
 {#if oldUI}
-<link rel="stylesheet" href="https://unpkg.com/98.css" />
+	<link rel="stylesheet" href="https://unpkg.com/98.css" />
 {/if}
+
 <Toaster position="bottom-right" richColors />
+
 <main class="{fontCSS} h-screen w-screen {oldUI ? "bg-gray-300" : "bg-slate-50"} {themesCSS}">
 	<!-- account modal -->
 	{#if showUsername}
-	<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
-	on:click={() => {
-		null //cant close until username is fixed
-	}}>
+		<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
+		on:click={() => {
+			null //cant close until username is fixed
+		}}>
 		<button on:click|stopPropagation>
 			<User bind:showUsername={showUsername} bind:persistedUsernameStore={persistedUsernameStore} bind:username={username}/>
 		</button>
 	</button>
 	{/if}
 	{#if goAbout}
-	<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
-	on:click={() => {
-		goAbout = false
-	}}>
+		<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
+		on:click={() => {
+			goAbout = false
+		}}>
 		<button on:click|stopPropagation>
 			<About/>
 		</button>
@@ -286,20 +285,20 @@ const sendMessage = async (message, file) => {
 
 	{/if}
 	{#if isBanned}
-	<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
-	on:click={() => {
-		showLogin = false
-	}}>
+		<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
+		on:click={() => {
+			showLogin = false
+		}}>
 		<button on:click|stopPropagation>
 			<Banned {iP}/>
 		</button>
 	</button>
 	{/if}
 	{#if showSettings}
-	<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
-	on:click={() => {
-		showSettings = false
-	}}>
+		<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
+		on:click={() => {
+			showSettings = false
+		}}>
 		<button on:click|stopPropagation>
 			<Settings bind:messagesTop={messagesTop} bind:dashMessage={dashMessage} bind:themeColor={themeColor} bind:themesCSS={themesCSS} bind:fontCSS={fontCSS} bind:isPrivate={isPrivate} bind:goAbout={goAbout} bind:oldUI={oldUI} bind:showDate={showDate} bind:showHighlight={showHighlight} bind:showImages={showImages}/>
 		</button>
@@ -307,10 +306,10 @@ const sendMessage = async (message, file) => {
 	{/if}
 	<!-- create board modal-->
 	{#if createBoard}
-	<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
-	on:click={() => {
-		createBoard = false
-	}}>
+		<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
+		on:click={() => {
+			createBoard = false
+		}}>
 		<button on:click|stopPropagation>
 			<CreateBoard {themesCSS} {username} bind:createBoard={createBoard} bind:boards={boards}/>
 		</button>
@@ -318,20 +317,20 @@ const sendMessage = async (message, file) => {
 	{/if}
 	<!-- join board modal -->
 	{#if joinBoard}
-	<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
-	on:click={() => {
-		joinBoard = false
-	}}>
+		<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
+		on:click={() => {
+			joinBoard = false
+		}}>
 		<button on:click|stopPropagation>
 			<JoinBoard {themesCSS} bind:joinBoard={joinBoard} bind:boards={boards} />
 		</button>
 	</button>
 	{/if}
 	{#if isDeleting}
-	<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
-	on:click={() => {
-		isDeleting = false
-	}}>
+		<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
+		on:click={() => {
+			isDeleting = false
+		}}>
 		<button on:click|stopPropagation>
 			<DeleteBoard {themesCSS} bind:isCreator={isCreator} bind:isDeleting={isDeleting} bind:boards={boards} bind:board={currentBoard}/>
 		</button>
@@ -340,16 +339,16 @@ const sendMessage = async (message, file) => {
 	<div class="space-x-10 flex flex-row {themesCSS}" class:blur-md={showLogin || showSettings}> 
 		<Sidebar bind:isCreator={isCreator} bind:isDeleting={isDeleting} bind:boards={boards} bind:createBoard={createBoard} bind:joinBoard={joinBoard} bind:currentBoard={currentBoard} bind:oldUI={oldUI} bind:goAbout={goAbout} bind:showSettings={showSettings} {isPrivate} {fontCSS} {themeColor} {username} {themesCSS} {newButtonClass}/>
 		{#await promise}
-		<div class="flex w-screen h-screen justify-center items-center">
-			<Spinner color="blue" />
-		</div>
-		{:then}
-		<div class="px-4 justify-start flex">
-			<div class="lg:w-[75vw] w-[60vw] h-[80vh] justify-center p-4">
-				<MessageWindow {username} {oldUI} {showHighlight} {showDate} {showImages} {messages} {currentBoard} {messagesTop} {dashMessage} {themesCSS}/>
-				<MessageInput {message} {username} {themesCSS} bind:emojiPickerOpen={emojiPickerOpen} {sendMessage}/>
+			<div class="flex w-screen h-screen justify-center items-center">
+				<Spinner color="blue" />
 			</div>
-		</div>
+		{:then}
+			<div class="px-4 justify-start flex">
+				<div class="lg:w-[75vw] w-[60vw] h-[80vh] justify-center p-4">
+					<MessageWindow {username} {oldUI} {showHighlight} {showDate} {showImages} {messages} {currentBoard} {messagesTop} {dashMessage} {themesCSS}/>
+					<MessageInput {message} {username} {themesCSS} bind:emojiPickerOpen={emojiPickerOpen} {sendMessage}/>
+				</div>
+			</div>
 		{/await}
 	</div>
 </main>

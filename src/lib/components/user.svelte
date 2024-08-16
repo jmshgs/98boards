@@ -2,7 +2,6 @@
     import { pullUsername, pushUsername } from '$lib/supabaseClient.js';
     import { persisted } from 'svelte-persisted-store';
 
-    // Persist the username in local storage
     export let persistedUsernameStore = persisted('username', { key: 'username' });
 
     export let showUsername;
@@ -11,9 +10,8 @@
     let isExist = false;
 
     let listUsername = [];
-    let username = ''; // Initialize username as an empty string
+    let username = ''; 
 
-    // Fetch persisted username from the store
     async function fetchUsernames() {
         try {
             listUsername = await pullUsername();
@@ -33,7 +31,7 @@
     }
 
     async function handleSubmit(event) {
-        event.preventDefault(); // Prevent default form submission
+        event.preventDefault(); 
         if (username.trim() === '') {
             failSubmit = true;
             isSubmitted = false;
@@ -45,7 +43,7 @@
                 isExist = true;
                 failSubmit = false;
             } else {
-                const time_made = new Date().toISOString(); // Get the current timestamp
+                const time_made = new Date().toISOString(); 
 
                 try {
                     await pushUsername(username, time_made);
@@ -80,13 +78,13 @@
             />
         </div>
         {#if isSubmitted}
-        <div class="mt-4 text-green-500">Username entered successfully!</div>
+            <div class="mt-4 text-green-500">Username entered successfully!</div>
         {/if}
         {#if failSubmit}
-        <div class="mt-4 text-red-400">Username cannot be empty.</div>
+            <div class="mt-4 text-red-400">Username cannot be empty.</div>
         {/if}
         {#if isExist}
-        <div class="mt-4 text-yellow-400">Username already exists.</div>
+            <div class="mt-4 text-yellow-400">Username already exists.</div>
         {/if}
         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-xl mt-6">Submit</button>
     </form>

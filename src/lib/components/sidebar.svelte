@@ -30,12 +30,10 @@
                     if (board.creator == username && username != "anon" ){
                         isCreator = true;
                         break
-                    }
-                    else{
+                    }else{
                         isCreator = false;
                     }
-                }
-                else{
+                }else{
                     isCreator = false;
                 }
             }
@@ -47,7 +45,7 @@
         let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         let charactersLength = characters.length;
         for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
         }
         return result;
     }
@@ -81,27 +79,27 @@
             </h1>
             <ul class="list-none px-4 py-2 space-y-1.5" class:tree-view={oldUI}>
                 {#each boards as board}
-                <li>
-                    {#if !oldUI}
-                    <button class="decoration-none transition-all hover:scale-[105%]" class:scale-[105%]={currentBoard == board && !isPrivate} class:text-blue-800={currentBoard == board && !isPrivate} on:click={() => {
-                        currentBoard = board;
-                        isOwner();
-                        if (isPrivate) {
-                          boards = shuffle(boards);
-                        }
-                    }}>{isPrivate && currentBoard==board ? generateRandomString(10) : board}</button>
-                    {:else}
-                    <!-- svelte-ignore a11y-click-events-have-key-events -->
-                    <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-                    <p class="decoration-none transition-all hover:scale-[105%] hover:pl-2" class:scale-[102%]={currentBoard == board && !isPrivate} class:font-bold={currentBoard == board && !isPrivate} class:pl-0.5={currentBoard == board && !isPrivate} on:click={() => {
-                        currentBoard = board;
-                        isOwner();
-                        if (isPrivate) {
-                          boards = shuffle(boards);
-                        }
-                    }}>{isPrivate && currentBoard==board ? generateRandomString(10) : board}</p>
-                    {/if}
-                </li>
+                    <li>
+                        {#if !oldUI}
+                        <button class="decoration-none transition-all hover:scale-[105%]" class:scale-[105%]={currentBoard == board && !isPrivate} class:text-blue-800={currentBoard == board && !isPrivate} on:click={() => {
+                            currentBoard = board;
+                            isOwner();
+                            if (isPrivate) {
+                            boards = shuffle(boards);
+                            }
+                        }}>{isPrivate && currentBoard==board ? generateRandomString(10) : board}</button>
+                        {:else}
+                        <!-- svelte-ignore a11y-click-events-have-key-events -->
+                        <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+                        <p class="decoration-none transition-all hover:scale-[105%] hover:pl-2" class:scale-[102%]={currentBoard == board && !isPrivate} class:font-bold={currentBoard == board && !isPrivate} class:pl-0.5={currentBoard == board && !isPrivate} on:click={() => {
+                            currentBoard = board;
+                            isOwner();
+                            if (isPrivate) {
+                            boards = shuffle(boards);
+                            }
+                        }}>{isPrivate && currentBoard==board ? generateRandomString(10) : board}</p>
+                        {/if}
+                    </li>
                 {/each}
             </ul>
         </div>
@@ -125,14 +123,6 @@
             </button>
 
         </div>
-        <!-- <div class="flex items-end">
-            <button class="justify-center flex w-full p-2 m-2 {themeColor=='light' ? "bg-slate-200": ""} {newButtonClass}" on:click={() => {
-                showLogin = true;
-            }}>
-                user
-            </button>
-            
-        </div> -->
         {#if isCreator}
         <div class="flex items-end">
             <button class="justify-center flex w-full p-2 m-2 {themeColor=='light' ? "bg-slate-200": ""} {newButtonClass}" on:click={() => {

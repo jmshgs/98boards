@@ -1,5 +1,5 @@
 <script>
-	import { supabase, deleteBoard} from '$lib/supabaseClient.js'
+	import { deleteBoard} from '$lib/supabaseClient.js'
     import { persisted } from 'svelte-persisted-store';
 
     export let themesCSS;
@@ -12,8 +12,7 @@
     export let isDeleting;
     export let isCreator;
 
-    let boardmode = true; ///true means delete board, false means clear message
-
+    let boardmode = true; 
     let inputBoardPassword = "";
 
     let deleted = false;
@@ -62,21 +61,33 @@
         </div>				
     </form>
     {#if boardmode}
-        <button class= "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" on:click={() => {
-        Deleteboard()
-    }}>Delete ...</button>
-        <button class= "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" on:click={() => {
-        SwapMode()
-        }}>Clear ...</button>
+        <button class= "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" 
+            on:click={() => {
+                Deleteboard()
+            }}>
+            Delete ...
+        </button>
+        <button class= "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" 
+            on:click={() => {
+                SwapMode()
+            }}>
+            Clear ...
+        </button>
     
     {/if}
     {#if !boardmode}
-        <button class= "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" on:click={() => {
-        //Clearboard()
-    }}>Clear ...</button>
-        <button class= "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" on:click={() => {
-        SwapMode()
-        }}>Delete ...</button>    
+        <button class= "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" 
+            on:click={() => {
+                //Clearboard()
+            }}>
+            Clear ...
+        </button>
+        <button class= "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" 
+            on:click={() => {
+                SwapMode()
+            }}>
+            Delete ...
+        </button>    
     {/if}
     {#if deleted}
         <p class="text-green-500">Board deleted</p>
