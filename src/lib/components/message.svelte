@@ -12,6 +12,8 @@
     export let messageClass = '';
     export let username = '';
 
+    let messageHovered=false;
+
     let audio = new Audio('/sounds/ping.mp3');
     let soundPlayed = false;
 

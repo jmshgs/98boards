@@ -1,14 +1,20 @@
 <script>
     import { pullUsername, pushUsername } from '$lib/supabaseClient.js';
+    import { persisted } from 'svelte-persisted-store';
+    import { get } from 'svelte/store'
 
-    export let username = '';
+    // Persist the username in local storage
+    export let persistedUsernameStore = persisted('', { key: 'username' });
+
     export let showUsername;
     let isSubmitted = false;
     let failSubmit = false;
     let isExist = false;
 
     let listUsername = [];
+    let username = ''; // Initialize username as an empty string
 
+    // Fetch persisted username from the store
     async function fetchUsernames() {
         try {
             listUsername = await pullUsername();
@@ -48,6 +54,9 @@
                     isExist = false;
                     failSubmit = false;
 
+                    // Store the username in the persisted store
+                    persistedUsernameStore.set(username);
+
                     await waitForSeconds(1.0);
 
                     showUsername = false;
@@ -75,7 +84,7 @@
         <div class="mt-4 text-green-500">Username entered successfully!</div>
         {/if}
         {#if failSubmit}
-        <div class="mt-4 text-red-400">Username cannot be empty. </div>
+        <div class="mt-4 text-red-400">Username cannot be empty.</div>
         {/if}
         {#if isExist}
         <div class="mt-4 text-yellow-400">Username already exists.</div>

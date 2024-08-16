@@ -1,11 +1,10 @@
 <script>
 	import { supabase, fetchMessages, insertMessage, getBannedUserIPAddresses, pushDelUsername, uploadImage} from '$lib/supabaseClient.js'
-	import { timeConverter, changeTheme } from '$lib/main.js'
+	import { changeTheme } from '$lib/main.js'
 	import messageStore from '$lib/stores/messageStore';
 	import timestamp from 'unix-timestamp';
 	import { Spinner } from 'flowbite-svelte'
-	import { onMount, onDestroy } from 'svelte';
-	import Account from '$lib/components/account.svelte'
+	import { onMount } from 'svelte';
 	import Settings from '$lib/components/settings.svelte'
 
 	import Sidebar from '$lib/components/sidebar.svelte';
@@ -20,7 +19,8 @@
 
 	import User from "$lib/components/user.svelte"
     import { Toaster, toast } from 'svelte-sonner';
-
+	import { persisted } from 'svelte-persisted-store';
+	import { get } from 'svelte/store'
 
 	const currentDate = new Date();
 
@@ -40,9 +40,31 @@
 	let message = "";
 
 	let currentBoard = "general";
-	let username = '' || 'anon';
 
+	// Initialize username and showUsername
+	let username = '';
 	let showUsername = false;
+	let persistedUsernameStore = persisted('', { key: 'username' });
+
+	$: {
+    try {
+      const storedValue = get(persistedUsernameStore);
+
+      if (typeof storedValue === 'string') {
+        username = storedValue;
+      } else if (storedValue && storedValue.username) {
+        username = storedValue.username; 
+      } else {
+        username = ''; 
+      }
+
+      showUsername = !username;
+    } catch (error) {
+      console.error('Error retrieving username:', error);
+      username = '';
+      showUsername = true;
+    }
+  }
 	let showLogin = false;
 	let showSettings = false;
 	let showDate = false;
@@ -122,23 +144,6 @@
 				.select()
 			messageStore.set(data.reverse());
 		})()
-		if (supabase.user) {
-			let id;
-			fetchUser()
-			.then(data => {
-				if (data) {
-					id = data.id
-					console.log("got the data")
-					console.log(id)
-					fetchUsername(id)
-					.then(data => {
-						console.log(data)
-						username = data[0].username;
-					})
-				}
-			})
-		}
-		showUsername = true;
 	})
 
 	
@@ -229,10 +234,10 @@ const sendMessage = async (message, file) => {
 	{#if showUsername}
 	<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
 	on:click={() => {
-		null
+		null //cant close until username is fixed
 	}}>
 		<button on:click|stopPropagation>
-			<User bind:showUsername={showUsername} bind:username={username}/>
+			<User bind:showUsername={showUsername} bind:persistedUsernameStore={persistedUsernameStore} bind:username={username}/>
 		</button>
 	</button>
 	{/if}
@@ -257,17 +262,6 @@ const sendMessage = async (message, file) => {
 		</button>
 	</button>
 	{/if}
-	<!-- {#if showLogin}
-	<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
-	on:click={() => {
-		showLogin = false
-	}}>
-		<button on:click|stopPropagation>
-			<Account {oldUI} {themesCSS} bind:username={username}/>
-		</button>
-	</button>	
-	{/if} -->
-	<!-- settings modal -->
 	{#if showSettings}
 	<button class="z-10 fixed flex h-screen w-screen items-center justify-center {themesCSS}"
 	on:click={() => {
