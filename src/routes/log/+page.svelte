@@ -1,6 +1,16 @@
 <div class="max-w-screen-lg mx-auto p-8 bg-white rounded-lg shadow-lg">
     <h1 class="text-3xl font-bold text-gray-800 mb-6">Update Log</h1>
     <div class="mb-8">
+        <h2 class="text-lg font-semibold text-gray-800 mb-2">Aug 15, 2024</h2>
+        <ul class="list-disc pl-5 text-gray-700">
+            <li>Copy Icon Improvement</li>
+            <li>Local Storage thru svelte-persisted-store</li>
+            <li>Message Input Buttons Redesign</li>
+            <li>Image preview when sending image</li>
+        </ul>
+    </div>    
+
+    <div class="mb-8">
         <h2 class="text-lg font-semibold text-gray-800 mb-2">July 10, 2024 5:42 PM PST</h2>
         <ul class="list-disc pl-5 text-gray-700">
             <li>User mentions with ping sound</li>

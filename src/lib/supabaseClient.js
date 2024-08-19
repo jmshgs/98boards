@@ -214,3 +214,28 @@ export const markSoundAsPlayed = async (messageId) => {
 
   return true;
 };
+
+export async function downloadFile(filePath) {
+  console.log(filePath)
+  const { data, error } = await supabase.storage
+    .from('images')
+    .download(filePath);
+
+  if (error) {
+    console.error('Error downloading file:', error.message);
+    return { data: null, error };
+  }
+
+  const fileUrl = URL.createObjectURL(data);
+
+  const a = document.createElement('a');
+  a.href = fileUrl;
+  a.download = filePath.split('/').pop();
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+
+  URL.revokeObjectURL(fileUrl);
+
+  return { data, error: null };
+}
