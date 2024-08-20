@@ -123,9 +123,11 @@
         <div class="text-gray-500 text-sm">
             at {timeConverter(message.sent_at)} {showDate ? message.send_date : ''}
         </div>
+        {#if message.content}
         <Button class="w-8 h-8 p-0" variant="ghost" on:click={() => copyToClipboard(message.content)}>
             <CopyIcon size="20"/> 
         </Button>
+        {/if}
         {#if message.file_url}
         <Button class="w-8 h-8 p-0" variant="ghost" on:click={() => handleDownload(message.file_url)}>
             <DownloadIcon size="20"/> 
