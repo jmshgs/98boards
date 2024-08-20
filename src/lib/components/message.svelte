@@ -126,9 +126,11 @@
         <Button class="w-8 h-8 p-0" variant="ghost" on:click={() => copyToClipboard(message.content)}>
             <CopyIcon size="20"/> 
         </Button>
+        {#if message.file_url}
         <Button class="w-8 h-8 p-0" variant="ghost" on:click={() => handleDownload(message.file_url)}>
             <DownloadIcon size="20"/> 
         </Button>
+        {/if}
     </div>
 </div>
 
