@@ -8,19 +8,3 @@ export function timeConverter(unixTimestamp){
  
     return time;
 }
-
-export const changeTheme = (themeColor) => {
-    let themesCSS = ""
-    switch (themeColor) {
-        case "auto":
-            themesCSS = "bg-white text-black dark:bg-gray-950 dark:text-gray-50"
-            break
-        case "light":
-            themesCSS = "bg-white text-black"
-            break
-        case "dark":
-            themesCSS = "bg-black text-gray-50"
-            break
-    }
-    return themesCSS
-}

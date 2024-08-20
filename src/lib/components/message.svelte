@@ -1,43 +1,9 @@
 <script>
-    import { toast } from 'svelte-sonner';
-    import { timeConverter } from '$lib/main.js';
-    import { getPlayedSound, markSoundAsPlayed, downloadFile } from '$lib/supabaseClient.js';
-    import { CopyIcon, DownloadIcon, FileIcon} from 'svelte-feather-icons';
-    import { Button } from "$lib/components/ui/button";
-
-    export let dashMessage;
     export let message;
-    export let showHighlight;
-    export let showDate;
-    export let showImages;
-    export let messageClass = '';
-    export let username = '';
-
-    let messageHovered = false;
-
-    let audio = new Audio('/sounds/ping.mp3');
-    let soundPlayed = false;
 
     function toggleHover() {
         messageHovered = !messageHovered;
     }
-
-    async function checkAndPlaySound() {
-        if (username && message.id && !isNaN(message.id)) {
-            const playedSound = await getPlayedSound(message.id);
-            if (!playedSound && playedSound != null && message.content.includes(`@${username}`)) {
-                audio.play();
-                soundPlayed = true;
-                await markSoundAsPlayed(message.id);
-            }
-        }
-    }
-
-    $: 
-        if (message.content) {
-            soundPlayed = false;
-            checkAndPlaySound();
-        }
 
     function renderMessageWithLink(content) {
         const parts = content.split(' ');
@@ -51,110 +17,22 @@
             }
         }).join(' ');
     }
-
-    function copyToClipboard(content) {
-        try {
-            navigator.clipboard.writeText(content);
-            toast.success("Copied To Clipboard!");
-        } catch (err) {
-            toast.error("Failed to copy: " + err);
-        }
-    }
-
-    function extractFilePath(fullUrl) {
-        const parts = fullUrl.split('/');
-        const bucketIndex = parts.indexOf('images') + 2;
-        return parts.slice(bucketIndex).join('/');
-    }
-
-    async function handleDownload(fullUrl) {
-        try {
-            const filePath = extractFilePath(fullUrl);
-            const { data, error } = await downloadFile(filePath);
-            if (error) {
-                toast.error('Error downloading file: ' + error.message);
-            } else if (data) {
-                toast.success('Download started!');
-            }
-        } catch (err) {
-            toast.error('Failed to download: ' + err.message);
-        }
-    }
 </script>
 
-<div class={`relative flex flex-row justify-between p-2 rounded-lg group ${showHighlight ? messageClass : ""}`} 
+<div class={`relative flex flex-row justify-between p-2 rounded-lg group`} 
+     role="region" 
      on:mouseenter={toggleHover} on:mouseleave={toggleHover}>
     <div class="flex flex-col justify-center flex-grow">
         <div class="message-content flex w-full gap-2">
             <div>
-                {#if dashMessage}
-                    {#if message.content.includes("https://")}
-                        <span>
-                            {message.sender}: {@html renderMessageWithLink(message.content)}
-                        </span>
-                    {:else}
+                {#if message.content.includes("https://")}
+                    <span>
                         {message.sender}: {@html renderMessageWithLink(message.content)}
-                    {/if}
+                    </span>
                 {:else}
-                    {#if message.content.includes("https://")}
-                        <span>
-                            {message.sender}: {@html renderMessageWithLink(message.content)}
-                        </span>
-                    {:else}
-                        {message.sender}: {@html renderMessageWithLink(message.content)}
-                    {/if}
+                    {message.sender}: {@html renderMessageWithLink(message.content)}
                 {/if}
             </div>
         </div>
-        {#if message.file_url && message.file_type && showImages}
-            {#if message.file_type.startsWith('image/')}
-                <img src={message.file_url} class="chat-image mt-2 max-w-2/5 rounded-lg" />
-            {:else}
-                <div class="flex items-center space-x-2">
-                    <Button class="w-8 h-8 p-0" variant="ghost">
-                        <FileIcon size="20" class="stroke-gray-400"/> 
-                    </Button>            
-                    <span class="text-gray-400"> {extractFilePath(message.file_url) || 'Downloadable File'}</span>
-                </div>
-            {/if}
-        {/if}
-    </div>
-    <div class="flex items-center space-x-2 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-        <div class="text-gray-500 text-sm">
-            at {timeConverter(message.sent_at)} {showDate ? message.send_date : ''}
-        </div>
-        {#if message.content}
-        <Button class="w-8 h-8 p-0" variant="ghost" on:click={() => copyToClipboard(message.content)}>
-            <CopyIcon size="20"/> 
-        </Button>
-        {/if}
-        {#if message.file_url}
-        <Button class="w-8 h-8 p-0" variant="ghost" on:click={() => handleDownload(message.file_url)}>
-            <DownloadIcon size="20"/> 
-        </Button>
-        {/if}
     </div>
 </div>
-
-<style>
-    .chat-image {
-        max-width: 40%;
-        height: auto;
-        border-radius: 0.5rem;
-        margin-top: 0.5rem;
-    }
-
-    .message-content {
-        display: flex;
-        gap: 0.5rem;
-    }
-
-    .copy-icon-container {
-        opacity: 0;
-        transition: opacity 0.2s ease-in-out;
-    }
-
-    .group:hover .copy-icon-container {
-        opacity: 1;
-    }
-</style>
