@@ -1,5 +1,5 @@
 <script>
-    import { pullUsername, pushUsername } from '$lib/supabaseClient.js';
+    import { pullUsername } from '$lib/supabaseClient.js';
     import { persisted } from 'svelte-persisted-store';
 
     export let persistedUsernameStore = persisted('username', { key: 'username' });
@@ -46,7 +46,6 @@
                 const time_made = new Date().toISOString(); 
 
                 try {
-                    await pushUsername(username, time_made);
                     isSubmitted = true;
                     isExist = false;
                     failSubmit = false;

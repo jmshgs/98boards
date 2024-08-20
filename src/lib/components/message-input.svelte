@@ -1,5 +1,4 @@
 <script>
-    // Your existing imports
     export let message = "";
     export let username;
     export let themesCSS;

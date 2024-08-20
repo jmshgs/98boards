@@ -27,7 +27,6 @@
 	let oldUI = false;
 
 	let dashMessage = false;
-	let messagesTop = true;
 
 	let themeColor = "auto";
 	let themesCSS = ""
@@ -123,15 +122,6 @@
 
 	let isBanned = false;
 		
-	function handleBeforeUnload() {
-
-		console.log("deleting")
-
-		pushDelUsername(username);
-		
-
-	}
-
 
 
   	onMount(async () => {
@@ -219,7 +209,7 @@
 		let fileType = null;
 
 		if (file) {
-			fileUrl = await uploadImage(file); // This could be renamed to `uploadFile` if you want to generalize it.
+			fileUrl = await uploadImage(file); 
 
 			if (!fileUrl) {
 				toast.error('Error uploading file. Please try again.');
@@ -306,7 +296,7 @@
 			showSettings = false
 		}}>
 		<button on:click|stopPropagation>
-			<Settings bind:messagesTop={messagesTop} bind:dashMessage={dashMessage} bind:themeColor={themeColor} bind:themesCSS={themesCSS} bind:fontCSS={fontCSS} bind:isPrivate={isPrivate} bind:goAbout={goAbout} bind:oldUI={oldUI} bind:showDate={showDate} bind:showHighlight={showHighlight} bind:showImages={showImages}/>
+			<Settings bind:dashMessage={dashMessage} bind:themeColor={themeColor} bind:themesCSS={themesCSS} bind:fontCSS={fontCSS} bind:isPrivate={isPrivate} bind:goAbout={goAbout} bind:oldUI={oldUI} bind:showDate={showDate} bind:showHighlight={showHighlight} bind:showImages={showImages}/>
 		</button>
 	</button>	
 	{/if}
@@ -351,7 +341,7 @@
 		{:then}
 			<div class="px-4 justify-start flex">
 				<div class="lg:w-[75vw] w-[60vw] h-[80vh] justify-center p-4">
-					<MessageWindow {username} {oldUI} {showHighlight} {showDate} {showImages} {messages} {currentBoard} {messagesTop} {dashMessage} {themesCSS}/>
+					<MessageWindow {username} {oldUI} {showHighlight} {showDate} {showImages} {messages} {currentBoard} {dashMessage} {themesCSS}/>
 					<MessageInput {message} {username} {themesCSS} bind:emojiPickerOpen={emojiPickerOpen} {sendMessage}/>
 				</div>
 			</div>

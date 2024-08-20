@@ -4,7 +4,6 @@
     export let oldUI;
     export let messages;
     export let currentBoard;
-    export let messagesTop;
     export let dashMessage;
     export let showHighlight;
     export let showDate;
@@ -26,9 +25,9 @@
 </script>
 
 <div class:window={oldUI}>
-    <div class="px-4">
+    <div>
         <h1 class="text-xl font-semibold py-2">messages:</h1>
-        <div class="h-[75vh] overflow-y-auto flex {messagesTop ? 'flex-col' : 'flex-col-reverse align-bottom'}">
+        <div class="h-[75vh] overflow-y-auto flex flex-col-reverse align-bottom">
             {#each messages as message (message.id)}
                 {#if message.board === currentBoard}
                     <Message 

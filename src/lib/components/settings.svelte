@@ -1,7 +1,6 @@
 <script>
     import { changeTheme } from '$lib/main.js';
 
-    export let messagesTop;
     export let themeColor;
     export let themesCSS;
     export let fontCSS;
@@ -24,27 +23,8 @@
     <div class="flex flex-col justify-start space-y-10 {fontCSS}">
         <div class="flex flex-row justify-start space-x-10">
             <div class="flex flex-col">
-                <label for="messageDirection" class="text-lg font-bold {themesCSS}">message direction</label>
-                <select id="messageDirection" name="messageDirection" class="w-64 h-10 mt-2 rounded-xl border-gray-400 border-2 shadow-md {themesCSS}" bind:value={messagesTop}>
-                    <option value={true}>new message at top</option>
-                    <option value={false}>new message on bottom</option>
-                </select>
-            </div>
-            <div class="flex flex-col">
-                <label for="theme" class="text-lg font-bold {themesCSS}">theme</label>
-                <select id="theme" name="theme" class='w-32 h-10 mt-2 rounded-xl border-gray-400 border-2 shadow-md {themesCSS}' bind:value={themeColor} on:input={() => {
-                    setTimeout(() => {
-                        themesCSS = changeTheme(themeColor);
-                    }, 25);
-                }}>
-                    <option value={"auto"}>auto</option>
-                    <option value={"light"}>light</option> 
-                    <option value={"dark"}>dark</option>
-                </select>
-            </div>
-            <div class="flex flex-col">
                 <label for="private" class="text-lg font-bold {isPrivate}">privacy</label>
-                <select id="private" name="private" class='w-32 h-10 mt-2 rounded-xl border-gray-400 border-2 shadow-md {themesCSS}' bind:value={isPrivate} on:input={() => {
+                <select id="private" name="private" class='w-64 h-10 mt-2 rounded-xl border-gray-400 border-2 shadow-md {themesCSS}' bind:value={isPrivate} on:input={() => {
                     setTimeout(() => {
                         themesCSS = changeTheme(themeColor);
                     }, 25);
@@ -53,11 +33,9 @@
                     <option value={false}>public</option> 
                 </select>
             </div>
-        </div>
-        <div class="flex flex-row justify-start space-x-10">
             <div class="flex flex-col">
                 <label for="font" class="text-lg font-bold {fontCSS}">font</label>
-                <select id="font" name="font" class="w-64 h-10 mt-2 rounded-xl border-gray-400 border-2 shadow-md {themesCSS}" bind:value={fontCSS}>
+                <select id="font" name="font" class="w-32 h-10 mt-2 rounded-xl border-gray-400 border-2 shadow-md {themesCSS}" bind:value={fontCSS}>
                     <option value={'font-apple'}>apple</option>
                     <option value={"font-sans"}>sans-serif</option>
                     <option value={"font-serif"}>serif</option>
@@ -66,7 +44,7 @@
             </div>
             <div class="flex flex-col">
                 <label for="ui" class="text-lg font-bold {fontCSS}">ui</label>
-                <select id="ui" name="ui" class="w-64 h-10 mt-2 rounded-xl border-gray-400 border-2 shadow-md {themesCSS}" bind:value={oldUI}>
+                <select id="ui" name="ui" class="w-32 h-10 mt-2 rounded-xl border-gray-400 border-2 shadow-md {themesCSS}" bind:value={oldUI}>
                     <option value={true}>old ui</option>
                     <option value={false}>new ui</option>
                 </select>
