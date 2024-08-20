@@ -63,7 +63,7 @@
 
     function extractFilePath(fullUrl) {
         const parts = fullUrl.split('/');
-        const bucketIndex = parts.indexOf('images') + 1;
+        const bucketIndex = parts.indexOf('images') + 2;
         return parts.slice(bucketIndex).join('/');
     }
 
@@ -112,9 +112,9 @@
             {:else}
                 <div class="flex items-center space-x-2">
                     <Button class="w-8 h-8 p-0" variant="ghost">
-                        <FileIcon size="20"/> 
+                        <FileIcon size="20" class="stroke-gray-400"/> 
                     </Button>            
-                    <span class="text-gray-400">Download {extractFilePath(message.file_url) || 'Downloadable File'}</span>
+                    <span class="text-gray-400"> {extractFilePath(message.file_url) || 'Downloadable File'}</span>
                 </div>
             {/if}
         {/if}
