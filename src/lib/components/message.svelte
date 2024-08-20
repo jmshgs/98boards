@@ -2,8 +2,9 @@
     import { toast } from 'svelte-sonner';
     import { timeConverter } from '$lib/main.js';
     import { getPlayedSound, markSoundAsPlayed, downloadFile } from '$lib/supabaseClient.js';
-    import { CopyIcon, DownloadIcon } from 'svelte-feather-icons';
+    import { CopyIcon, DownloadIcon, FileIcon} from 'svelte-feather-icons';
     import { Button } from "$lib/components/ui/button";
+
     export let dashMessage;
     export let message;
     export let showHighlight;
@@ -12,7 +13,7 @@
     export let messageClass = '';
     export let username = '';
 
-    let messageHovered=false;
+    let messageHovered = false;
 
     let audio = new Audio('/sounds/ping.mp3');
     let soundPlayed = false;
@@ -66,10 +67,9 @@
         return parts.slice(bucketIndex).join('/');
     }
 
-
     async function handleDownload(fullUrl) {
         try {
-            const filePath = extractFilePath(fullUrl)
+            const filePath = extractFilePath(fullUrl);
             const { data, error } = await downloadFile(filePath);
             if (error) {
                 toast.error('Error downloading file: ' + error.message);
@@ -80,7 +80,6 @@
             toast.error('Failed to download: ' + err.message);
         }
     }
-
 </script>
 
 <div class={`relative flex flex-row justify-between p-2 rounded-lg group ${showHighlight ? messageClass : ""}`} 
@@ -107,8 +106,17 @@
                 {/if}
             </div>
         </div>
-        {#if message.image_url && showImages}
-            <img src={message.image_url} alt="Image" class="chat-image mt-2 max-w-2/5 rounded-lg" />
+        {#if message.file_url && message.file_type && showImages}
+            {#if message.file_type.startsWith('image/')}
+                <img src={message.file_url} class="chat-image mt-2 max-w-2/5 rounded-lg" />
+            {:else}
+                <div class="flex items-center space-x-2">
+                    <Button class="w-8 h-8 p-0" variant="ghost">
+                        <FileIcon size="20"/> 
+                    </Button>            
+                    <span class="text-gray-400">Download {extractFilePath(message.file_url) || 'Downloadable File'}</span>
+                </div>
+            {/if}
         {/if}
     </div>
     <div class="flex items-center space-x-2 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
@@ -118,11 +126,9 @@
         <Button class="w-8 h-8 p-0" variant="ghost" on:click={() => copyToClipboard(message.content)}>
             <CopyIcon size="20"/> 
         </Button>
-        {#if message.image_url && showImages}
-        <Button class="w-8 h-8 p-0" variant="ghost" on:click={() => handleDownload(message.image_url)}>
+        <Button class="w-8 h-8 p-0" variant="ghost" on:click={() => handleDownload(message.file_url)}>
             <DownloadIcon size="20"/> 
         </Button>
-        {/if}
     </div>
 </div>
 

@@ -1,6 +1,5 @@
 <script>
-    import Emojipicker from "$lib/components/emojipicker.svelte";
-
+    // Your existing imports
     export let message = "";
     export let username;
     export let themesCSS;
@@ -9,6 +8,7 @@
 
     let isActive = false;
     let file = null;
+    let fileName = "";
     let imageUrl = "";
 
     function toggleActive() {
@@ -24,6 +24,7 @@
         await sendMessage(message, file);
         message = "";
         file = null;
+        fileName = "";
         imageUrl = "";
         document.getElementById("file-upload").value = null;
     }
@@ -31,20 +32,26 @@
     function handleFileChange(event) {
         file = event.target.files[0]; 
         if (file) {
-            imageUrl = URL.createObjectURL(file);
+            if (file.type.startsWith('image/')) {
+                imageUrl = URL.createObjectURL(file);
+            } else {
+                fileName = file.name;
+                imageUrl = "";
+            }
         } else {
             imageUrl = "";
+            fileName = "";
         }
     }
 </script>
 
-{#if !emojiPickerOpen}
-    <Emojipicker on:emojiSelected={handleEmojiSelected} />
-{/if}
 <div class={`flex items-center space-x-4 py-4 overflow-y-auto ${themesCSS}`}>
     {#if imageUrl}
         <!-- Image preview section -->
         <img src={imageUrl} alt="Image preview" class="w-12 h-12 object-cover rounded-md mr-4" />
+    {:else if fileName}
+        <!-- File name preview section -->
+        <span class="text-gray-700">{fileName}</span>
     {/if}
     <input
         on:keypress={(e) => {
@@ -73,4 +80,3 @@
         </span>
     </label>
 </div>
-

@@ -195,56 +195,62 @@
 	
 
 	const sendMessage = async (message, file) => {
-  		if (!isBanned) {
+		if (!isBanned) {
 			// Add logic to handle banned users if needed
 		}
 
 		if (message === "" && file == null) {
 			toast.error("message content cannot be empty!");
+			return;
 		}
 
 		if (messages[0]) {
 			if (message === messages[0].content && messages[0].sender === username) {
 				toast.error("you can't send the same message twice :)");
-			return;
+				return;
 			}
 			if (timestamp.now() - messages[0].sent_at < 1 && username === messages[0].sender) {
 				toast.error("you can't send messages that fast :)");
-			return;
+				return;
 			}
 		}
 
-		let imageUrl = null;
-		if (file) {
-			imageUrl = await uploadImage(file);
+		let fileUrl = null;
+		let fileType = null;
 
-			if (!imageUrl) {
-				toast.error('Error uploading image. Please try again.');
+		if (file) {
+			fileUrl = await uploadImage(file); // This could be renamed to `uploadFile` if you want to generalize it.
+
+			if (!fileUrl) {
+				toast.error('Error uploading file. Please try again.');
 				return;
 			} else {
-				toast.success("Successfully uploaded image.");
+				toast.success("Successfully uploaded file.");
 			}
+
+			fileType = file.type; // Store the file type
 		}
 
 		let newMessage = {
 			content: message,
 			sent_at: timestamp.now(),
 			date: currentDate,
-			sender: username, // TODO: Add user auth
+			sender: username,
 			board: currentBoard,
 			sender_iP: iP,
-			image_url: imageUrl, // Add the image URL to the message
+			file_url: fileUrl,
+			file_type: fileType,
 			played_sound: false
 		};
 
-		console.log('New message object:', newMessage); // Debugging statement to check message object
+		console.log('New message object:', newMessage);
 
 		messageStore.update(messages => {
 			return [newMessage, ...messages];
 		});
 
 		await insertMessage(newMessage);
-		};
+	};
 </script>
 
 <svelte:window on:keypress={(e) => {
