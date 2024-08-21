@@ -2,7 +2,7 @@
     import { toast } from 'svelte-sonner';
     import { timeConverter } from '$lib/main.js';
     import { getPlayedSound, markSoundAsPlayed, downloadFile } from '$lib/supabaseClient.js';
-    import { CopyIcon, DownloadIcon, FileIcon, CornerUpLeftIcon } from 'svelte-feather-icons';
+    import { CopyIcon, DownloadIcon, FileIcon, CornerUpLeftIcon, CornerLeftDownIcon } from 'svelte-feather-icons';
     import { Button } from "$lib/components/ui/button";
 
     export let dashMessage;
@@ -99,15 +99,18 @@
 </script>
 
 <div class={`relative flex flex-row justify-between p-2 rounded-lg group `} 
+     role="region"
      on:mouseenter={toggleHover} on:mouseleave={toggleHover}>
     <div class="flex flex-col justify-center flex-grow">
         <div class="message-content flex w-full gap-2">
             <div>
                 {#if message.replyTo}
                     {#if originalMessage}
-                        <div class="reply-box">
+                        <div>
+                            <Button class="w-6 h-6 p-1" variant="ghost">
+                                <CornerLeftDownIcon size="20"/> 
+                            </Button>                    
                             <span class="text-gray-500">Replying to {originalMessage.sender}: {originalMessage.content}</span>
-                            
                         </div>
                     {/if}
                 {/if}
@@ -132,7 +135,7 @@
         </div>
         {#if message.file_url && message.file_type && showImages}
             {#if message.file_type.startsWith('image/')}
-                <img src={message.file_url} class="chat-image mt-2 max-w-2/5 rounded-lg" />
+                <img src={message.file_url} alt class="chat-image mt-2 max-w-2/5 rounded-lg" />
             {:else}
                 <div class="flex items-center space-x-2">
                     <Button class="w-8 h-8 p-0" variant="ghost">
@@ -164,28 +167,6 @@
 </div>
 
 <style>
-    .reply-box {
-        position: relative;
-        background-color: #e2e8f0; /* Light gray background */
-        padding: 0.5rem; /* Smaller padding */
-        border-radius: 0.5rem; /* Rounded corners */
-        max-width: 100%; /* Smaller width */
-        margin-top: 0.5rem;
-        
-    }
-
-    .reply-box::before {
-        content: "";
-        position: absolute;
-        bottom: -0.5rem; /* Positioning of the tail */
-        left: 1rem; /* Align with the reply box */
-        width: 0;
-        height: 0;
-        border-left: 0.5rem solid transparent;
-        border-right: 0.5rem solid transparent;
-        border-top: 0.5rem solid #e2e8f0; /* Match background color */
-    }
-
     .chat-image {
         max-width: 40%;
         height: auto;

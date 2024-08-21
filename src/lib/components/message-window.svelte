@@ -5,7 +5,6 @@
     export let messages;
     export let currentBoard;
     export let dashMessage;
-    export let showHighlight;
     export let showDate;
     export let showImages;
     export let username;

@@ -244,6 +244,7 @@
 		});
 
 		replyTo = null;
+		isReplying = false;
 
 		await insertMessage(newMessage);
 	};
@@ -347,8 +348,8 @@
 		{:then}
 			<div class="px-4 justify-start flex">
 				<div class="lg:w-[75vw] w-[60vw] h-[80vh] justify-center p-4">
-					<MessageWindow {username} {oldUI} {showHighlight} {showDate} {showImages} {messages} {currentBoard} {dashMessage} {themesCSS} bind:isReplying={isReplying} bind:replyTo={replyTo}/>
-					<MessageInput {message} {username} {themesCSS} bind:emojiPickerOpen={emojiPickerOpen} {sendMessage}/>
+					<MessageWindow {username} {oldUI} {showDate} {showImages} {messages} {currentBoard} {dashMessage}  bind:isReplying={isReplying} bind:replyTo={replyTo}/>
+					<MessageInput {message} {messages} {username} {themesCSS} bind:emojiPickerOpen={emojiPickerOpen} bind:isReplying={isReplying} bind:replyTo={replyTo} {sendMessage}/>
 				</div>
 			</div>
 		{/await}

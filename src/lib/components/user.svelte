@@ -10,7 +10,7 @@
     let isExist = false;
 
     let listUsername = [];
-    let username = ''; 
+    export let username = ''; 
 
     async function fetchUsernames() {
         try {
@@ -52,6 +52,7 @@
 
                     // Store the username in the persisted store
                     persistedUsernameStore.set(username);
+                    
 
                     await waitForSeconds(1.0);
 
