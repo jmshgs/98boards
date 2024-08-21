@@ -8,6 +8,20 @@ export const insertMessage = async (message) => {
         .insert([{ content: message.content, sent_at: message.sent_at, send_date: message.date, sender: message.sender, board: message.board, sender_ip: message.sender_iP, file_url: message.file_url, file_type: message.file_type, played_sound: message.played_sound, replyTo: message.replyTo }]);
 };
 
+export const editMessageContentTo = async (message, newContent) => {
+  const { data, error } = await supabase
+      .from("messages")
+      .update({ content: newContent })
+      .eq('id', message.id); 
+
+  if (error) {
+      console.error("Error updating message:", error);
+  } else {
+      console.log("Message content updated successfully:", data);
+  }
+};
+
+
 export const fetchMessages = async () => {
     const { data, error } = await supabase
         .from("messages")
@@ -216,7 +230,7 @@ export const markSoundAsPlayed = async (messageId) => {
 };
 
 export async function downloadFile(filePath) {
-  console.log(filePath)
+  console.log("filepath",filePath)
   const { data, error } = await supabase.storage
     .from('images')
     .download(filePath);

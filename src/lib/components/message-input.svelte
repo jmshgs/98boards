@@ -1,5 +1,6 @@
 <script>
     import Emojipicker from "$lib/components/emojipicker.svelte";
+    import { editMessageContentTo } from "$lib/supabaseClient";
 
     export let message = "";
     export let messages;
@@ -9,6 +10,7 @@
     export let emojiPickerOpen;
     export let isReplying;
     export let replyTo;
+    export let isEditing;
 
     let isActive = false;
     let file = null;
@@ -26,6 +28,19 @@
 
     async function handleSendMessage() {
         await sendMessage(message, file);
+        message = "";
+        file = null;
+        fileName = "";
+        imageUrl = "";
+        document.getElementById("file-upload").value = null;
+    }
+
+    async function handleEditMessage() {
+        const replyMessageContent = getMessageById(replyTo).content;
+
+        await editMessageContentTo({ id: replyTo, content: replyMessageContent }, message);
+
+        isEditing = false;
         message = "";
         file = null;
         fileName = "";
@@ -69,14 +84,18 @@
         <input
             on:keypress={(e) => {
                 if (e.key === "Enter") {
-                    handleSendMessage();
+                    if (isEditing) {
+                        handleEditMessage();
+                    }else{
+                        handleSendMessage();
+                    }
                 }
             }}
             type="text"
             name="message"
             id="message"
             class={`w-full border border-gray-300 rounded-xl p-2.5 focus:outline-none ${themesCSS}`}
-            placeholder="say hello, {username}"
+            placeholder=" {isEditing ? "edit message here" : `say hello, ${username}`}"
             bind:value={message}
         />
     </div>

@@ -4,12 +4,12 @@
     export let oldUI;
     export let messages;
     export let currentBoard;
-    export let dashMessage;
     export let showDate;
     export let showImages;
     export let username;
     export let isReplying;
     export let replyTo;
+    export let isEditing;
 
     let latestMessage = null;
 
@@ -34,8 +34,8 @@
                     <Message 
                         bind:isReplying={isReplying}
                         bind:replyTo={replyTo}
+                        bind:isEditing={isEditing}
                         username={username}
-                        dashMessage={dashMessage} 
                         message={message}
                         messages={messages}
                         showDate={showDate}

@@ -1,5 +1,5 @@
 <script>
-	import { supabase, fetchMessages, insertMessage, getBannedUserIPAddresses, pushDelUsername, uploadImage} from '$lib/supabaseClient.js'
+	import { supabase, fetchMessages, insertMessage, getBannedUserIPAddresses, uploadImage} from '$lib/supabaseClient.js'
 	import { changeTheme } from '$lib/main.js'
 	import messageStore from '$lib/stores/messageStore';
 	import timestamp from 'unix-timestamp';
@@ -36,6 +36,7 @@
 
 	let isReplying = false;
 	let replyTo = null;
+	let isEditing = false;
 
 	$: newButtonClass = `${oldUI ? "" : "rounded-full border-gray-800 border-2" } ${themesCSS}`
 
@@ -221,7 +222,7 @@
 				toast.success("Successfully uploaded file.");
 			}
 
-			fileType = file.type; // Store the file type
+			fileType = file.type; 
 		}
 
 		let newMessage = {
@@ -348,8 +349,8 @@
 		{:then}
 			<div class="px-4 justify-start flex">
 				<div class="lg:w-[75vw] w-[60vw] h-[80vh] justify-center p-4">
-					<MessageWindow {username} {oldUI} {showDate} {showImages} {messages} {currentBoard} {dashMessage}  bind:isReplying={isReplying} bind:replyTo={replyTo}/>
-					<MessageInput {message} {messages} {username} {themesCSS} bind:emojiPickerOpen={emojiPickerOpen} bind:isReplying={isReplying} bind:replyTo={replyTo} {sendMessage}/>
+					<MessageWindow {username} {oldUI} {showDate} {showImages} {messages} {currentBoard} {dashMessage} bind:isEditing={isEditing} bind:isReplying={isReplying} bind:replyTo={replyTo}/>
+					<MessageInput {isEditing} {message} {messages} {username} {themesCSS} bind:emojiPickerOpen={emojiPickerOpen} bind:isReplying={isReplying} bind:replyTo={replyTo} {sendMessage}/>
 				</div>
 			</div>
 		{/await}

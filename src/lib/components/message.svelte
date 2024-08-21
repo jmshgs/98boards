@@ -2,10 +2,9 @@
     import { toast } from 'svelte-sonner';
     import { timeConverter } from '$lib/main.js';
     import { getPlayedSound, markSoundAsPlayed, downloadFile } from '$lib/supabaseClient.js';
-    import { CopyIcon, DownloadIcon, FileIcon, CornerUpLeftIcon, CornerLeftDownIcon } from 'svelte-feather-icons';
+    import { CopyIcon, DownloadIcon, FileIcon, CornerUpLeftIcon, CornerLeftDownIcon, EditIcon } from 'svelte-feather-icons';
     import { Button } from "$lib/components/ui/button";
 
-    export let dashMessage;
     export let message;
     export let messages;
     export let showDate;
@@ -13,6 +12,7 @@
     export let username = '';
     export let isReplying = false;
     export let replyTo = null;
+    export let isEditing;
 
     let messageHovered = false;
 
@@ -68,9 +68,15 @@
         return parts.slice(bucketIndex).join('/');
     }
 
+    function extractFilePathImage(fullUrl) {
+        const parts = fullUrl.split('/');
+        const bucketIndex = parts.indexOf('images') + 1;
+        return parts.slice(bucketIndex).join('/');
+    }
+
     async function handleDownload(fullUrl) {
         try {
-            const filePath = extractFilePath(fullUrl);
+            const filePath = extractFilePathImage(fullUrl);
             const { data, error } = await downloadFile(filePath);
             if (error) {
                 toast.error('Error downloading file: ' + error.message);
@@ -87,8 +93,17 @@
         replyTo = message.id;
     }
 
+    function EditMessage(message) {
+        toggleEdit();
+        replyTo = message.id;
+    }
+
     function toggleReply() {
         isReplying = !isReplying;
+    }
+
+    function toggleEdit() {
+        isEditing = !isEditing;
     }
 
     function getMessageById(id) {
@@ -103,10 +118,18 @@
      on:mouseenter={toggleHover} on:mouseleave={toggleHover}>
     <div class="flex flex-col justify-center flex-grow">
         <div class="message-content flex w-full gap-2">
-            <div>
+            <div> 
                 {#if message.replyTo}
-                    {#if originalMessage}
-                        <div>
+                    {#if originalMessage && originalMessage.sender==username}
+                        <div class={originalMessage.sender==username ? "bg-blue-100" : ""}>
+
+                            <Button class="w-6 h-6 p-1" variant="ghost">
+                                <CornerLeftDownIcon size="20"/> 
+                            </Button>                    
+                            <span class="text-gray-500">Replying to {originalMessage.sender}: {originalMessage.content}</span>
+                        </div>
+                    {:else}
+                        <div class={originalMessage.sender==username ? "bg-gray-400" : ""}>
                             <Button class="w-6 h-6 p-1" variant="ghost">
                                 <CornerLeftDownIcon size="20"/> 
                             </Button>                    
@@ -114,7 +137,6 @@
                         </div>
                     {/if}
                 {/if}
-                {#if dashMessage}
                     {#if message.content.includes("https://")}
                         <span>
                             {message.sender}: {@html renderMessageWithLink(message.content)}
@@ -122,15 +144,6 @@
                     {:else}
                         {message.sender}: {@html renderMessageWithLink(message.content)}
                     {/if}
-                {:else}
-                    {#if message.content.includes("https://")}
-                        <span>
-                            {message.sender}: {@html renderMessageWithLink(message.content)}
-                        </span>
-                    {:else}
-                        {message.sender}: {@html renderMessageWithLink(message.content)}
-                    {/if}
-                {/if}
             </div>
         </div>
         {#if message.file_url && message.file_type && showImages}
@@ -153,6 +166,11 @@
         {#if message.content}
         <Button class="w-8 h-8 p-0" variant="ghost" on:click={() => copyToClipboard(message.content)}>
             <CopyIcon size="20"/> 
+        </Button>
+        {/if}
+        {#if message.content && message.sender == username}
+        <Button class="w-8 h-8 p-0" variant="ghost" on:click={() => EditMessage(message)}>
+            <EditIcon size="20"/> 
         </Button>
         {/if}
         {#if message.file_url}
