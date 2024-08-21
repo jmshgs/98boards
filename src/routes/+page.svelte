@@ -34,6 +34,9 @@
 	let fontCSS = "font-apple"
 	let isPrivate = false
 
+	let isReplying = false;
+	let replyTo = null;
+
 	$: newButtonClass = `${oldUI ? "" : "rounded-full border-gray-800 border-2" } ${themesCSS}`
 
 	let message = "";
@@ -230,7 +233,8 @@
 			sender_iP: iP,
 			file_url: fileUrl,
 			file_type: fileType,
-			played_sound: false
+			played_sound: false,
+			replyTo: replyTo
 		};
 
 		console.log('New message object:', newMessage);
@@ -238,6 +242,8 @@
 		messageStore.update(messages => {
 			return [newMessage, ...messages];
 		});
+
+		replyTo = null;
 
 		await insertMessage(newMessage);
 	};
@@ -341,7 +347,7 @@
 		{:then}
 			<div class="px-4 justify-start flex">
 				<div class="lg:w-[75vw] w-[60vw] h-[80vh] justify-center p-4">
-					<MessageWindow {username} {oldUI} {showHighlight} {showDate} {showImages} {messages} {currentBoard} {dashMessage} {themesCSS}/>
+					<MessageWindow {username} {oldUI} {showHighlight} {showDate} {showImages} {messages} {currentBoard} {dashMessage} {themesCSS} bind:isReplying={isReplying} bind:replyTo={replyTo}/>
 					<MessageInput {message} {username} {themesCSS} bind:emojiPickerOpen={emojiPickerOpen} {sendMessage}/>
 				</div>
 			</div>

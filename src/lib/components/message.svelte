@@ -2,16 +2,17 @@
     import { toast } from 'svelte-sonner';
     import { timeConverter } from '$lib/main.js';
     import { getPlayedSound, markSoundAsPlayed, downloadFile } from '$lib/supabaseClient.js';
-    import { CopyIcon, DownloadIcon, FileIcon} from 'svelte-feather-icons';
+    import { CopyIcon, DownloadIcon, FileIcon, CornerUpLeftIcon } from 'svelte-feather-icons';
     import { Button } from "$lib/components/ui/button";
 
     export let dashMessage;
     export let message;
-    export let showHighlight;
+    export let messages;
     export let showDate;
     export let showImages;
-    export let messageClass = '';
     export let username = '';
+    export let isReplying = false;
+    export let replyTo = null;
 
     let messageHovered = false;
 
@@ -80,13 +81,36 @@
             toast.error('Failed to download: ' + err.message);
         }
     }
+
+    function ReplyToMessage(message) {  
+        toggleReply();
+        replyTo = message.id;
+    }
+
+    function toggleReply() {
+        isReplying = !isReplying;
+    }
+
+    function getMessageById(id) {
+        return messages.find(msg => msg.id === id);
+    }
+    
+    $: originalMessage = getMessageById(message.replyTo);
 </script>
 
-<div class={`relative flex flex-row justify-between p-2 rounded-lg group ${showHighlight ? messageClass : ""}`} 
+<div class={`relative flex flex-row justify-between p-2 rounded-lg group `} 
      on:mouseenter={toggleHover} on:mouseleave={toggleHover}>
     <div class="flex flex-col justify-center flex-grow">
         <div class="message-content flex w-full gap-2">
             <div>
+                {#if message.replyTo}
+                    {#if originalMessage}
+                        <div class="reply-box">
+                            <span class="text-gray-500">Replying to {originalMessage.sender}: {originalMessage.content}</span>
+                            
+                        </div>
+                    {/if}
+                {/if}
                 {#if dashMessage}
                     {#if message.content.includes("https://")}
                         <span>
@@ -133,10 +157,35 @@
             <DownloadIcon size="20"/> 
         </Button>
         {/if}
+        <Button class="w-8 h-8 p-0" variant="ghost" on:click={() => ReplyToMessage(message)}>
+            <CornerUpLeftIcon size="20"/> 
+        </Button>
     </div>
 </div>
 
 <style>
+    .reply-box {
+        position: relative;
+        background-color: #e2e8f0; /* Light gray background */
+        padding: 0.5rem; /* Smaller padding */
+        border-radius: 0.5rem; /* Rounded corners */
+        max-width: 100%; /* Smaller width */
+        margin-top: 0.5rem;
+        
+    }
+
+    .reply-box::before {
+        content: "";
+        position: absolute;
+        bottom: -0.5rem; /* Positioning of the tail */
+        left: 1rem; /* Align with the reply box */
+        width: 0;
+        height: 0;
+        border-left: 0.5rem solid transparent;
+        border-right: 0.5rem solid transparent;
+        border-top: 0.5rem solid #e2e8f0; /* Match background color */
+    }
+
     .chat-image {
         max-width: 40%;
         height: auto;
@@ -154,7 +203,4 @@
         transition: opacity 0.2s ease-in-out;
     }
 
-    .group:hover .copy-icon-container {
-        opacity: 1;
-    }
 </style>

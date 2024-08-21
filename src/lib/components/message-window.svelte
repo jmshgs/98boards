@@ -9,6 +9,8 @@
     export let showDate;
     export let showImages;
     export let username;
+    export let isReplying;
+    export let replyTo;
 
     let latestMessage = null;
 
@@ -31,13 +33,14 @@
             {#each messages as message (message.id)}
                 {#if message.board === currentBoard}
                     <Message 
+                        bind:isReplying={isReplying}
+                        bind:replyTo={replyTo}
                         username={username}
                         dashMessage={dashMessage} 
                         message={message}
-                        showHighlight={showHighlight} 
+                        messages={messages}
                         showDate={showDate}
                         showImages={showImages}
-                        messageClass={message === latestMessage ? 'bg-gray-200' : ''}
                     />
                 {/if}
             {/each}
