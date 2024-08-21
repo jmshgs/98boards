@@ -121,17 +121,17 @@
             <div> 
                 {#if message.replyTo}
                     {#if originalMessage && originalMessage.sender==username}
-                        <div class={originalMessage.sender==username ? "bg-blue-100" : ""}>
+                        <div>
 
                             <Button class="w-6 h-6 p-1" variant="ghost">
-                                <CornerLeftDownIcon size="20"/> 
+                                <CornerLeftDownIcon size="20" class="stroke-gray-400"/> 
                             </Button>                    
                             <span class="text-gray-500">Replying to {originalMessage.sender}: {originalMessage.content}</span>
                         </div>
                     {:else}
-                        <div class={originalMessage.sender==username ? "bg-gray-400" : ""}>
+                        <div>
                             <Button class="w-6 h-6 p-1" variant="ghost">
-                                <CornerLeftDownIcon size="20"/> 
+                                <CornerLeftDownIcon size="20" class="stroke-gray-400"/> 
                             </Button>                    
                             <span class="text-gray-500">Replying to {originalMessage.sender}: {originalMessage.content}</span>
                         </div>
