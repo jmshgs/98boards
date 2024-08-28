@@ -54,7 +54,6 @@
 	let persistedBoardsStore = persisted('boards', {key: 'boards' });
 
 	onMount(() => {
-		console.log('this device is ' + (Device.isMobile ? '' : 'not') + ' mobile')
 
     	try {
 			const storedUsername = get(persistedUsernameStore);
