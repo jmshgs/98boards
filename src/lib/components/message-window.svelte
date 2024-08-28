@@ -30,7 +30,7 @@
 <div class:window={oldUI}>
     <div>
         <h1 class="text-xl font-semibold py-2">messages: {isMobile ? currentBoard : ""}</h1>
-        <div class="h-[75vh] overflow-y-auto flex flex-col-reverse align-bottom">
+        <div class=" h-[75vh] overflow-y-auto flex flex-col-reverse align-bottom">
             {#each messages as message (message.id)}
                 {#if message.board === currentBoard}
                     <Message 
@@ -42,6 +42,7 @@
                         messages={messages}
                         showDate={showDate}
                         showImages={showImages}
+                        {isMobile}
                     />
                 {/if}
             {/each}

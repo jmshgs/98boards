@@ -11,6 +11,7 @@
     export let isReplying;
     export let replyTo;
     export let isEditing;
+    export let isMobile;
 
     let isActive = false;
     let file = null;
@@ -101,18 +102,19 @@
     </div>
     
     {#if isReplying}
-        <div class="relative w-[20vw]"> <!-- Adjust width as needed -->
+        <div class="relative w-[20vw]"> 
             <div class="flex items-center justify-between border border-gray-300 rounded-xl p-2.5">
                 <span class="text-gray-500">Replying to {getMessageById(replyTo).sender} </span>
                 </div>
         </div>
     {/if}
-    
-    <div class={`flex items-center justify-center border border-gray-300 rounded-xl w-[5vw] h-12 cursor-pointer ${themesCSS} ${!isActive ? 'border-blue-500' : ''}`} role="region" on:click={toggleActive}>
-        <span class="h-6" role="img" aria-label="smile">😊</span>
-    </div>
+    {#if !isMobile}
+        <div class={`flex items-center justify-center border border-gray-300 rounded-xl w-[5vw] h-12 cursor-pointer ${themesCSS} ${!isActive ? 'border-blue-500' : ''}`} role="region" on:click={toggleActive}>
+            <span class="h-6" role="img" aria-label="smile">😊</span>
+        </div>
+    {/if}
     <input id="file-upload" type="file" class="hidden" on:change={handleFileChange} />
-    <label for="file-upload" class="flex items-center justify-center border border-gray-300 rounded-xl w-[5vw] h-12 cursor-pointer ${themesCSS}">
+    <label for="file-upload" class="flex items-center justify-center border border-gray-300 rounded-xl {isMobile ? "w-[10vw]" : "w-[5vw]"} h-12 cursor-pointer ${themesCSS}">
         <span class="h-6" role="img" aria-label={file ? 'checkmark' : 'paperclip'}>
             {#if file}
                 ✔️ 

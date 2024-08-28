@@ -373,7 +373,7 @@
 			<div class="px-4 justify-start flex">
 				<div class="{isMobile ? 'lg:w-[100vw] w-[100vw]' : 'lg:w-[75vw] w-[60vw]'} h-[80vh] justify-center p-4">
 					<MessageWindow {isMobile} {username} {oldUI} {showDate} {showImages} {messages} {currentBoard} bind:isEditing={isEditing} bind:isReplying={isReplying} bind:replyTo={replyTo}/>
-					<MessageInput {isEditing} {message} {messages} {username} {themesCSS} bind:emojiPickerOpen={emojiPickerOpen} bind:isReplying={isReplying} bind:replyTo={replyTo} {sendMessage}/>
+					<MessageInput {isMobile} {isEditing} {message} {messages} {username} {themesCSS} bind:emojiPickerOpen={emojiPickerOpen} bind:isReplying={isReplying} bind:replyTo={replyTo} {sendMessage}/>
 				</div>
 			</div>
 		{/await}
