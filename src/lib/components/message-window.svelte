@@ -10,6 +10,8 @@
     export let isReplying;
     export let replyTo;
     export let isEditing;
+    export let isMobile;
+
 
     let latestMessage = null;
 
@@ -27,7 +29,7 @@
 
 <div class:window={oldUI}>
     <div>
-        <h1 class="text-xl font-semibold py-2">messages:</h1>
+        <h1 class="text-xl font-semibold py-2">messages: {isMobile ? currentBoard : ""}</h1>
         <div class="h-[75vh] overflow-y-auto flex flex-col-reverse align-bottom">
             {#each messages as message (message.id)}
                 {#if message.board === currentBoard}

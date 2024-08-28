@@ -1,11 +1,13 @@
 <script>
     $: newModalClass = `${oldUI ? "" : "rounded-3xl border-gray-400 border-2 shadow-md"} ${themesCSS}`;
 
-    export let themesCSS
-    export let oldUI
+    export let themesCSS;
+    export let oldUI;
+    export let isMobile;
+
 </script>
 
-<div class="w-[32rem] p-4 sm:p-6 md:p-8 text-left {newModalClass}">
+<div class="{isMobile ? 'w-[100vw]' : 'w-[30rem]'} p-4 sm:p-6 md:p-8 text-left {newModalClass}">
 	<h5 class="text-3xl font-bold {themesCSS}">OOPS!</h5>
     <form class="space-y-6 w-[25rem]">
         <div class="overflow-y-auto overflow-x-scroll py-4 space-x-4 flex items-center justify-between {themesCSS}">

@@ -6,7 +6,9 @@
     export let oldUI = false;
     export let boards;
     export let createBoard;
-    export let username
+    export let username;
+    export let isMobile;
+
 
     let inputBoardName = "";
     let inputBoardPassword = "";
@@ -63,7 +65,7 @@
         }
 }</script>
 
-<div class="w-[30rem] p-4 sm:p-6 md:p-8 text-left {newModalClass}">
+<div class="{isMobile ? 'w-[100vw]' : 'w-[30rem]'} p-4 sm:p-6 md:p-8 text-left {newModalClass}">
     <h5 class="text-3xl font-bold {themesCSS}">create board</h5>
     <form class="space-y-2 w-[25rem]">
         <div class="overflow-y-auto py-4 space-x-4 flex items-center justify-between {themesCSS}">

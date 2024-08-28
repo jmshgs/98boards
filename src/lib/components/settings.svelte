@@ -8,7 +8,7 @@
     export let showDate;
     export let showHighlight;
     export let showImages;
-
+    export let isMobile;
     export let oldUI;
 
 
@@ -16,7 +16,7 @@
 
 </script>
 
-<div class="w-[43rem] p-4 sm:p-6 md:p-8 text-left {newModalClass}">
+<div class="{isMobile ? 'w-[100vw]' : 'w-[30rem]'} p-4 sm:p-6 md:p-8 text-left {newModalClass}">
     <form class="space-y-6 mb-4"> 
         <h5 class="text-3xl font-bold {themesCSS} {fontCSS}">settings</h5>
     </form>

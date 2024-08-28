@@ -108,7 +108,7 @@
         </div>
     {/if}
     
-    <div class={`flex items-center justify-center border border-gray-300 rounded-xl w-[5vw] h-12 cursor-pointer ${themesCSS} ${isActive ? 'border-blue-500' : ''}`} role="region" on:click={toggleActive}>
+    <div class={`flex items-center justify-center border border-gray-300 rounded-xl w-[5vw] h-12 cursor-pointer ${themesCSS} ${!isActive ? 'border-blue-500' : ''}`} role="region" on:click={toggleActive}>
         <span class="h-6" role="img" aria-label="smile">😊</span>
     </div>
     <input id="file-upload" type="file" class="hidden" on:change={handleFileChange} />

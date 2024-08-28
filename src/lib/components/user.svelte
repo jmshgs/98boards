@@ -3,8 +3,9 @@
     import { persisted } from 'svelte-persisted-store';
 
     export let persistedUsernameStore = persisted('username', { key: 'username' });
-
+    export let isMobile;
     export let showUsername;
+    
     let isSubmitted = false;
     let failSubmit = false;
     let isExist = false;
@@ -65,7 +66,7 @@
     }
 </script>
 
-<div class="w-[30rem] p-4 sm:p-6 md:p-8 text-left bg-white rounded-lg">
+<div class="{isMobile ? 'w-[100vw]' : 'w-[30rem]'} p-4 sm:p-6 md:p-8 text-left bg-white rounded-lg">
     <h5 class="text-3xl font-bold text-gray-800 mb-4">Enter Username</h5>
     <form on:submit={handleSubmit} class="space-y-4 w-[25rem]">
         <div class="flex items-center space-x-4">

@@ -2,6 +2,8 @@
   import { onMount } from 'svelte';
   import { InfoIcon, UserIcon, ClipboardIcon, GithubIcon } from 'svelte-feather-icons';
 
+  export let isMobile;
+
   let activeTab = 'AboutUS';
   let USINFO = 'We are a team of passionate developers creating innovative solutions.';
   let BoardsInfo = 'A website to chat instantly with people without creating an account';
@@ -16,7 +18,7 @@
 
 </script>
 
-<div class="flex max-w-2xl mx-auto p-4">
+<div class="flex max-w-2xl mx-auto p-4 {isMobile ? 'w-[100vw]' : 'w-[30rem]'}">
   <!-- Sidebar with Icons -->
   <div class="flex flex-col items-center space-y-4 p-4 bg-gray-50 rounded-l-xl shadow-md">
     <button on:click={() => switchTab('AboutUS')}>    <UserIcon class="cursor-pointer text-gray-800 w-8 h-8 hover:text-gray-500" /></button> 
@@ -63,8 +65,5 @@
 <style>
   .shadow-md {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  .transition-all {
-    transition: all 0.3s ease-in-out;
   }
 </style>

@@ -24,12 +24,13 @@
 	import { get } from 'svelte/store'
 
 	import { MenuIcon } from 'svelte-feather-icons';
+    import { Button } from "$lib/components/ui/button";
 
 
 	const currentDate = new Date();
 
 	let oldUI = false;
-	let dashMessage = false;
+	let showSidebar = false;
 
 	let themeColor = "auto";
 	let themesCSS = ""
@@ -123,6 +124,13 @@
 
 	let iP;
 	let banned_IPS = [];
+
+	let isMobile = false;
+
+	function detectMobile() {
+		const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+		isMobile = /android|iPad|iPhone|iPod/i.test(userAgent);
+	}
 	
 	getBannedUserIPAddresses().then(ipAddresses => {
 		banned_IPS = ipAddresses;
@@ -133,6 +141,7 @@
 
 
   	onMount(async () => {
+		detectMobile();
 		await getBannedUserIPAddresses();
 		try {
 			const response = await fetch('https://api.ipify.org?format=json');
@@ -277,7 +286,7 @@
 			null //cant close until username is fixed
 		}}>
 		<button on:click|stopPropagation>
-			<User bind:showUsername={showUsername} bind:persistedUsernameStore={persistedUsernameStore} bind:username={username}/>
+			<User {isMobile} bind:showUsername={showUsername} bind:persistedUsernameStore={persistedUsernameStore} bind:username={username}/>
 		</button>
 	</button>
 	{/if}
@@ -287,7 +296,7 @@
 			goAbout = false
 		}}>
 		<button on:click|stopPropagation>
-			<About/>
+			<About {isMobile} />
 		</button>
 	</button>
 
@@ -308,7 +317,7 @@
 			showSettings = false
 		}}>
 		<button on:click|stopPropagation>
-			<Settings bind:dashMessage={dashMessage} bind:themeColor={themeColor} bind:themesCSS={themesCSS} bind:fontCSS={fontCSS} bind:isPrivate={isPrivate} bind:goAbout={goAbout} bind:oldUI={oldUI} bind:showDate={showDate} bind:showHighlight={showHighlight} bind:showImages={showImages}/>
+			<Settings {isMobile} bind:themeColor={themeColor} bind:themesCSS={themesCSS} bind:fontCSS={fontCSS} bind:isPrivate={isPrivate} bind:oldUI={oldUI} bind:showDate={showDate} bind:showHighlight={showHighlight} bind:showImages={showImages}/>
 		</button>
 	</button>	
 	{/if}
@@ -319,7 +328,7 @@
 			createBoard = false
 		}}>
 		<button on:click|stopPropagation>
-			<CreateBoard {themesCSS} {username} bind:createBoard={createBoard} bind:boards={boards}/>
+			<CreateBoard {isMobile} {themesCSS} {username} bind:createBoard={createBoard} bind:boards={boards}/>
 		</button>
 	</button>
 	{/if}
@@ -330,7 +339,7 @@
 			joinBoard = false
 		}}>
 		<button on:click|stopPropagation>
-			<JoinBoard {themesCSS} bind:joinBoard={joinBoard} bind:boards={boards} />
+			<JoinBoard {isMobile} {themesCSS} bind:joinBoard={joinBoard} bind:boards={boards} />
 		</button>
 	</button>
 	{/if}
@@ -340,23 +349,46 @@
 			isDeleting = false
 		}}>
 		<button on:click|stopPropagation>
-			<DeleteBoard {themesCSS} bind:isCreator={isCreator} bind:isDeleting={isDeleting} bind:boards={boards} bind:board={currentBoard}/>
+			<DeleteBoard {isMobile} {themesCSS} bind:isCreator={isCreator} bind:isDeleting={isDeleting} bind:boards={boards} bind:board={currentBoard}/>
 		</button>
 	</button>
 	{/if}
-	<div class="space-x-10 flex flex-row {themesCSS}" class:blur-md={showLogin || showSettings}> 
-		<Sidebar bind:isCreator={isCreator} bind:isDeleting={isDeleting} bind:boards={boards} bind:createBoard={createBoard} bind:joinBoard={joinBoard} bind:currentBoard={currentBoard} bind:oldUI={oldUI} bind:goAbout={goAbout} bind:showSettings={showSettings} {isPrivate} {fontCSS} {themeColor} {username} {themesCSS} {newButtonClass}/>
+	{#if !showSidebar}
+	<button on:click={() => showSidebar = true} class="fixed top-4 right-4 z-20 p-2 bg-white text-white rounded-full lg:hidden">
+		<Button class="w-8 h-8 p-0" variant="ghost">
+			<MenuIcon size="20" class="stroke-gray-400"/> 
+		</Button>
+	</button>	 
+	{/if}
+	{#if (!isMobile && !showSidebar) || isMobile && !showSidebar}
+	<div class="fixed space-x-10 flex flex-row {themesCSS}" class:blur-md={showLogin || showSettings}> 
+		{#if !isMobile}
+			<Sidebar bind:isCreator={isCreator} bind:isDeleting={isDeleting} bind:boards={boards} bind:createBoard={createBoard} bind:joinBoard={joinBoard} bind:currentBoard={currentBoard} bind:oldUI={oldUI} bind:goAbout={goAbout} bind:showSettings={showSettings} {isPrivate} {fontCSS} {themeColor} {username} {themesCSS} {newButtonClass}/>
+		{/if}
 		{#await promise}
 			<div class="flex w-screen h-screen justify-center items-center">
 				<Spinner color="blue" />
 			</div>
 		{:then}
 			<div class="px-4 justify-start flex">
-				<div class="lg:w-[75vw] w-[60vw] h-[80vh] justify-center p-4">
-					<MessageWindow {username} {oldUI} {showDate} {showImages} {messages} {currentBoard} {dashMessage} bind:isEditing={isEditing} bind:isReplying={isReplying} bind:replyTo={replyTo}/>
+				<div class="{isMobile ? 'lg:w-[100vw] w-[100vw]' : 'lg:w-[75vw] w-[60vw]'} h-[80vh] justify-center p-4">
+					<MessageWindow {isMobile} {username} {oldUI} {showDate} {showImages} {messages} {currentBoard} bind:isEditing={isEditing} bind:isReplying={isReplying} bind:replyTo={replyTo}/>
 					<MessageInput {isEditing} {message} {messages} {username} {themesCSS} bind:emojiPickerOpen={emojiPickerOpen} bind:isReplying={isReplying} bind:replyTo={replyTo} {sendMessage}/>
 				</div>
 			</div>
 		{/await}
 	</div>
+	{:else}
+		{#if isMobile && showSidebar}
+			<div class="fixed inset-0 z-30 flex items-center justify-center bg-gray-800 bg-opacity-75">
+				<Sidebar bind:isCreator={isCreator} bind:isDeleting={isDeleting} bind:boards={boards} bind:createBoard={createBoard} bind:joinBoard={joinBoard} bind:currentBoard={currentBoard} bind:oldUI={oldUI} bind:goAbout={goAbout} bind:showSettings={showSettings} {isPrivate} {fontCSS} {themeColor} {username} {themesCSS} {newButtonClass}/>
+				<button on:click={() => showSidebar = false} class="absolute top-4 right-4 z-40 p-2 bg-red-500 text-white rounded-full">
+					<Button class="w-8 h-8 p-0" variant="ghost">
+						<MenuIcon size="20" class="stroke-gray-400"/> 
+					</Button>
+				</button>
+			</div>
+		{/if}
+	{/if}
+	
 </main>
