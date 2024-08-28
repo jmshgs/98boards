@@ -23,7 +23,7 @@
 	import { persisted } from 'svelte-persisted-store';
 	import { get } from 'svelte/store'
 
-	import { MenuIcon } from 'svelte-feather-icons';
+	import { MenuIcon, XIcon } from 'svelte-feather-icons';
     import { Button } from "$lib/components/ui/button";
 
 
@@ -380,11 +380,11 @@
 	</div>
 	{:else}
 		{#if isMobile && showSidebar}
-			<div class="fixed inset-0 z-30 flex items-center justify-center bg-gray-800 bg-opacity-75">
+			<div class="fixed inset-0 z-30 flex items-center justify-center bg-opacity-75">
 				<Sidebar bind:isCreator={isCreator} bind:isDeleting={isDeleting} bind:boards={boards} bind:createBoard={createBoard} bind:joinBoard={joinBoard} bind:currentBoard={currentBoard} bind:oldUI={oldUI} bind:goAbout={goAbout} bind:showSettings={showSettings} {isPrivate} {fontCSS} {themeColor} {username} {themesCSS} {newButtonClass}/>
-				<button on:click={() => showSidebar = false} class="absolute top-4 right-4 z-40 p-2 bg-red-500 text-white rounded-full">
+				<button on:click={() => showSidebar = false} class="absolute top-4 right-4 z-40 p-2 bg-white text-white rounded-full">
 					<Button class="w-8 h-8 p-0" variant="ghost">
-						<MenuIcon size="20" class="stroke-gray-400"/> 
+						<XIcon size="20" class="stroke-gray-400"/> 
 					</Button>
 				</button>
 			</div>
