@@ -19,13 +19,18 @@
 
 	import User from "$lib/components/user.svelte"
     import { Toaster, toast } from 'svelte-sonner';
+
 	import { persisted } from 'svelte-persisted-store';
 	import { get } from 'svelte/store'
+	import Device from 'svelte-device-info'
+
+	import { MenuIcon } from 'svelte-feather-icons';
+
 
 	const currentDate = new Date();
 
 	let oldUI = false;
-
+	let showSidebar = false;
 	let dashMessage = false;
 
 	let themeColor = "auto";
@@ -51,6 +56,8 @@
 	let persistedBoardsStore = persisted('boards', {key: 'boards' });
 
 	onMount(() => {
+		console.log('this device is ' + (Device.isMobile ? '' : 'not') + ' mobile')
+
     	try {
 			const storedUsername = get(persistedUsernameStore);
 			const storedBoards = get(persistedBoardsStore);
@@ -340,6 +347,7 @@
 		</button>
 	</button>
 	{/if}
+	{#if !Device.isPhone}
 	<div class="space-x-10 flex flex-row {themesCSS}" class:blur-md={showLogin || showSettings}> 
 		<Sidebar bind:isCreator={isCreator} bind:isDeleting={isDeleting} bind:boards={boards} bind:createBoard={createBoard} bind:joinBoard={joinBoard} bind:currentBoard={currentBoard} bind:oldUI={oldUI} bind:goAbout={goAbout} bind:showSettings={showSettings} {isPrivate} {fontCSS} {themeColor} {username} {themesCSS} {newButtonClass}/>
 		{#await promise}
@@ -355,4 +363,28 @@
 			</div>
 		{/await}
 	</div>
+	{:else}
+		{#if Device.isPhone && showSidebar}
+			<button on:click={() => showSidebar = true} class="fixed top-4 right-4 z-20 p-2 bg-blue-500 text-white rounded-full lg:hidden">
+				<MenuIcon size="20" class="stroke-gray-400"/> 
+			</button>
+	
+			<div class="fixed inset-0 z-30 flex items-center justify-center bg-gray-800 bg-opacity-75">
+			<Sidebar bind:isCreator={isCreator} bind:isDeleting={isDeleting} bind:boards={boards} bind:createBoard={createBoard} bind:joinBoard={joinBoard} bind:currentBoard={currentBoard} bind:oldUI={oldUI} bind:goAbout={goAbout} bind:showSettings={showSettings} {isPrivate} {fontCSS} {themeColor} {username} {themesCSS} {newButtonClass}/>
+			<button on:click={() => showSidebar = false} class="absolute top-4 right-4 z-40 p-2 bg-red-500 text-white rounded-full">
+				<MenuIcon size="20" class="stroke-gray-400"/> 
+			</button>
+			</div>
+		{/if}
+	{/if}
 </main>
+
+<style>
+	.sidebar-fullscreen {
+	   width: 100vw;
+	   height: 100vh;
+	   overflow-y: auto;
+	   background-color: var(--bg-color);
+	}
+ </style>
+ 
