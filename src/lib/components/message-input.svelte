@@ -96,18 +96,13 @@
             name="message"
             id="message"
             class={`w-full border border-gray-300 rounded-xl p-2.5 focus:outline-none ${themesCSS}`}
-            placeholder=" {isEditing ? "edit message here" : `say hello, ${username}`}"
+            placeholder="{isReplying ? 'Replying' : (isEditing ? 'edit message here' : `say hello, ${username}`)}"           
             bind:value={message}
         />
+         <!--isReplying should go here-->
     </div>
     
-    {#if isReplying}
-        <div class="relative w-[20vw]"> 
-            <div class="flex items-center justify-between border border-gray-300 rounded-xl p-2.5">
-                <span class="text-gray-500">Replying to {getMessageById(replyTo).sender} </span>
-                </div>
-        </div>
-    {/if}
+    
     {#if !isMobile}
         <div class={`flex items-center justify-center border border-gray-300 rounded-xl w-[5vw] h-12 cursor-pointer ${themesCSS} ${!isActive ? 'border-blue-500' : ''}`} role="region" on:click={toggleActive}>
             <span class="h-6" role="img" aria-label="smile">😊</span>
